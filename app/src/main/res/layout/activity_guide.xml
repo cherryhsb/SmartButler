@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_guide"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:id="@+id/iv_dot2"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_centerHorizontal="true"
+             />
+
+        <ImageView
+            android:id="@+id/iv_dot1"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_alignRight="@id/iv_dot2"
+            android:layout_marginRight="15dp"
+             />
+
+        <ImageView
+            android:id="@+id/iv_dot3"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_alignLeft="@id/iv_dot2"
+            android:layout_marginLeft="15dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp">
+
+        <Button
+
+            android:minHeight="30dp"
+            android:minWidth="50dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/button_bg_clear"
+            android:id="@+id/btn_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="跳过"
+            android:textSize="12sp" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@color/white"
+            android:background="@drawable/button_bg_green"
+            android:id="@+id/btn_guide_enter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="进入"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+</LinearLayout>
