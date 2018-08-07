@@ -14,10 +14,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.ssc.smartbutler.MainActivity;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
+import com.ssc.smartbutler.utils.ShareUtil;
 
 import cn.bmob.v3.BmobUser;
 
@@ -25,6 +28,8 @@ import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_EXIT;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
+
+    private Switch switch_tts;
 
     private Button btn_setting_exit;
 
@@ -37,7 +42,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
-        btn_setting_exit = (Button) findViewById(R.id.btn_setting_exit);
+        btn_setting_exit = findViewById(R.id.btn_setting_exit);
+        switch_tts = findViewById(R.id.switch_tts);
 
         userInfo = BmobUser.getCurrentUser(MyUser.class);
         if(userInfo != null){
@@ -46,6 +52,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             btn_setting_exit.setVisibility(View.GONE);
         }
         btn_setting_exit.setOnClickListener(this);
+
+        switch_tts.setChecked(ShareUtil.getBoolean(this, "IS_TTS",false));
+        switch_tts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                buttonView.setChecked(isChecked);
+                ShareUtil.putBoolean(SettingActivity.this, "IS_TTS",isChecked);
+            }
+        });
     }
 
     @Override

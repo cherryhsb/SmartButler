@@ -12,6 +12,8 @@ package com.ssc.smartbutler.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.HttpConnectStack;
 import com.kymjs.rxvolley.http.RequestQueue;
@@ -37,6 +39,7 @@ import cn.bmob.v3.Bmob;
 
 import static com.ssc.smartbutler.utils.StaticClass.BUGLY_ID;
 import static com.ssc.smartbutler.utils.StaticClass.BMOB_ID;
+import static com.ssc.smartbutler.utils.StaticClass.TTS_ID;
 
 public class BaseApplication extends Application {
 
@@ -52,8 +55,6 @@ public class BaseApplication extends Application {
         CrashReport.initCrashReport(getApplicationContext(), BUGLY_ID, true);
         //初始化Bmob
         Bmob.initialize(this, BMOB_ID);
-
-
     }
 
 

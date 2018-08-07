@@ -14,8 +14,6 @@
         android:layout_weight="1" />
 
 
-
-
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_marginStart="3dp"

@@ -24,6 +24,12 @@ android {
     }
 }
 
+repositories {
+    flatDir{
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -38,26 +44,23 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:3.3.1'
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
-    implementation ('cn.bmob.android:bmob-sdk:3.6.4'){
+    implementation('cn.bmob.android:bmob-sdk:3.6.4') {
         exclude group: 'io.reactivex'
     }
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     implementation 'cn.bmob.android:http-legacy:1.0'
     //circleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-
     //uCrop轻型通用解决方案
     //implementation 'com.github.yalantis:ucrop:2.2.2'
-
     //RxVolley
-    implementation ('com.kymjs.rxvolley:rxvolley:1.1.4'){
+    implementation('com.kymjs.rxvolley:rxvolley:1.1.4') {
         exclude group: 'io.reactivex'
     }
-
-    //picasso
+    //picasson
     implementation 'com.squareup.picasso:picasso:2.5.2'
-
     //implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
+    implementation files('libs/Msc.jar')
+    implementation files('libs/Sunflower.jar')
 }

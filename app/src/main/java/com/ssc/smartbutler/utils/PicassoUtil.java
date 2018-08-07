@@ -6,7 +6,7 @@ package com.ssc.smartbutler.utils;
  *  文件名：    PicassoUtil
  *  创建者：    SSC
  *  创建时间：   2018/8/6 14:31
- *  描述：     TODO:picasso加载工具
+ *  描述：     TODOpicasso加载工具
  */
 
 import android.content.Context;

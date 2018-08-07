@@ -27,7 +27,7 @@ import javax.net.ssl.SSLContext;
  *  文件名：    GirlAdapter
  *  创建者：    SSC
  *  创建时间：   2018/8/6 14:07
- *  描述：     TODO:美女图片适配器
+ *  描述：     TODO美女图片适配器
  */
 
 public class GirlAdapter extends BaseAdapter {

@@ -98,7 +98,10 @@ public class SplashActivity extends AppCompatActivity{
     }
 
     private void getPermission() {
-        String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
         List<String> mPermissionList = new ArrayList<>();
 
         /**

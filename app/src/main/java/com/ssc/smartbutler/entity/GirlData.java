@@ -6,7 +6,7 @@ package com.ssc.smartbutler.entity;
  *  文件名：    GirlData
  *  创建者：    SSC
  *  创建时间：   2018/8/6 14:04
- *  描述：     TODO:美女数据
+ *  描述：     TODO美女数据
  */
 
 public class GirlData {
