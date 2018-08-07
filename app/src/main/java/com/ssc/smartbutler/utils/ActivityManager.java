@@ -6,7 +6,7 @@ package com.ssc.smartbutler.utils;
  *  文件名：    ActivityManager
  *  创建者：    SSC
  *  创建时间：   2018/8/4 21:08
- *  描述：     TODO:
+ *  描述：     TODO:用于销毁所有的Activity
  */
 
 import android.app.Activity;

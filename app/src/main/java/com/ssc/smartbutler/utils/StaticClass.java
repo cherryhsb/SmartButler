@@ -32,6 +32,10 @@ public class StaticClass {
     public static final String WECHAT_ID = "948e7d95f9edb7494b1bb253031d7461";
     //机器人
     public static final String TULING_ID = "068ec76b99524df7881349deb27f660a";
+    //讯飞
+    //public static final String XUNFEI_ID = "5b690f77";
+    //美女相册
+    public static final String GIRL_URL = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/1";
     //退出返回MainActivity
     public static final int REQUEST_CODE_EXIT = 10001;
     //登录

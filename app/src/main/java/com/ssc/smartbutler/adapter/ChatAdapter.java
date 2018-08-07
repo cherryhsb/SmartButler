@@ -104,8 +104,9 @@ public class ChatAdapter extends BaseAdapter {
         if (convertView == null) {
             switch (type) {
                 case VALUE_LEFT_TEXT:
-                    viewHolderLeft = new ViewHolderLeft();
                     convertView = inflater.inflate(R.layout.item_chat_left, null);
+
+                    viewHolderLeft = new ViewHolderLeft();
                     viewHolderLeft.tv_chat_left = convertView.findViewById(R.id.tv_chat_left);
 
                     //然后为ListView中的TextView设置长按事件，在TextView下方显示PopupWindow：
@@ -123,8 +124,9 @@ public class ChatAdapter extends BaseAdapter {
                     convertView.setTag(viewHolderLeft);
                     break;
                 case VALUE_RIGHT_TEXT:
-                    viewHolderRight = new ViewHolderRight();
                     convertView = inflater.inflate(R.layout.item_chat_right, null);
+
+                    viewHolderRight = new ViewHolderRight();
                     viewHolderRight.tv_chat_right = convertView.findViewById(R.id.tv_chat_right);
                     viewHolderRight.iv_chat_right = convertView.findViewById(R.id.iv_chat_right);
 

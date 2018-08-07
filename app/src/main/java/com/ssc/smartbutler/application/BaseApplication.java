@@ -12,8 +12,26 @@ package com.ssc.smartbutler.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.http.HttpConnectStack;
+import com.kymjs.rxvolley.http.RequestQueue;
 import com.ssc.smartbutler.entity.MyUser;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+
+import javax.net.ssl.SSLSocketFactory;
 
 import cn.bmob.v3.Bmob;
 
@@ -34,9 +52,14 @@ public class BaseApplication extends Application {
         CrashReport.initCrashReport(getApplicationContext(), BUGLY_ID, true);
         //初始化Bmob
         Bmob.initialize(this, BMOB_ID);
+
+
     }
+
 
     public static Context getContext(){
         return context;
     }
+
+
 }

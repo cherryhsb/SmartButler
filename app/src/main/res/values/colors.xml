@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!--<color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorPrimary">#708090</color>#708090 #778899
+    <color name="colorPrimaryDark">#708090</color>#696969
     <color name="colorAccent">#66CDAA</color>
     <!--<color name="colorAccent">#FF4081</color>-->
 
@@ -287,9 +289,6 @@
     <color name="gray">#808080</color>
     <!-- 灰色 -->
 
-    <color name="grey">#808080</color>
-    <!-- 灰色 -->
-
     <color name="olive">#808000</color>
     <!-- 橄榄色 -->
 
@@ -439,4 +438,8 @@
 
     <color name="black">#000000</color>
     <!-- 黑色 -->
+
+    <color name="transparent">#00000000</color>
+    <!--透明度-->
+
 </resources>

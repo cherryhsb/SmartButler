@@ -53,4 +53,11 @@ dependencies {
     implementation ('com.kymjs.rxvolley:rxvolley:1.1.4'){
         exclude group: 'io.reactivex'
     }
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.1.4'
 }

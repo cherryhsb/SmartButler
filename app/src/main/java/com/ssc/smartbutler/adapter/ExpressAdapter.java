@@ -60,8 +60,9 @@ public class ExpressAdapter extends BaseAdapter{
         ViewHolder viewHolder = null;
         if (convertView==null){
             //第一次加载
-            viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_express,null);
+
+            viewHolder = new ViewHolder();
             viewHolder.tv_remark = convertView.findViewById(R.id.tv_remark);
             viewHolder.tv_zone = convertView.findViewById(R.id.tv_zone);
             viewHolder.tv_datetime = convertView.findViewById(R.id.tv_datetime);
