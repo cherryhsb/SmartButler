@@ -18,8 +18,14 @@ public class StaticClass {
     public static final int HANDLER_EXIT = 1002;
     //判断程序是否是第一次运行
     public static final String SHARE_IS_FIRST = "isFirst";
+    //判断是否开启语音机器人
+    public static final String IS_TTS = "isTTS";
+    //判断是否开启短信提醒
+    public static final String IS_SMS = "isSMS";
     //判断程序是否提示:归属地
     public static final String SHARE_IS_HINT_LOCATION = "isHintLocation";
+    //判断小米手机:短信权限
+    public static final String SHARE_IS_MIUI_SMS = "isMiuiSms";
     //Bugly
     public static final String BUGLY_ID = "96d5d235e6";
     //Bmob
@@ -42,4 +48,6 @@ public class StaticClass {
     public static final int REQUEST_CODE_LOGIN = 10002;
     //注册
     public static final int REQUEST_CODE_REGISTER = 10003;
+    //短信Action
+    public static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
 }

@@ -27,7 +27,7 @@ public class UtilTools {
 
     public static String getAppPackageName(){
         ActivityManager activityManager=(ActivityManager) BaseApplication.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-//完整类名
+        //完整类名
         String runningActivity=activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
         String contextActivity = runningActivity.substring(runningActivity.lastIndexOf(".")+1);
         return contextActivity;

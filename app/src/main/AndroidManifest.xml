@@ -3,39 +3,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssc.smartbutler">
 
-    <!--允许Log-->
+    <!-- 允许Log -->
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
-    <!--允许联网 -->
+    <!-- 允许联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--获取GSM（2g）、WCDMA（联通3g）等网络状态的信息  -->
+    <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--获取wifi网络状态的信息 -->
+    <!-- 获取wifi网络状态的信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--获取sd卡写的权限，用于文件上传和下载-->
+    <!-- 获取sd卡写的权限，用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--允许读取手机状态 用于创建BmobInstallation-->
+    <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
-
-    <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <!--允许程序改变网络连接状态 -->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <!--读取联系人权限，上传联系人需要用到此权限
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>-->
-    <!--外存储读权限，构建语法需要用到此权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--配置权限，用来记录应用配置信息 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <!-- 获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!--
+    读取联系人权限，上传联系人需要用到此权限
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    -->
+    <!-- 外存储读权限，构建语法需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 配置权限，用来记录应用配置信息 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <!--手机定位信息，用来为语义等功能提供定位，提供更精准的服务-->
-    <!--定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
+    <!-- 手机定位信息，用来为语义等功能提供定位，提供更精准的服务 -->
+    <!-- 定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
+    
+    <!--短信权限-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <!--窗口权限-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+
 
 
     <application
@@ -46,7 +54,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--闪屏-->
+
+        <!-- 闪屏 -->
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
@@ -57,67 +66,69 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--设置-->
+        <!-- 设置 -->
         <activity
             android:name=".ui.SettingActivity"
             android:label="@string/setting"
             android:screenOrientation="portrait" />
-        <!--主页-->
+        <!-- 主页 -->
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <!--引导页-->
+        <!-- 引导页 -->
         <activity
             android:name=".ui.GuideActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarFullscreen" />
-        <!--登录页-->
+        <!-- 登录页 -->
         <activity
             android:name=".ui.LoginActivity"
             android:label="登录"
             android:screenOrientation="portrait" />
-        <!--注册页-->
+        <!-- 注册页 -->
         <activity
             android:name=".ui.RegisterActivity"
             android:label="注册"
             android:screenOrientation="portrait" />
-        <!--找回密码-->
+        <!-- 找回密码 -->
         <activity
             android:name=".ui.ForgetPasswordActivity"
             android:label="找回密码"
             android:screenOrientation="portrait" />
-        <!--用户信息-->
+        <!-- 用户信息 -->
         <activity
             android:name=".ui.UserInfoActivity"
             android:label="用户信息"
             android:screenOrientation="portrait" />
-        <!--重置密码-->
+        <!-- 重置密码 -->
         <activity
             android:name=".ui.ChangePasswordActivity"
             android:label="重置密码"
             android:screenOrientation="portrait" />
-        <!--修改密码-->
+        <!-- 修改密码 -->
         <activity
             android:name=".ui.ChangeByPasswordActivity"
             android:label="修改密码"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.DescActivity" />
-        <!--图片裁剪-->
-        <!--<activity
+        <!-- 图片裁剪 -->
+        <!--
+            <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
-        <!--物流查询-->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        -->
+        <!-- 物流查询 -->
         <activity
             android:name=".ui.ExpressActivity"
             android:label="物流查询"
             android:screenOrientation="portrait" />
-        <!--物流查询-->
+        <!-- 物流查询 -->
         <activity
             android:name=".ui.LocationActivity"
             android:label="归属地查询"
             android:screenOrientation="portrait" />
-        <!--新闻详情-->
+        <!-- 新闻详情 -->
         <activity android:name=".ui.WebViewActivity" />
 
         <provider
@@ -129,6 +140,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name=".service.SmsService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

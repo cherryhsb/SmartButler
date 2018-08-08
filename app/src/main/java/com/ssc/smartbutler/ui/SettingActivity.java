@@ -9,9 +9,13 @@ package com.ssc.smartbutler.ui;
  *  描述：     设置
  */
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,16 +24,29 @@ import android.widget.Switch;
 import com.ssc.smartbutler.MainActivity;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
+import com.ssc.smartbutler.service.SmsService;
+import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import cn.bmob.v3.BmobUser;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
+import static com.ssc.smartbutler.utils.StaticClass.IS_SMS;
+import static com.ssc.smartbutler.utils.StaticClass.IS_TTS;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_EXIT;
+import static com.ssc.smartbutler.utils.StaticClass.SHARE_IS_HINT_LOCATION;
+import static com.ssc.smartbutler.utils.StaticClass.SHARE_IS_MIUI_SMS;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
-    private Switch switch_tts;
+    private static final String TAG = "SettingActivity";
+
+    private Switch switch_tts,switch_sms;
 
     private Button btn_setting_exit;
 
@@ -44,6 +61,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         btn_setting_exit = findViewById(R.id.btn_setting_exit);
         switch_tts = findViewById(R.id.switch_tts);
+        switch_sms = findViewById(R.id.switch_sms);
 
         userInfo = BmobUser.getCurrentUser(MyUser.class);
         if(userInfo != null){
@@ -53,14 +71,35 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         btn_setting_exit.setOnClickListener(this);
 
-        switch_tts.setChecked(ShareUtil.getBoolean(this, "IS_TTS",false));
+        switch_tts.setChecked(ShareUtil.getBoolean(this, IS_TTS,false));
         switch_tts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 buttonView.setChecked(isChecked);
-                ShareUtil.putBoolean(SettingActivity.this, "IS_TTS",isChecked);
+                ShareUtil.putBoolean(SettingActivity.this, IS_TTS,isChecked);
             }
         });
+        switch_sms.setChecked(ShareUtil.getBoolean(this, IS_SMS,false));
+        switch_sms.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                buttonView.setChecked(isChecked);
+                ShareUtil.putBoolean(SettingActivity.this, IS_SMS,isChecked);
+                if (isChecked){
+                    if (isMIUI()){
+                        if (ShareUtil.getBoolean(SettingActivity.this, SHARE_IS_MIUI_SMS, true)){
+                            showDialog();
+                        }
+                    }
+                    startService(new Intent(SettingActivity.this, SmsService.class));
+                }else {
+                    stopService(new Intent(SettingActivity.this, SmsService.class));
+                }
+            }
+        });
+
+
+
     }
 
     @Override
@@ -70,13 +109,57 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 //退出登录
                 BmobUser.logOut();   //清除缓存用户对象
                 userInfo = BmobUser.getCurrentUser(MyUser.class); // 现在的currentUser是null了
-                //startActivity(new Intent(this, MainActivity.class));
                 finish();
-                /*tv_user_name.setText("");
-                ll_user_login.setVisibility(View.VISIBLE);
-                ll_user_info.setVisibility(View.GONE);*/
                 break;
         }
 
     }
+
+
+    private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
+    private static final String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
+    private static final String KEY_MIUI_INTERNAL_STORAGE = "ro.miui.internal.storage";
+    /**
+     * @return whether or not is MIUI
+     * @link http://dev.xiaomi.com/doc/p=254/index.html
+     */
+    public static boolean isMIUI() {
+        String device = Build.MANUFACTURER;
+        L.i(TAG,"Build.MANUFACTURER = " + device);
+        if (device.equals("Xiaomi")) {
+            Properties prop = new Properties();
+            try {
+                prop.load(new FileInputStream(new File(Environment
+                        .getRootDirectory(), "build.prop")));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return prop.getProperty(KEY_MIUI_VERSION_CODE, null) != null
+                    || prop.getProperty(KEY_MIUI_VERSION_NAME, null) != null
+                    || prop.getProperty(KEY_MIUI_INTERNAL_STORAGE, null) != null;
+        } else {
+            return false;
+        }
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("小米手机需手动授权:读取短信,通知类短信");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton("不再提示", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ShareUtil.putBoolean(SettingActivity.this, SHARE_IS_MIUI_SMS,false);
+            }
+        });
+        builder.show();
+    }
+
 }

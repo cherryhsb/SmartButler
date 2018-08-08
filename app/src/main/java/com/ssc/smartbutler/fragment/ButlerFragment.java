@@ -55,6 +55,7 @@ import java.util.List;
 import cn.bmob.v3.BmobUser;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
+import static com.ssc.smartbutler.utils.StaticClass.IS_TTS;
 import static com.ssc.smartbutler.utils.StaticClass.TTS_ID;
 import static com.ssc.smartbutler.utils.StaticClass.TULING_ID;
 
@@ -208,7 +209,7 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
 
     //添加左边文本
     private void addLeftItem(String text,boolean isSpeak) {
-        if (ShareUtil.getBoolean(getActivity(),"IS_TTS",false) && isSpeak){
+        if (ShareUtil.getBoolean(getActivity(),IS_TTS,false) && isSpeak){
             mTts.startSpeaking(text,mTtsListener);
         }
         ChatData chatData = new ChatData();

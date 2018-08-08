@@ -6,24 +6,93 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_tts"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
+        <LinearLayout
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="机器人语音"
-            android:textSize="18sp" />
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="机器人语音"
+                android:textSize="18sp" />
+            <TextView
+                android:textSize="14sp"
+                android:text="开启后智能管家语音播报"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <Switch
             android:id="@+id/switch_tts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_divide1"
+        android:layout_below="@+id/ll_tts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/mygray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/ll_divide1"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="短信提醒"
+                android:textSize="18sp" />
+            <TextView
+                android:textSize="14sp"
+                android:text="开启后收到短信弹窗提醒"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_sms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="10dp" />

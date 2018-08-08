@@ -46,31 +46,31 @@ import static com.ssc.smartbutler.utils.StaticClass.HANDLER_EXIT;
 import static com.ssc.smartbutler.utils.StaticClass.HANDLER_SPLASH;
 import static com.ssc.smartbutler.utils.StaticClass.SHARE_IS_FIRST;
 
-public class SplashActivity extends AppCompatActivity{
+public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "SplashActivity";
 
     private TextView tv_splash;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case HANDLER_SPLASH:
                     //判断程序是否是第一次运行
-                    L.i(TAG, isFirst()+"");
-                    if (isFirst()){
-                        ShareUtil.putBoolean(SplashActivity.this,SHARE_IS_FIRST,false);
+                    L.i(TAG, isFirst() + "");
+                    if (isFirst()) {
+                        ShareUtil.putBoolean(SplashActivity.this, SHARE_IS_FIRST, false);
                         startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                    }else {
+                    } else {
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     }
                     finish();
                     break;
                 case HANDLER_EXIT:
                     finish();
-                    default:
+                default:
             }
         }
     };
@@ -92,7 +92,7 @@ public class SplashActivity extends AppCompatActivity{
 
 
         //设置字体
-        UtilTools.setFont(this,tv_splash);
+        UtilTools.setFont(this, tv_splash);
 
 
     }
@@ -101,7 +101,8 @@ public class SplashActivity extends AppCompatActivity{
         String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.READ_EXTERNAL_STORAGE};
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.RECEIVE_SMS};
         List<String> mPermissionList = new ArrayList<>();
 
         /**
@@ -122,7 +123,7 @@ public class SplashActivity extends AppCompatActivity{
             //未授予的权限为空，表示都授予了
             //delayEntryPage();
             //L.i(TAG,mPermissionList.get(0));
-            handler.sendEmptyMessageDelayed(HANDLER_SPLASH,1500);
+            handler.sendEmptyMessageDelayed(HANDLER_SPLASH, 1500);
         } else {//请求权限方法
             String[] permissionsNew = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
             ActivityCompat.requestPermissions(SplashActivity.this, permissionsNew, 1);
@@ -163,21 +164,21 @@ public class SplashActivity extends AppCompatActivity{
                             Uri packageURI = Uri.parse("package:" + uriString);
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
                             startActivity(intent);*/
-                            Toast.makeText(SplashActivity.this,"应用需要权限，请您手动授予权限",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SplashActivity.this, "应用需要权限，请您手动授予权限", Toast.LENGTH_LONG).show();
                             isAllPermission = false;
                         }
-                    }else{
+                    } else {
 
                         //允许权限
 
                     }
                 }
                 //授权循环结束,判断是否所以权限都授权
-                if (isAllPermission){
-                    L.i(TAG,"所有权限都允许");
-                    handler.sendEmptyMessageDelayed(HANDLER_SPLASH,1500);
-                }else {
-                    handler.sendEmptyMessageDelayed(HANDLER_EXIT,1500);
+                if (isAllPermission) {
+                    L.i(TAG, "所有权限都允许");
+                    handler.sendEmptyMessageDelayed(HANDLER_SPLASH, 1500);
+                } else {
+                    handler.sendEmptyMessageDelayed(HANDLER_EXIT, 1500);
                 }
                 //delayEntryPage();
                 break;
