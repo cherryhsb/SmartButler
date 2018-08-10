@@ -61,6 +61,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_sms"
         android:layout_below="@+id/ll_divide1"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -85,7 +86,7 @@
                 android:textSize="18sp" />
             <TextView
                 android:textSize="14sp"
-                android:text="开启后收到短信弹窗提醒"
+                android:text="开启后收到短信弹窗提醒(飞行模式测试)"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -99,17 +100,70 @@
 
     </LinearLayout>
 
+
+
+
+
+
+
+    <!--<LinearLayout
+        android:id="@+id/ll_divide2"
+        android:layout_below="@+id/ll_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/mygray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_update"
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/ll_divide2"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="检查更新"
+                android:textSize="18sp" />
+            <TextView
+                android:textSize="14sp"
+                android:text="检查是否有新的版本下载"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>-->
+
+
+
     <Button
         android:id="@+id/btn_setting_exit"
-        style="?android:attr/borderlessButtonStyle"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/button_bg_green"
         android:text="退出登录"
         android:textColor="@color/white" />
+    <!--style="?android:attr/borderlessButtonStyle"-->
 
 </RelativeLayout>

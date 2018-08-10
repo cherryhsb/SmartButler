@@ -26,7 +26,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -60,7 +59,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private Button btn_change_password;
 
-    private TextView tv_info_username, tv_info_gender, tv_info_age, tv_info_desc, tv_info_express, tv_info_location;
+    private TextView tv_info_username, tv_info_gender, tv_info_age, tv_info_desc;
 
     private LinearLayout ll_icon, ll_gender, ll_age, ll_desc;
 
@@ -94,8 +93,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         ll_age = findViewById(R.id.ll_age);
         ll_desc = findViewById(R.id.ll_desc);
         iv_info_icon = findViewById(R.id.iv_info_icon);
-        tv_info_express = findViewById(R.id.tv_info_express);
-        tv_info_location = findViewById(R.id.tv_info_location);
+
 
         //dialog = new CustomDialog(this, 0, 0,
         //                R.layout.dialog_photo, R.style.pop_anim_style, Gravity.BOTTOM, 0);R.style.Theme_dialog
@@ -108,8 +106,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         ll_gender.setOnClickListener(this);
         ll_age.setOnClickListener(this);
         ll_desc.setOnClickListener(this);
-        tv_info_express.setOnClickListener(this);
-        tv_info_location.setOnClickListener(this);
+
 
         btn_camera = (Button) dialog.findViewById(R.id.btn_camera);
         btn_picture = (Button) dialog.findViewById(R.id.btn_picture);
@@ -176,12 +173,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_cancel:
                 dialog.dismiss();
-                break;
-            case R.id.tv_info_express:
-                startActivity(new Intent(this,ExpressActivity.class));
-                break;
-            case R.id.tv_info_location:
-                startActivity(new Intent(this,LocationActivity.class));
                 break;
         }
     }

@@ -6,15 +6,16 @@
     android:background="@color/mygray">
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:id="@+id/ll_user_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:background="@color/white"
         android:gravity="center"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <ImageView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/user" />
@@ -29,15 +30,16 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:id="@+id/ll_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:background="@color/white"
         android:gravity="center"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+
             android:id="@+id/iv_user_icon"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -52,6 +54,47 @@
             android:layout_marginLeft="10dp"
             android:text="查看信息"
             android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/ll_user_login"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/tv_user_express"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:text="物流查询"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/mygray" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_user_location"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:text="归属地查询"
+            android:textSize="18sp" />
     </LinearLayout>
 
 

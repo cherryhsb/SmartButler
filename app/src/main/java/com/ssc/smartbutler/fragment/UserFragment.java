@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
+import com.ssc.smartbutler.ui.ExpressActivity;
+import com.ssc.smartbutler.ui.LocationActivity;
 import com.ssc.smartbutler.ui.LoginActivity;
 import com.ssc.smartbutler.ui.UserInfoActivity;
 
@@ -40,7 +42,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private LinearLayout ll_user_login,ll_user_info;
 
-    private TextView tv_user_name;
+    private TextView tv_user_name,tv_info_express, tv_info_location;;
 
     private String username;
 
@@ -74,6 +76,11 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         ll_user_info.setOnClickListener(this);
         tv_user_name = (TextView) getActivity().findViewById(R.id.tv_user_name);
         iv_user_icon = getActivity().findViewById(R.id.iv_user_icon);
+        tv_info_express = getActivity().findViewById(R.id.tv_user_express);
+        tv_info_location = getActivity().findViewById(R.id.tv_user_location);
+
+        tv_info_express.setOnClickListener(this);
+        tv_info_location.setOnClickListener(this);
 
         //当前用户
         userInfo = BmobUser.getCurrentUser(MyUser.class);
@@ -88,13 +95,13 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 //生成bitmap,显示出来
                 iv_user_icon.setImageBitmap(BitmapFactory.decodeStream(inputStream));
             }
-            ll_user_login.setVisibility(View.GONE);
+            ll_user_login.setVisibility(View.INVISIBLE);
             ll_user_info.setVisibility(View.VISIBLE);
         }else{
             //缓存用户对象为空时，显示需要登陆
             tv_user_name.setText("");
             ll_user_login.setVisibility(View.VISIBLE);
-            ll_user_info.setVisibility(View.GONE);
+            ll_user_info.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -109,7 +116,12 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 //getActivity().finish();
                 break;
-
+            case R.id.tv_user_express:
+                startActivity(new Intent(getActivity(),ExpressActivity.class));
+                break;
+            case R.id.tv_user_location:
+                startActivity(new Intent(getActivity(),LocationActivity.class));
+                break;
         }
     }
 }

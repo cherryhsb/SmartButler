@@ -11,6 +11,8 @@ package com.ssc.smartbutler.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +21,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.ssc.smartbutler.MainActivity;
@@ -50,6 +53,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private Button btn_setting_exit;
 
+    private LinearLayout ll_update;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         btn_setting_exit = findViewById(R.id.btn_setting_exit);
         switch_tts = findViewById(R.id.switch_tts);
         switch_sms = findViewById(R.id.switch_sms);
+        ll_update = findViewById(R.id.ll_update);
 
         userInfo = BmobUser.getCurrentUser(MyUser.class);
         if(userInfo != null){
@@ -98,7 +104,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
+        ll_update.setOnClickListener(this);
 
+        try {
+            getVersionNameCode();
+            L.i(TAG,versionName+"-----"+versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -111,8 +124,29 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 userInfo = BmobUser.getCurrentUser(MyUser.class); // 现在的currentUser是null了
                 finish();
                 break;
+            case R.id.ll_update:
+                //版本更新
+                /*
+                * 步骤
+                * 1.请求服务器的配置文件
+                * 2.比较
+                * 3.dialog提示
+                * 4.跳转到更新界面,并把url传递过去
+                * */
+
+                break;
         }
 
+    }
+
+    private String versionName;
+    private int versionCode;
+    //获取当前版本号
+    private void getVersionNameCode() throws PackageManager.NameNotFoundException {
+        PackageManager packageManager = getPackageManager();
+        PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+        versionName = packageInfo.versionName;
+        versionCode = packageInfo.versionCode;
     }
 
 

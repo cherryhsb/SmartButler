@@ -50,4 +50,9 @@ public class StaticClass {
     public static final int REQUEST_CODE_REGISTER = 10003;
     //短信Action
     public static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
+    //wifiAction
+    public static final String WIFI_ACTION = "android.net.wifi.WIFI_STATE_CHANGED";
+    //public static final String WIFI_ACTION = "WifiManager.WIFI_STATE_CHANGED_ACTION";
+    //蓝牙Action
+    public static final String BT_ACTION = "BluetoothAdapter.ACTION_STATE_CHANGED";
 }
