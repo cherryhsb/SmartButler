@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.ssc.smartbutler.utils.ActivityManager;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.List;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_EXIT;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_LOGIN;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_REGISTER;
+import static com.ssc.smartbutler.utils.StaticClass.SCAN_REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -152,6 +155,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //绑定
         mTabLayout.setupWithViewPager(vp_main);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tab.getPosition();
+                // 默认切换的时候，会有一个过渡动画，设为false后，取消动画，直接显示
+                vp_main.setCurrentItem(tab.getPosition(), false);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         /*if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -196,7 +217,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        //L.i(TAG,requestCode+"");
         switch (requestCode){
             case REQUEST_CODE_EXIT:
                 //setCurrentItem()需放在setAdapter()后面才有效
@@ -209,5 +231,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vp_main.setCurrentItem(3);
                 break;
         }
+
+        /*L.i(TAG,(null == data) +"");
+        if (requestCode == SCAN_REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    L.i(TAG,result);
+                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        }*/
+    }
+
+    //双击退出
+    //记录用户首次点击返回键的时间
+    private long firstTime = 0;
+    /**
+     * 第二种办法
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            long secondTime = System.currentTimeMillis();
+            if (secondTime - firstTime > 2000) {
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                firstTime = secondTime;
+                return true;
+            } else {
+                System.exit(0);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

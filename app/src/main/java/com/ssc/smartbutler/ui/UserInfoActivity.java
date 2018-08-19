@@ -52,6 +52,10 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
+import static com.ssc.smartbutler.utils.StaticClass.CAMERA_REQUEST_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.DESC_REQUEST_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.PICTURE_REQUEST_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.ZOOM_REQUEST_CODE;
 
 public class UserInfoActivity extends BaseActivity implements View.OnClickListener {
 
@@ -59,9 +63,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private Button btn_change_password;
 
-    private TextView tv_info_username, tv_info_gender, tv_info_age, tv_info_desc;
+    private TextView tv_info_username, tv_info_gender, tv_info_age, tv_info_desc,tv_info_nickname;
 
-    private LinearLayout ll_icon, ll_gender, ll_age, ll_desc;
+    private LinearLayout ll_icon, ll_gender, ll_age, ll_desc,ll_nickname;
 
     private ImageView iv_info_icon;
 
@@ -88,11 +92,13 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         tv_info_gender = findViewById(R.id.tv_info_gender);
         tv_info_age = findViewById(R.id.tv_info_age);
         tv_info_desc = findViewById(R.id.tv_info_desc);
+        tv_info_nickname =findViewById(R.id.tv_info_nickname);
         ll_icon = findViewById(R.id.ll_icon);
         ll_gender = findViewById(R.id.ll_gender);
         ll_age = findViewById(R.id.ll_age);
         ll_desc = findViewById(R.id.ll_desc);
         iv_info_icon = findViewById(R.id.iv_info_icon);
+        ll_nickname = findViewById(R.id.ll_nickname);
 
 
         //dialog = new CustomDialog(this, 0, 0,
@@ -106,6 +112,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         ll_gender.setOnClickListener(this);
         ll_age.setOnClickListener(this);
         ll_desc.setOnClickListener(this);
+        ll_nickname.setOnClickListener(this);
 
 
         btn_camera = (Button) dialog.findViewById(R.id.btn_camera);
@@ -119,6 +126,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         if (userInfo != null) {
             //设置用户信息显示
             tv_info_username.setText(userInfo.getUsername());
+            tv_info_nickname.setText(userInfo.getNickname());
             if (userInfo.isGender()) {
                 tv_info_gender.setText("男");
                 index = 0;
@@ -152,6 +160,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_icon:
                 dialog.show();
                 break;
+            case R.id.ll_nickname:
+                showNicknameDialog();
+                break;
             case R.id.ll_gender:
                 showListDialog();
                 break;
@@ -178,15 +189,13 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     public static final String PHOTO_IMAGE_FILE_NAME = "fileImg.jpg";
-    public static final int DESC_REQUEST_CODE = 100;
-    public static final int CAMERA_REQUEST_CODE = 101;
-    public static final int PICTURE_REQUEST_CODE = 102;
-    public static final int ZOOM_REQUEST_CODE = 103;
+
 
 
     //跳转相册
     private void toPicture() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        //Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICTURE_REQUEST_CODE);
     }
@@ -332,6 +341,53 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         if (e == null) {
                             //toast("更新用户信息成功");
                             tv_info_age.setText(editText.getText().toString());
+                        } else {
+                            //toast("更新用户信息失败:" + e.getMessage());
+                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+        builder.show();
+    }
+
+    //昵称dialog
+    private void showNicknameDialog() {
+        final EditText editText = new EditText(this);
+        editText.setGravity(Gravity.CENTER_HORIZONTAL);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("昵称");
+        builder.setView(editText);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Toast.makeText(UserInfoActivity.this, "您输入的是：" + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                /*MyUser newUser = new MyUser();
+                newUser.setAge(Integer.parseInt(editText.getText().toString()));
+                //Toast.makeText(UserInfoActivity.this, newUser.getAge()+"", Toast.LENGTH_SHORT).show();
+                MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
+                newUser.update(bmobUser.getObjectId(),new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if(e==null){
+                            //toast("更新用户信息成功");
+                            tv_info_age.setText(editText.getText().toString());
+                        }else{
+                            //toast("更新用户信息失败:" + e.getMessage());
+                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });*/
+                MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
+                // 修改用户的邮箱为xxx@163.com
+                bmobUser.setNickname(editText.getText().toString());
+                bmobUser.update(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if (e == null) {
+                            //toast("更新用户信息成功");
+                            tv_info_nickname.setText(editText.getText().toString());
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
                             Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();

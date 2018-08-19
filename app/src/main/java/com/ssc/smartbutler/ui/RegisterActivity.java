@@ -12,7 +12,6 @@ package com.ssc.smartbutler.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ssc.smartbutler.MainActivity;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.utils.IEditTextChangeListener;
@@ -28,12 +26,9 @@ import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
 import com.ssc.smartbutler.view.CustomDialog;
 
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
-import static com.ssc.smartbutler.R.id.et_register_password;
-import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_REGISTER;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
@@ -121,18 +116,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         //注册
                         MyUser user = new MyUser();
                         user.setUsername(username);
+                        user.setNickname(username);
                         user.setPassword(password);
                         user.setEmail(email);
                             /*user.setAge(0);
                             user.setGender(Boolean.parseBoolean(null));
-                            user.setDesc("这个人很懒什么都没有留下");*/
+                            */
+                        user.setDesc("这个人很懒什么都没有留下");
                         user.signUp(new SaveListener<MyUser>() {
                             @Override
                             public void done(MyUser myUser, BmobException e) {
                                 dialog.dismiss();
                                 if (e == null) {
                                     Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                    //startActivityForResult(new Intent(RegisterActivity.this, MainActivity.class),REQUEST_CODE_REGISTER);
                                     finish();
                                 } else {
                                     L.i(TAG, "注册失败" + e.toString());

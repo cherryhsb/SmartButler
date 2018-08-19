@@ -13,6 +13,8 @@ import cn.bmob.v3.BmobUser;
 
 public class MyUser extends BmobUser{
 
+    private String nickname;
+
     private int age;
 
     private boolean gender;
@@ -20,6 +22,14 @@ public class MyUser extends BmobUser{
     private String desc;
 
     private String imgString;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getImgString() {
         return imgString;

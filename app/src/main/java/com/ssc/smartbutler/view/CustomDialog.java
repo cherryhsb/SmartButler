@@ -6,7 +6,7 @@ package com.ssc.smartbutler.view;
  *  文件名：    com.ssc.smartbutler.view
  *  创建者：    SSC
  *  创建时间：   2018/7/13 10:23
- *  描述：     TODO
+ *  描述：     photoView dialog
  */
 
 import android.app.Dialog;
@@ -35,6 +35,8 @@ public class CustomDialog extends Dialog{
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        /*layoutParams.width = width;
+        layoutParams.height = height;*/
         layoutParams.gravity = gravity;
         window.setAttributes(layoutParams);
         window.setWindowAnimations(anim);
@@ -43,5 +45,6 @@ public class CustomDialog extends Dialog{
     public CustomDialog(Context context,int width,int height,int layout,int style,int gravity){
         this(context,width,height,layout,style,gravity, R.style.pop_anim_style);
     }
+
 
 }

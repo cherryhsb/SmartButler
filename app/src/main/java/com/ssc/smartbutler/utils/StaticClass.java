@@ -48,6 +48,15 @@ public class StaticClass {
     public static final int REQUEST_CODE_LOGIN = 10002;
     //注册
     public static final int REQUEST_CODE_REGISTER = 10003;
+    //个人信息requestCode
+    public static final int DESC_REQUEST_CODE = 100;
+    public static final int CAMERA_REQUEST_CODE = 101;
+    public static final int PICTURE_REQUEST_CODE = 102;
+    public static final int ZOOM_REQUEST_CODE = 103;
+    //扫描二维码requestCode
+    public static final int SCAN_REQUEST_CODE = 104;
+    //相册扫描二维码
+    public static final int IMAGE_REQUEST_CODE = 105;
     //短信Action
     public static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
     //wifiAction

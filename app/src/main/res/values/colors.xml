@@ -7,6 +7,8 @@
     <color name="colorAccent">#66CDAA</color>
     <!--<color name="colorAccent">#FF4081</color>-->
 
+    <color name="scan_corner_color">#0effc2</color>
+
     <color name="white">#FFFFFF</color>
     <!-- 白色 -->
 

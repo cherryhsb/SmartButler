@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -48,12 +48,19 @@
             app:civ_border_width="0dp" />
 
         <TextView
+            android:layout_weight="1"
             android:id="@+id/tv_user_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="查看信息"
             android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/iv_user_qrcode"
+            android:src="@drawable/qrcode"
+            android:layout_width="32dp"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout
@@ -87,7 +94,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_user_location"
+            android:id="@+id/tv_user_attribution"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:layout_width="match_parent"
@@ -95,7 +102,55 @@
             android:background="@color/white"
             android:text="归属地查询"
             android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/mygray" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_user_scan"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:text="二维码扫描"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/mygray" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_lbs"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:text="我的位置"
+            android:textSize="18sp" />
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

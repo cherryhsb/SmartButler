@@ -37,14 +37,35 @@
     <!-- 手机定位信息，用来为语义等功能提供定位，提供更精准的服务 -->
     <!-- 定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
     <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
-    
+
     <!--短信权限-->
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <!--窗口权限-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--拍照-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--震动-->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!--百度地图-->
+    <!--读取系统信息，包含系统版本等信息，用作统计-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!--获取统计数据-->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
 
+    <!--定位-->
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!-- SD卡读取权限，用户写入离线定位数据-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
 
 
     <application
@@ -126,11 +147,24 @@
             android:screenOrientation="portrait" />
         <!-- 物流查询 -->
         <activity
-            android:name=".ui.LocationActivity"
+            android:name=".ui.AttributionActivity"
             android:label="归属地查询"
             android:screenOrientation="portrait" />
         <!-- 新闻详情 -->
         <activity android:name=".ui.WebViewActivity" />
+        <!--生成二维码-->
+        <activity
+            android:name=".ui.QRCodeActivity"
+            android:label="二维码名片" />
+        <!--二维码扫描-->
+        <activity
+            android:name=".ui.ScanActivity"
+            android:label="二维码扫描" />
+        <!--我的位置-->
+        <activity
+            android:name=".ui.LbsActivity"
+            android:label="我的位置" />
+        <activity android:name=".ui.AboutActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -144,8 +178,17 @@
 
         <service
             android:name=".service.SmsService"
+            android:enabled="true" />
+
+        <service
+            android:name="com.baidu.location.f"
             android:enabled="true"
-            android:exported="true"></service>
+            android:process=":remote"/>
+
+        <!--百度地图-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="tL9AcQLhN78LKEOFSEupI4kHAmmCeBtA" />
     </application>
 
 </manifest>

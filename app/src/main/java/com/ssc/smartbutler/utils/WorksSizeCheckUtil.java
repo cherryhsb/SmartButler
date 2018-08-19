@@ -11,6 +11,8 @@ import android.widget.TextView;
 //判断exittext是否为空,设置button样式
 public class WorksSizeCheckUtil {
 
+    private static final String TAG = "WorksSizeCheckUtil";
+
     //发布作品时候填写尺寸的监听器
     static IEditTextChangeListener mChangeListener;
 
@@ -39,7 +41,7 @@ public class WorksSizeCheckUtil {
 
 
         private void initEditListener() {
-            L.i("TAG", "调用了遍历editext的方法");
+            L.i(TAG, "调用了遍历editext的方法");
             for (EditText editText:editTexts){
                 editText.addTextChangedListener(new textChange());
             }

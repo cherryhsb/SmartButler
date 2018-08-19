@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -75,18 +76,16 @@ public class GirlFragment extends Fragment {
     * */
     private void initView(View view) {
         gv_girl = view.findViewById(R.id.gv_girl);
-        dialog = new CustomDialog(getActivity(), LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT,R.layout.dialog_girl,R.style.Theme_dialog, Gravity.CENTER,R.style.pop_anim_style);
+        dialog = new CustomDialog(getActivity(), WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT,R.layout.dialog_girl,R.style.Theme_dialog, Gravity.CENTER,R.style.pop_anim_style);
         //iv_girl_img = dialog.findViewById(R.id.iv_girl_img);
         photo_view = dialog.findViewById(R.id.photo_view);
-
-        L.i(TAG,"nmsl");
 
         //解析
         RxVolley.get(StaticClass.GIRL_URL, new HttpCallback() {
             @Override
             public void onSuccess(String t) {
                 //super.onSuccess(t);
-                L.i(TAG,t);
+                //L.i(TAG,t);
                 parsingJson(t);
             }
         });

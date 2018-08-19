@@ -63,4 +63,8 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
+    //二维码
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    //地图
+    implementation files('libs/BaiduLBS_Android.jar')
 }

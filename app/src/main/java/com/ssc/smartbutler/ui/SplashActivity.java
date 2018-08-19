@@ -102,7 +102,9 @@ public class SplashActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.RECEIVE_SMS};
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_FINE_LOCATION};
         List<String> mPermissionList = new ArrayList<>();
 
         /**

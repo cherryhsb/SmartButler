@@ -135,7 +135,7 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
         adapter = new ChatAdapter(getActivity(), chatDataList);
         lv_chat.setAdapter(adapter);
 
-        addLeftItem("你好我是小管家",true);
+        addLeftItem("你好我是小管家",false);
 
         //设置button是否可以点击
         setButtonEnabled();

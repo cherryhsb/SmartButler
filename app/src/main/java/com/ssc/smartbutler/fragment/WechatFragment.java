@@ -67,7 +67,7 @@ public class WechatFragment extends Fragment {
             public void onSuccess(String t) {
                 //super.onSuccess(t);
                 //Toast.makeText(ExpressActivity.this, t,Toast.LENGTH_SHORT).show();
-                L.i(TAG, "Json" + t);
+                //L.i(TAG, "Json" + t);
                 //4.解析json
                 parsingJson(t);
             }

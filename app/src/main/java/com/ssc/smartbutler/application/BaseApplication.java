@@ -13,6 +13,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.kymjs.rxvolley.RxVolley;
@@ -23,6 +24,7 @@ import com.ssc.smartbutler.service.SmsService;
 import com.ssc.smartbutler.ui.SettingActivity;
 import com.ssc.smartbutler.utils.ShareUtil;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,6 +66,11 @@ public class BaseApplication extends Application {
         if (ShareUtil.getBoolean(this, IS_SMS,false)){
             startService(new Intent(this, SmsService.class));
         }
+        //二维码初始化
+        ZXingLibrary.initDisplayOpinion(this);
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+        SDKInitializer.initialize(getApplicationContext());
     }
 
 

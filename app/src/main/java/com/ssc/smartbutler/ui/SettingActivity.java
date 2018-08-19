@@ -53,7 +53,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private Button btn_setting_exit;
 
-    private LinearLayout ll_update;
+    private LinearLayout ll_update,ll_about;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch_tts = findViewById(R.id.switch_tts);
         switch_sms = findViewById(R.id.switch_sms);
         ll_update = findViewById(R.id.ll_update);
+        ll_about = findViewById(R.id.ll_about);
 
         userInfo = BmobUser.getCurrentUser(MyUser.class);
         if(userInfo != null){
@@ -105,6 +106,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         });
 
         ll_update.setOnClickListener(this);
+        ll_about.setOnClickListener(this);
 
         try {
             getVersionNameCode();
@@ -134,6 +136,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 * 4.跳转到更新界面,并把url传递过去
                 * */
 
+                break;
+            case R.id.ll_about:
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
         }
 
