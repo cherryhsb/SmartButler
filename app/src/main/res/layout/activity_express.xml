@@ -2,28 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+
+    android:orientation="vertical"
+    android:padding="10dp">
     <!--消除自动弹出键盘在xml 的最外面的布局中加入2行代码
 
         android:focusable="true"
         android:focusableInTouchMode="true"-->
 
-    <EditText
-        android:id="@+id/et_company"
+    <Spinner
+        android:id="@+id/spinner_company"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="快递公司"
-        android:text="sf" />
+        android:entries="@array/express" />
 
     <EditText
         android:id="@+id/et_express_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="快递号"
+        android:hint="@string/express_number"
         android:text="283600908548" />
 
     <Button
@@ -31,14 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_bg_green"
-        android:text="查询"
+        android:text="@string/query"
         android:textColor="@color/white" />
 
     <ListView
-        android:scrollbars="none"
         android:id="@+id/lv_express"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:scrollbars="none" />
 
 </LinearLayout>

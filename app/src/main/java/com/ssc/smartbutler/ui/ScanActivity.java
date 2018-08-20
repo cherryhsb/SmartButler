@@ -28,7 +28,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import static com.ssc.smartbutler.utils.StaticClass.IMAGE_REQUEST_CODE;
 
-public class ScanActivity extends BaseActivity implements View.OnClickListener{
+public class ScanActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btn_scan_cancel;
 
@@ -57,12 +57,12 @@ public class ScanActivity extends BaseActivity implements View.OnClickListener{
         switch_flash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     /**
                      * 打开闪光灯
                      */
                     CodeUtils.isLightEnable(true);
-                }else {
+                } else {
                     /**
                      * 关闭闪光灯
                      */
@@ -123,7 +123,7 @@ public class ScanActivity extends BaseActivity implements View.OnClickListener{
                     CodeUtils.analyzeBitmap(String.valueOf(mBitmap), new CodeUtils.AnalyzeCallback() {
                         @Override
                         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                            Toast.makeText(ScanActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScanActivity.this, getString(R.string.analytical_results) + ":" + result, Toast.LENGTH_LONG).show();
                             /*Intent resultIntent = new Intent();
                             Bundle bundle = new Bundle();
                             bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
@@ -135,7 +135,7 @@ public class ScanActivity extends BaseActivity implements View.OnClickListener{
 
                         @Override
                         public void onAnalyzeFailed() {
-                            Toast.makeText(ScanActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScanActivity.this, getString(R.string.parse_failure)+":", Toast.LENGTH_LONG).show();
                             /*Intent resultIntent = new Intent();
                             Bundle bundle = new Bundle();
                             bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_FAILED);

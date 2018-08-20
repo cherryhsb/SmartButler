@@ -128,10 +128,10 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             tv_info_username.setText(userInfo.getUsername());
             tv_info_nickname.setText(userInfo.getNickname());
             if (userInfo.isGender()) {
-                tv_info_gender.setText("男");
+                tv_info_gender.setText(getString(R.string.male));
                 index = 0;
             } else {
-                tv_info_gender.setText("女");
+                tv_info_gender.setText(getString(R.string.female));
                 index = 1;
             }
             tv_info_age.setText(Integer.toString(userInfo.getAge()));
@@ -240,9 +240,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     //性别dialog
     private void showListDialog() {
-        final String[] genders = {"男", "女"};
+        final String[] genders = {getString(R.string.male), getString(R.string.female)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("性别");
+        builder.setTitle(getString(R.string.gender));
         builder.setSingleChoiceItems(genders, index, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -250,7 +250,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 index = which;
             }
         });
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Toast.makeText(UserInfoActivity.this, "您选择了" + genders[index], Toast.LENGTH_SHORT).show();
@@ -289,13 +289,13 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         if (e == null) {
                             //toast("更新用户信息成功");
                             if (index == 0) {
-                                tv_info_gender.setText("男");
+                                tv_info_gender.setText(getString(R.string.male));
                             } else {
-                                tv_info_gender.setText("女");
+                                tv_info_gender.setText(getString(R.string.female));
                             }
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -310,9 +310,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         editText.setGravity(Gravity.CENTER_HORIZONTAL);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("年龄");
+        builder.setTitle(getString(R.string.age));
         builder.setView(editText);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Toast.makeText(UserInfoActivity.this, "您输入的是：" + editText.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -343,7 +343,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                             tv_info_age.setText(editText.getText().toString());
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -357,9 +357,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         final EditText editText = new EditText(this);
         editText.setGravity(Gravity.CENTER_HORIZONTAL);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("昵称");
+        builder.setTitle(getString(R.string.nickname));
         builder.setView(editText);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Toast.makeText(UserInfoActivity.this, "您输入的是：" + editText.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -390,7 +390,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                             tv_info_nickname.setText(editText.getText().toString());
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -482,7 +482,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap1, ImageUtil.readPictureDegree(imagePath)));
 
         } else {
-            Toast.makeText(this, "失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -562,7 +562,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     //toast("更新用户信息成功");
                 } else {
                     //toast("更新用户信息失败:" + e.getMessage());
-                    Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -88,6 +88,12 @@ public class GirlFragment extends Fragment {
                 //L.i(TAG,t);
                 parsingJson(t);
             }
+
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                super.onFailure(errorNo, strMsg);
+                L.i(TAG,strMsg);
+            }
         });
         gv_girl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

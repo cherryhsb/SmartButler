@@ -3,9 +3,11 @@ package com.ssc.smartbutler.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.kymjs.rxvolley.RxVolley;
@@ -33,20 +35,24 @@ import java.util.List;
  *  文件名：    com.ssc.smartbutler.ui
  *  创建者：    SSC
  *  创建时间：   2018/7/27 21:32
- *  描述：     TODO:快递查询
+ *  描述：     快递查询
  */
 
 public class ExpressActivity extends BaseActivity {
 
     private static final String TAG = "ExpressActivity";
 
-    private EditText et_company, et_express_num;
+    private Spinner spinner_company;
+
+    private EditText et_express_num;
 
     private Button btn_express;
 
     private ListView lv_express;
 
     private List<ExpressData> dataList = new ArrayList<>();
+
+    private String company;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,10 +63,40 @@ public class ExpressActivity extends BaseActivity {
     }
 
     private void initView() {
-        et_company = findViewById(R.id.et_company);
         et_express_num = findViewById(R.id.et_express_num);
         btn_express = findViewById(R.id.btn_express);
         lv_express = findViewById(R.id.lv_express);
+        spinner_company = findViewById(R.id.spinner_company);
+
+        spinner_company.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        company = "sf";
+                        break;
+                    case 1:
+                        company = "sto";
+                        break;
+                    case 2:
+                        company = "yt";
+                        break;
+                    case 3:
+                        company = "yd";
+                        break;
+                    case 4:
+                        company = "tt";
+                    case 5:
+                        company = "ems";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //根据editText是否为空设置button样式
         //2.判断是否为空
@@ -79,18 +115,18 @@ public class ExpressActivity extends BaseActivity {
                  * 7.设置数据/显示效果
                  * */
                 //1.获取输入框的内容
-                String company = et_company.getText().toString().trim();
+                //String company = et_company.getText().toString().trim();
                 String number = et_express_num.getText().toString().trim();
                 //拼接我们的url
-                String url = "http://v.juhe.cn/exp/index?key="+ StaticClass.EXPRESS_ID+"&com="+company+"&no="+number;
+                String url = "http://v.juhe.cn/exp/index?key=" + StaticClass.EXPRESS_ID + "&com=" + company + "&no=" + number;
                 //http://v.juhe.cn/exp/index?key=f1a24917ef158c9d6da188cf55dc1b67&com=sf&no=283600908548
                 //3.拿到数据去请求数据
                 RxVolley.get(url, new HttpCallback() {
                     @Override
                     public void onSuccess(String t) {
-                        //super.onSuccess(t);
+                        super.onSuccess(t);
                         //Toast.makeText(ExpressActivity.this, t,Toast.LENGTH_SHORT).show();
-                        L.i(TAG, "Json"+t);
+                        L.i(TAG, "Json" + t);
                         //4.解析json
                         parsingJson(t);
                     }
@@ -108,23 +144,28 @@ public class ExpressActivity extends BaseActivity {
     private void parsingJson(String t) {
         try {
             JSONObject jsonObject = new JSONObject(t);
-            JSONObject jsonResult = jsonObject.getJSONObject("result");
-            JSONArray jsonArray = jsonResult.getJSONArray("list");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = (JSONObject) jsonArray.get(i);
+            int error_code = jsonObject.getInt("error_code");
+            if (error_code == 0) {
+                JSONObject jsonResult = jsonObject.getJSONObject("result");
+                JSONArray jsonArray = jsonResult.getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject json = (JSONObject) jsonArray.get(i);
 
-                ExpressData data = new ExpressData();
-                data.setRemark(json.getString("remark"));
-                data.setZone(json.getString("zone"));
-                data.setDatetime(json.getString("datetime"));
+                    ExpressData data = new ExpressData();
+                    data.setRemark(json.getString("remark"));
+                    data.setZone(json.getString("zone"));
+                    data.setDatetime(json.getString("datetime"));
 
-                dataList.add(data);
+                    dataList.add(data);
+                }
+                //倒叙
+                Collections.reverse(dataList);
+
+                ExpressAdapter adapter = new ExpressAdapter(this, dataList);
+                lv_express.setAdapter(adapter);
+            } else {
+                Toast.makeText(ExpressActivity.this, getString(R.string.no_express), Toast.LENGTH_SHORT).show();
             }
-            //倒叙
-            Collections.reverse(dataList);
-
-            ExpressAdapter adapter = new ExpressAdapter(this,dataList);
-            lv_express.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -135,7 +176,7 @@ public class ExpressActivity extends BaseActivity {
         WorksSizeCheckUtil.textChangeListener textChangeListener = new WorksSizeCheckUtil.textChangeListener(btn_express);
 
         //2.把所有要监听的edittext都添加进去
-        textChangeListener.addAllEditText(et_company, et_express_num);
+        textChangeListener.addAllEditText(et_express_num);
 
         //3.接口回调 在这里拿到boolean变量 根据isHasContent的值决定 tv 应该设置什么颜色
         WorksSizeCheckUtil.setChangeListener(new IEditTextChangeListener() {

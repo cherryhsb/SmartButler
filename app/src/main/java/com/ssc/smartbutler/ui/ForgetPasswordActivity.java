@@ -17,7 +17,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
+import com.ssc.smartbutler.utils.IEditTextChangeListener;
 import com.ssc.smartbutler.utils.L;
+import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -44,6 +46,8 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         et_forget_email = (EditText) findViewById(R.id.et_forget_email);
         btn_forget_password = (Button) findViewById(R.id.btn_forget_password);
         btn_forget_password.setOnClickListener(this);
+
+        setButtonEnabled();
     }
 
     @Override
@@ -57,10 +61,10 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                     public void done(BmobException e) {
                         if(e==null){
                             Toast.makeText(ForgetPasswordActivity.this,
-                                    "重置密码请求成功，请到" + email + "邮箱进行密码重置操作",Toast.LENGTH_SHORT).show();
+                                    getString(R.string.reset_password_success) + email + getString(R.string.reset_operation),Toast.LENGTH_SHORT).show();
                         }else{
                             L.i(TAG, e.toString());
-                            Toast.makeText(ForgetPasswordActivity.this, "失败:" + e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.failure) + e.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -80,4 +84,26 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             }
         }
     });*/
+
+    private void setButtonEnabled() {
+        //1.创建工具类对象 把要改变颜色的tv先传过去
+        WorksSizeCheckUtil.textChangeListener textChangeListener = new WorksSizeCheckUtil.textChangeListener(btn_forget_password);
+
+        //2.把所有要监听的edittext都添加进去
+        textChangeListener.addAllEditText(et_forget_email);
+
+        //3.接口回调 在这里拿到boolean变量 根据isHasContent的值决定 tv 应该设置什么颜色
+        WorksSizeCheckUtil.setChangeListener(new IEditTextChangeListener() {
+            @Override
+            public void textChange(boolean isHasContent) {
+                if (isHasContent) {
+                    btn_forget_password.setAlpha(1);
+                    btn_forget_password.setEnabled(true);
+                } else {
+                    btn_forget_password.setAlpha(0.5f);
+                    btn_forget_password.setEnabled(false);
+                }
+            }
+        });
+    }
 }

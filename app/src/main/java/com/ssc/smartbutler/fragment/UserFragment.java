@@ -219,7 +219,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                     //Toast.makeText(getActivity(), "解析结果:" +"\n"+ result, Toast.LENGTH_LONG).show();
                     showDialog(result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.parse_failure), Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -227,9 +227,9 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private void showDialog(String result) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("解析结果:");
+        builder.setTitle(getString(R.string.analytical_results));
         builder.setMessage(result);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

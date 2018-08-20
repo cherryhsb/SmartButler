@@ -2,13 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/guide3" />-->
+
+    <ImageView
+        android:src="@drawable/guide_strong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="36sp"
+        android:text="@string/strong"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="three"
-        android:textSize="30sp" />
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

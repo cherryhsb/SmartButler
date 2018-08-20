@@ -126,7 +126,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void done(MyUser myUser, BmobException e) {
                         dialog.dismiss();
                         if (e == null) {
-                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
                             //finish();
                             //startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
@@ -135,7 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             finish();
                         } else {
                             L.i(TAG, e.toString());
-                            Toast.makeText(LoginActivity.this, "登录失败" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -42,18 +42,21 @@ public class QRCodeActivity extends BaseActivity {
     private void initView() {
         iv_qrcode = findViewById(R.id.iv_qrcode);
         userInfo = BmobUser.getCurrentUser(MyUser.class);
-        if(userInfo != null) {
+        if (userInfo != null) {
             //已经登陆显示用户名
             String username = userInfo.getUsername();
             String gender;
             if (userInfo.isGender()) {
-                gender = "男";
+                gender = getString(R.string.male);
             } else {
-                gender = "女";
+                gender = getString(R.string.female);
             }
             int age = userInfo.getAge();
             String desc = userInfo.getDesc();
-            String text = "用户名:" + username +"\n"+"性别:" + gender +"\n"+"年龄:" + age +"\n"+"简介:" + desc;
+            String text = getString(R.string.username) + ":" + username + "\n" +
+                    getString(R.string.gender) + ":" + gender + "\n" +
+                    getString(R.string.age) + ":" + age + "\n" +
+                    getString(R.string.describe) + ":" + desc;
             if (userInfo.getImgString() != null) {
                 //利用Base64将String转化为byte数组
                 byte[] bytes = Base64.decode(userInfo.getImgString(), Base64.DEFAULT);
@@ -63,7 +66,7 @@ public class QRCodeActivity extends BaseActivity {
                 //带logo
                 Bitmap image = CodeUtils.createImage(text, 500, 500, logo);
                 iv_qrcode.setImageBitmap(image);
-            }else {
+            } else {
                 //不带logo
                 Bitmap imageNoLogo = CodeUtils.createImage(text, 500, 500, null);
                 iv_qrcode.setImageBitmap(imageNoLogo);

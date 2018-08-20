@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="60dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_marginTop="5dp"
@@ -27,11 +27,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="机器人语音"
+                android:text="@string/robot_speech"
                 android:textSize="18sp" />
             <TextView
                 android:textSize="14sp"
-                android:text="开启后智能管家语音播报"
+                android:text="@string/robot_speech_hint"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -74,7 +74,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="60dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_marginTop="5dp"
@@ -82,11 +82,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="短信提醒"
+                android:text="@string/SMS_alerts"
                 android:textSize="18sp" />
             <TextView
                 android:textSize="14sp"
-                android:text="开启后收到短信弹窗提醒(飞行模式测试)"
+                android:text="@string/SMS_alerts_hint"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -99,6 +99,8 @@
             android:paddingRight="10dp" />
 
     </LinearLayout>
+
+
 
 
 
@@ -122,59 +124,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_update"
+        android:id="@+id/ll_about"
         android:paddingLeft="10dp"
         android:layout_below="@+id/ll_divide2"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="检查更新"
-                android:textSize="18sp" />
-            <TextView
-                android:textSize="14sp"
-                android:text="检查是否有新的版本下载"
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:id="@+id/ll_divide3"
-        android:layout_below="@+id/ll_update"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/mygray" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_about"
-        android:paddingLeft="10dp"
-        android:layout_below="@+id/ll_divide3"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -186,9 +141,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="关于软件"
+            android:text="@string/about_software"
             android:textSize="18sp" />
-        
+
 
     </LinearLayout>
 
@@ -204,7 +159,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
         android:background="@drawable/button_bg_green"
-        android:text="退出登录"
+        android:text="@string/log_out"
         android:textColor="@color/white" />
     <!--style="?android:attr/borderlessButtonStyle"-->
 

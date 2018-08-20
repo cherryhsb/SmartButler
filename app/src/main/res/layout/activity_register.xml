@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="用户名"
+            android:hint="@string/username"
             android:inputType="text"
             android:maxLines="1" />
 
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="@string/rule_password"
-            android:hint="密码"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLines="1" />
 
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="@string/rule_password"
-            android:hint="确认密码"
+            android:hint="@string/password_again"
             android:inputType="textPassword"
             android:maxLines="1" />
 
@@ -51,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="@string/rule_email"
-            android:hint="邮箱"
+            android:hint="@string/email"
             android:inputType="text"
             android:maxLines="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="密码必须是6-16位数字、字母或字符的组合" />
+            android:text="@string/password_require" />
 
 
         <Button
@@ -70,7 +70,7 @@
             android:alpha="0.5"
             android:enabled="false"
             android:background="@drawable/button_bg_green"
-            android:text="注册并登录"
+            android:text="@string/register_and_login"
             android:textColor="@color/white" />
         <!--去阴影-->
         <!--style="?android:attr/borderlessButtonStyle"-->
@@ -89,7 +89,7 @@
             android:id="@+id/tv_register_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已有账号登录"
+            android:text="@string/Existing_account"
             android:textColor="@color/colorAccent" />
 
         <TextView
@@ -102,7 +102,7 @@
             android:id="@+id/tv_register_enter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="随便看看" />
+            android:text="@string/look_around" />
     </LinearLayout>
 
 

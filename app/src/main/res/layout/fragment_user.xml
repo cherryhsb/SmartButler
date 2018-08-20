@@ -6,10 +6,10 @@
     android:background="@color/mygray">
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/ll_user_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:gravity="center"
         android:padding="10dp">
@@ -25,15 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="点击登录账号"
+            android:text="@string/login_account"
             android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/ll_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="10dp">
@@ -48,36 +48,36 @@
             app:civ_border_width="0dp" />
 
         <TextView
-            android:layout_weight="1"
+            android:text="个人信息"
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="查看信息"
+            android:layout_weight="1"
             android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/iv_user_qrcode"
-            android:src="@drawable/qrcode"
             android:layout_width="32dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:src="@drawable/qrcode" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/ll_user_login"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_user_login"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/tv_user_express"
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/white"
-            android:text="物流查询"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/query_express"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -95,12 +95,12 @@
 
         <TextView
             android:id="@+id/tv_user_attribution"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/white"
-            android:text="归属地查询"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/query_attribution"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -118,12 +118,12 @@
 
         <TextView
             android:id="@+id/tv_user_scan"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/white"
-            android:text="二维码扫描"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/scan_QRcode"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -141,16 +141,14 @@
 
         <TextView
             android:id="@+id/tv_lbs"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/white"
-            android:text="我的位置"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/my_location"
             android:textSize="18sp" />
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

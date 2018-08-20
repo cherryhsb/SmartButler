@@ -64,4 +64,6 @@ public class StaticClass {
     //public static final String WIFI_ACTION = "WifiManager.WIFI_STATE_CHANGED_ACTION";
     //蓝牙Action
     public static final String BT_ACTION = "BluetoothAdapter.ACTION_STATE_CHANGED";
+    //版本更新
+    public static final String CHECK_UPDATE_URL = "http://192.168.0.108:8080/ssc/config.json";
 }

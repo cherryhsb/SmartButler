@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="头像"
+                android:text="@string/icon"
                 android:textSize="16sp" />
 
 
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="用户名"
+                android:text="@string/username"
                 android:textSize="16sp" />
 
             <TextView
@@ -107,7 +107,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="昵称"
+                android:text="@string/nickname"
                 android:textSize="16sp" />
 
             <TextView
@@ -148,7 +148,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="性别"
+                android:text="@string/gender"
                 android:textSize="16sp" />
 
             <TextView
@@ -183,7 +183,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="年龄"
+                android:text="@string/age"
                 android:textSize="16sp" />
 
             <TextView
@@ -218,7 +218,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="简介"
+                android:text="@string/describe"
                 android:textSize="16sp" />
 
             <TextView
@@ -242,7 +242,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@drawable/button_bg_green"
-        android:text="重置密码"
+        android:text="@string/reset_password"
         android:textColor="@color/white" />
     <!--去阴影-->
     <!--style="?android:attr/borderlessButtonStyle"-->

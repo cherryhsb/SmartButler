@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="用户名" />
+            android:hint="@string/username" />
 
         <EditText
             android:maxLines="1"
@@ -33,7 +33,7 @@
             android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="密码" />
+            android:hint="@string/password" />
 
 
         <!--<LinearLayout
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_bg_green"
-            android:text="登录"
+            android:text="@string/login"
             android:textColor="@color/white" />
         <!--去阴影-->
         <!--style="?android:attr/borderlessButtonStyle"-->
@@ -76,7 +76,7 @@
             android:id="@+id/tv_login_forget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="忘记密码?" />
+            android:text="@string/forget_password" />
 
     </LinearLayout>
 
@@ -92,7 +92,7 @@
             android:id="@+id/tv_login_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册"
+            android:text="@string/register"
             android:textColor="@color/colorAccent" />
 
         <TextView
@@ -105,7 +105,7 @@
             android:id="@+id/tv_login_enter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="随便看看" />
+            android:text="@string/look_around" />
     </LinearLayout>
 
 

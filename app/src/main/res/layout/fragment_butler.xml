@@ -33,7 +33,7 @@
             android:enabled="false"
 
             android:id="@+id/btn_chat"
-            android:text="发送"
+            android:text="@string/send"
             android:layout_width="60dp"
             android:layout_height="wrap_content" />
     </LinearLayout>

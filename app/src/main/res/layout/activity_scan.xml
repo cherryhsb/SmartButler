@@ -27,7 +27,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_bg_green"
         android:paddingHorizontal="5dp"
-        android:text="从相册选取二维码"
+        android:text="@string/Select_from_album"
         android:textColor="@color/white" />
     <!-- android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"

@@ -128,19 +128,18 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             public void done(MyUser myUser, BmobException e) {
                                 dialog.dismiss();
                                 if (e == null) {
-                                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, getString(R.string.registered_successfully), Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
-                                    L.i(TAG, "注册失败" + e.toString());
-                                    Toast.makeText(RegisterActivity.this, "注册失败" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, getString(R.string.registered_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
                     } else {
-                        Toast.makeText(this, "密码必须是6-16位的", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.password_rule), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.two_passwords_not_match), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

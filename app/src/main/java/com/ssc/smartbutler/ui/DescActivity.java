@@ -22,7 +22,7 @@ import cn.bmob.v3.listener.UpdateListener;
  *  文件名：    com.ssc.smartbutler.ui
  *  创建者：    SSC
  *  创建时间：   2018/7/12 9:43
- *  描述：     TODO:设置简介
+ *  描述：     设置简介
  */
 
 public class DescActivity extends BaseActivity{
@@ -65,7 +65,7 @@ public class DescActivity extends BaseActivity{
                             finish();
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(DescActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DescActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

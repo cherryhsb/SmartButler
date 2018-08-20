@@ -6,25 +6,20 @@ package com.ssc.smartbutler.fragment;
  *  文件名：    com.ssc.smartbutler.fragment
  *  创建者：    SSC
  *  创建时间：   2018/7/8 3:04
- *  描述：     TODO
+ *  描述：     聊天机器人
  */
 
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
@@ -36,10 +31,10 @@ import com.iflytek.cloud.SynthesizerListener;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
+import com.squareup.picasso.Picasso;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.ChatAdapter;
 import com.ssc.smartbutler.entity.ChatData;
-import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.utils.IEditTextChangeListener;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
@@ -48,13 +43,9 @@ import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobUser;
-
-import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 import static com.ssc.smartbutler.utils.StaticClass.IS_TTS;
 import static com.ssc.smartbutler.utils.StaticClass.TTS_ID;
 import static com.ssc.smartbutler.utils.StaticClass.TULING_ID;
@@ -68,6 +59,8 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
     private ListView lv_chat;
 
     private Button btn_chat;
+
+    //private ImageView iv_chat_bg;
 
     private List<ChatData> chatDataList;
 
@@ -90,6 +83,11 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
         et_chat = view.findViewById(R.id.et_chat);
         lv_chat = view.findViewById(R.id.lv_chat);
         btn_chat = view.findViewById(R.id.btn_chat);
+        //iv_chat_bg = view.findViewById(R.id.iv_chat_bg);
+
+        /*Picasso.with(getActivity())
+                .load(R.drawable.butler_bg)
+                .into(iv_chat_bg);*/
 
         /*iv_chat_right = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).
                 inflate(R.layout.item_chat_left, null).findViewById(R.id.tv_chat_right);
@@ -321,7 +319,7 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
             // 设置本地合成发音人 voicer为空，默认通过语记界面指定发音人。
             mTts.setParameter(SpeechConstant.VOICE_NAME, "");
             /**
-             * TODO 本地合成不设置语速、音调、音量，默认使用语记设置
+             * 本地合成不设置语速、音调、音量，默认使用语记设置
              * 开发者如需自定义参数，请参考在线合成参数设置
              */
         }

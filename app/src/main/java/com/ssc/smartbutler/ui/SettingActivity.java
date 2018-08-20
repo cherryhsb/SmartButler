@@ -53,7 +53,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private Button btn_setting_exit;
 
-    private LinearLayout ll_update,ll_about;
+    private LinearLayout ll_about;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +67,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         btn_setting_exit = findViewById(R.id.btn_setting_exit);
         switch_tts = findViewById(R.id.switch_tts);
         switch_sms = findViewById(R.id.switch_sms);
-        ll_update = findViewById(R.id.ll_update);
         ll_about = findViewById(R.id.ll_about);
 
         userInfo = BmobUser.getCurrentUser(MyUser.class);
@@ -105,7 +104,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
-        ll_update.setOnClickListener(this);
         ll_about.setOnClickListener(this);
 
         try {
@@ -125,17 +123,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 BmobUser.logOut();   //清除缓存用户对象
                 userInfo = BmobUser.getCurrentUser(MyUser.class); // 现在的currentUser是null了
                 finish();
-                break;
-            case R.id.ll_update:
-                //版本更新
-                /*
-                * 步骤
-                * 1.请求服务器的配置文件
-                * 2.比较
-                * 3.dialog提示
-                * 4.跳转到更新界面,并把url传递过去
-                * */
-
                 break;
             case R.id.ll_about:
                 startActivity(new Intent(this, AboutActivity.class));
@@ -184,15 +171,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示");
-        builder.setMessage("小米手机需手动授权:读取短信,通知类短信");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.hint));
+        builder.setMessage(getString(R.string.Xiaomi_SMS_hint));
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
-        builder.setNegativeButton("不再提示", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.never_prompt), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ShareUtil.putBoolean(SettingActivity.this, SHARE_IS_MIUI_SMS,false);

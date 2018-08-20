@@ -6,7 +6,7 @@ package com.ssc.smartbutler.ui;
  *  文件名：    com.ssc.smartbutler.ui
  *  创建者：    SSC
  *  创建时间：   2018/7/12 9:43
- *  描述：     TODO
+ *  描述：     重置密码
  */
 
 import android.content.Intent;

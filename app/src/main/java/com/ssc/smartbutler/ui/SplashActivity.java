@@ -88,7 +88,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void initView() {
-        tv_splash = (TextView) findViewById(R.id.tv_splash);
+        tv_splash = findViewById(R.id.tv_splash);
 
 
         //设置字体
@@ -166,7 +166,7 @@ public class SplashActivity extends AppCompatActivity {
                             Uri packageURI = Uri.parse("package:" + uriString);
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
                             startActivity(intent);*/
-                            Toast.makeText(SplashActivity.this, "应用需要权限，请您手动授予权限", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SplashActivity.this, getString(R.string.manual_authorization), Toast.LENGTH_LONG).show();
                             isAllPermission = false;
                         }
                     } else {
@@ -177,7 +177,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 //授权循环结束,判断是否所以权限都授权
                 if (isAllPermission) {
-                    L.i(TAG, "所有权限都允许");
+                    L.i(TAG, getString(R.string.permissions_allowed));
                     handler.sendEmptyMessageDelayed(HANDLER_SPLASH, 1500);
                 } else {
                     handler.sendEmptyMessageDelayed(HANDLER_EXIT, 1500);

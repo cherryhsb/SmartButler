@@ -5,21 +5,17 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <!--<ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/guide2" />-->
-
-    <ImageView
-        android:src="@drawable/guide_concise"
+    <TextView
+        android:id="@+id/tv_size_update"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="100/300"
+        android:textColor="@color/colorAccent"
+        android:textSize="22sp" />
 
     <TextView
-        android:textSize="36sp"
-        android:text="@string/concise"
+        android:text="@string/do_not_leave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </LinearLayout>

@@ -6,7 +6,7 @@ package com.ssc.smartbutler.ui;
  *  文件名：    AttributionActivity
  *  创建者：    SSC
  *  创建时间：   2018/8/1 0:55
- *  描述：     TODO:归属地查询
+ *  描述：     归属地查询
  */
 
 import android.content.DialogInterface;
@@ -184,8 +184,8 @@ public class AttributionActivity extends BaseActivity implements View.OnClickLis
                 String areacode = result.getString("areacode");
                 String zip = result.getString("zip");
                 String company = result.getString("company");
-                tv_attribution_info.setText("归属地:" + province + city + "\n" +
-                        "区号:" + areacode + "\n" + "邮编:" + zip + "\n");
+                tv_attribution_info.setText(getString(R.string.attribution) + province + city + "\n" +
+                        getString(R.string.area_code) + areacode + "\n" + getString(R.string.postcode) + zip + "\n");
                 /*tv_location_info.append("归属地:"+province+city+"\n");
                 tv_location_info.append("区号:"+areacode+"\n");
                 tv_location_info.append("邮编:"+zip+"\n");*/
@@ -214,15 +214,15 @@ public class AttributionActivity extends BaseActivity implements View.OnClickLis
 
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示");
-        builder.setMessage("长按DEL全部清除");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.hint));
+        builder.setMessage(getString(R.string.long_press_DEL));
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
-        builder.setNegativeButton("不再提示", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.never_prompt), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ShareUtil.putBoolean(AttributionActivity.this,SHARE_IS_HINT_LOCATION,false);
