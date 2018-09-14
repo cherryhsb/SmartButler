@@ -14,10 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -34,11 +31,6 @@ import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
 import com.ssc.smartbutler.utils.StaticClass;
 import com.ssc.smartbutler.utils.SystemUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 import cn.bmob.v3.BmobUser;
 

@@ -8,8 +8,6 @@ package com.ssc.smartbutler.utils;
  *  描述：     数据/常量
  */
 
-import com.ssc.smartbutler.entity.MyUser;
-
 public class StaticClass {
 
     //闪屏页延时

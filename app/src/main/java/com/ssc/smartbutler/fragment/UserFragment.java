@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
-import com.ssc.smartbutler.ui.ExpressActivity;
 import com.ssc.smartbutler.ui.AttributionActivity;
+import com.ssc.smartbutler.ui.ExpressActivity;
 import com.ssc.smartbutler.ui.LbsActivity;
 import com.ssc.smartbutler.ui.LoginActivity;
 import com.ssc.smartbutler.ui.QRCodeActivity;

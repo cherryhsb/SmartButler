@@ -15,7 +15,6 @@ import android.graphics.Typeface;
 import android.widget.TextView;
 
 import com.ssc.smartbutler.application.BaseApplication;
-import com.ssc.smartbutler.ui.BaseActivity;
 
 public class UtilTools {
 

@@ -16,17 +16,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.ContentFrameLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.ssc.smartbutler.R;
-import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.StaticClass;
 import com.ssc.smartbutler.utils.UtilTools;
 

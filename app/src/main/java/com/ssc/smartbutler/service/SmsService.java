@@ -1,16 +1,13 @@
 package com.ssc.smartbutler.service;
 
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.IBinder;
-import android.telephony.SmsMessage;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,10 +16,6 @@ import android.widget.Button;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.view.DispatchLinearLayout;
-
-import static com.ssc.smartbutler.utils.StaticClass.BT_ACTION;
-import static com.ssc.smartbutler.utils.StaticClass.SMS_ACTION;
-import static com.ssc.smartbutler.utils.StaticClass.WIFI_ACTION;
 
 public class SmsService extends Service {
 

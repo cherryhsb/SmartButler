@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.utils.IEditTextChangeListener;
-import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
 import com.ssc.smartbutler.view.CustomDialog;
 

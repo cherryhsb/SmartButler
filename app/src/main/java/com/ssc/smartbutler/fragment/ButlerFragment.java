@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.iflytek.cloud.ErrorCode;
@@ -31,7 +30,6 @@ import com.iflytek.cloud.SynthesizerListener;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
-import com.squareup.picasso.Picasso;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.ChatAdapter;
 import com.ssc.smartbutler.entity.ChatData;

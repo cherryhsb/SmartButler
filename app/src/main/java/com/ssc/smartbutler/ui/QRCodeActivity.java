@@ -9,7 +9,6 @@ package com.ssc.smartbutler.ui;
  *  描述：     TODO生成二维码
  */
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;

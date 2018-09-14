@@ -25,7 +25,6 @@ import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.WechatAdapter;
 import com.ssc.smartbutler.entity.WechatData;
 import com.ssc.smartbutler.ui.WebViewActivity;
-import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.StaticClass;
 
 import org.json.JSONArray;

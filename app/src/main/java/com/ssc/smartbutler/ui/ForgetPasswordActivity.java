@@ -23,7 +23,6 @@ import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.http.bean.Init;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class ForgetPasswordActivity extends BaseActivity implements View.OnClickListener {

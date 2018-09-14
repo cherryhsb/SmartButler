@@ -14,39 +14,17 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechUtility;
-import com.kymjs.rxvolley.RxVolley;
-import com.kymjs.rxvolley.http.HttpConnectStack;
-import com.kymjs.rxvolley.http.RequestQueue;
 import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.service.SmsService;
-import com.ssc.smartbutler.ui.SettingActivity;
 import com.ssc.smartbutler.utils.ShareUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-
-import javax.net.ssl.SSLSocketFactory;
-
 import cn.bmob.v3.Bmob;
 
-import static com.ssc.smartbutler.utils.StaticClass.BUGLY_ID;
 import static com.ssc.smartbutler.utils.StaticClass.BMOB_ID;
+import static com.ssc.smartbutler.utils.StaticClass.BUGLY_ID;
 import static com.ssc.smartbutler.utils.StaticClass.IS_SMS;
-import static com.ssc.smartbutler.utils.StaticClass.TTS_ID;
 
 public class BaseApplication extends Application {
 

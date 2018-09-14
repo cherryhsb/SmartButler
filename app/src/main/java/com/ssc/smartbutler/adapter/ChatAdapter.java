@@ -15,8 +15,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.os.Environment;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +26,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.iflytek.cloud.ErrorCode;
-import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechError;
-import com.iflytek.cloud.SpeechSynthesizer;
-import com.iflytek.cloud.SpeechUtility;
-import com.iflytek.cloud.SynthesizerListener;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.ChatData;
 import com.ssc.smartbutler.entity.MyUser;
@@ -46,7 +37,6 @@ import java.util.List;
 import cn.bmob.v3.BmobUser;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
-import static com.ssc.smartbutler.utils.StaticClass.TTS_ID;
 
 public class ChatAdapter extends BaseAdapter {
 
