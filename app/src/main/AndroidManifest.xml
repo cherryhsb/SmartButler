@@ -95,7 +95,7 @@
             android:screenOrientation="portrait" />
         <!-- 主页 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait" />
         <!-- 引导页 -->
         <activity

@@ -37,6 +37,8 @@ public class QRCodeActivity extends BaseActivity {
         setContentView(R.layout.activity_qrcode);
 
         initView();
+
+
     }
 
     private void initView() {

@@ -58,6 +58,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         //初始化Bugly
         CrashReport.initCrashReport(getApplicationContext(), BUGLY_ID, true);
         //初始化Bmob

@@ -104,6 +104,6 @@
     <string name="attribution">归属地:</string>
     <string name="area_code">区号:</string>
     <string name="postcode">邮编:</string>
-    <string name="Xiaomi_SMS_hint">小米手机需手动授权:读取短信,通知类短信</string>
+    <string name="Xiaomi_SMS_hint">小米手机需手动授权:\n读取短信,通知类短信</string>
 
 </resources>

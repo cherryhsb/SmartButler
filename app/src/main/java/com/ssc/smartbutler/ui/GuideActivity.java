@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.ssc.smartbutler.MainActivity;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.fragment.GuideOneFragment;
 import com.ssc.smartbutler.fragment.GuideThreeFragment;

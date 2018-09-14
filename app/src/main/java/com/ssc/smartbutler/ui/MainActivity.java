@@ -1,36 +1,25 @@
-package com.ssc.smartbutler;
+package com.ssc.smartbutler.ui;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.fragment.ButlerFragment;
 import com.ssc.smartbutler.fragment.GirlFragment;
 import com.ssc.smartbutler.fragment.UserFragment;
 import com.ssc.smartbutler.fragment.WechatFragment;
-import com.ssc.smartbutler.ui.BaseActivity;
-import com.ssc.smartbutler.ui.SettingActivity;
 import com.ssc.smartbutler.utils.ActivityManager;
-import com.ssc.smartbutler.utils.L;
-import com.ssc.smartbutler.utils.ShareUtil;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +27,6 @@ import java.util.List;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_EXIT;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_LOGIN;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_REGISTER;
-import static com.ssc.smartbutler.utils.StaticClass.SCAN_REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -221,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //L.i(TAG,requestCode+"");
         switch (requestCode){
             case REQUEST_CODE_EXIT:
+                Log.i(TAG, "onActivityResult: "+resultCode);
                 //setCurrentItem()需放在setAdapter()后面才有效
                 vp_main.setCurrentItem(3);
                 break;

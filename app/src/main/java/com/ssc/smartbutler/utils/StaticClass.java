@@ -13,9 +13,9 @@ import com.ssc.smartbutler.entity.MyUser;
 public class StaticClass {
 
     //闪屏页延时
-    public static final int HANDLER_SPLASH = 1001;
+    public static final int HANDLER_SPLASH = 100001;
     //没有授权,退出
-    public static final int HANDLER_EXIT = 1002;
+    public static final int HANDLER_EXIT = 100002;
     //判断程序是否是第一次运行
     public static final String SHARE_IS_FIRST = "isFirst";
     //判断是否开启语音机器人
@@ -25,7 +25,7 @@ public class StaticClass {
     //判断程序是否提示:归属地
     public static final String SHARE_IS_HINT_LOCATION = "isHintLocation";
     //判断小米手机:短信权限
-    public static final String SHARE_IS_MIUI_SMS = "isMiuiSms";
+    public static final String SHARE_KNOW_MIUI_SMS = "isMiuiSms";
     //Bugly
     public static final String BUGLY_ID = "96d5d235e6";
     //Bmob
@@ -66,4 +66,11 @@ public class StaticClass {
     public static final String BT_ACTION = "BluetoothAdapter.ACTION_STATE_CHANGED";
     //版本更新
     public static final String CHECK_UPDATE_URL = "http://192.168.0.108:8080/ssc/config.json";
+
+    //权限相关常量
+    public static final int INIT_PERMISSION_CODE = 1001;
+    public static final int CALL_PHONE_CODE = 1002;
+    public static final int CAMERA_CODE = 1003;
+    public static final int SMS_CODE = 1004;
+
 }

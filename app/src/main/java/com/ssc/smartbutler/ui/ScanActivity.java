@@ -9,13 +9,16 @@ package com.ssc.smartbutler.ui;
  *  描述：     TODO自定义二维码扫描
  */
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,12 +26,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
+import com.ssc.smartbutler.utils.StaticClass;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import static com.ssc.smartbutler.utils.StaticClass.IMAGE_REQUEST_CODE;
 
-public class ScanActivity extends BaseActivity implements View.OnClickListener {
+public class ScanActivity extends PermissionActivity implements View.OnClickListener {
 
     private Button btn_scan_cancel;
 
@@ -39,7 +43,17 @@ public class ScanActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
+        //以下代码用于去除阴影
+        if (Build.VERSION.SDK_INT >= 21) {
+            getSupportActionBar().setElevation(0);
+        }
+
+        //ActionBar显示返回键
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         initView();
+
+        requestCameraPermission();
 
         //在Activity中执行Fragment的初始化操作
         //执行扫面Fragment的初始化操作
@@ -48,6 +62,23 @@ public class ScanActivity extends BaseActivity implements View.OnClickListener {
         CodeUtils.setFragmentArgs(captureFragment, R.layout.item_scan);
         captureFragment.setAnalyzeCallback(analyzeCallback);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_my_container, captureFragment).commit();
+    }
+
+    //ActionBar菜单栏返回键操作
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void requestCameraPermission() {
+        if (!hasPermission(Manifest.permission.CAMERA)){//如果没有权限
+            requestPermission(StaticClass.CAMERA_CODE,Manifest.permission.CAMERA);
+        }
     }
 
     private void initView() {

@@ -101,6 +101,6 @@
     <string name="attribution">Attribution:</string>
     <string name="area_code">Area code:</string>
     <string name="postcode">Postcode:</string>
-    <string name="Xiaomi_SMS_hint">Xiaomi phone needs manual authorization: reading short messages and notifying short messages</string>
+    <string name="Xiaomi_SMS_hint">Xiaomi phone needs manual authorization:+\nreading short messages and notifying short messages</string>
 
 </resources>
