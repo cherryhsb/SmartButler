@@ -20,13 +20,13 @@ import com.ssc.smartbutler.fragment.GirlFragment;
 import com.ssc.smartbutler.fragment.UserFragment;
 import com.ssc.smartbutler.fragment.WechatFragment;
 import com.ssc.smartbutler.utils.ActivityManager;
+import com.ssc.smartbutler.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_EXIT;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_LOGIN;
-import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_REGISTER;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -209,14 +209,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //L.i(TAG,requestCode+"");
         switch (requestCode){
             case REQUEST_CODE_EXIT:
-                Log.i(TAG, "onActivityResult: "+resultCode);
+                L.i(TAG, "onActivityResult: "+resultCode);
                 //setCurrentItem()需放在setAdapter()后面才有效
                 vp_main.setCurrentItem(3);
                 break;
             case REQUEST_CODE_LOGIN:
-                vp_main.setCurrentItem(3);
-                break;
-            case REQUEST_CODE_REGISTER:
                 vp_main.setCurrentItem(3);
                 break;
         }

@@ -139,6 +139,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(AboutActivity.this, UpdateActivity.class);
                 intent.putExtra("url",url);
+                intent.putExtra("versionNameUpdate",versionNameUpdate);
                 startActivity(intent);
             }
         });

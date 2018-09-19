@@ -87,4 +87,6 @@ dependencies {
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
     //地图
     implementation files('libs/BaiduLBS_Android.jar')
+
+    implementation 'com.jph.takephoto:takephoto_library:4.0.3'
 }

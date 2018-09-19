@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_size_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="100/300"
         android:textColor="@color/colorAccent"
         android:textSize="22sp" />
 
     <TextView
-        android:text="@string/do_not_leave"
+        android:id="@+id/tv_not_leave"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/do_not_leave"
+        android:visibility="gone" />
 
 </LinearLayout>

@@ -40,7 +40,7 @@ public class SmsService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        L.i(TAG, "onCheckedChanged: 启动了服务");
         init();
     }
 

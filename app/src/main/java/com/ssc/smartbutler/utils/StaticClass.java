@@ -10,10 +10,6 @@ package com.ssc.smartbutler.utils;
 
 public class StaticClass {
 
-    //闪屏页延时
-    public static final int HANDLER_SPLASH = 100001;
-    //没有授权,退出
-    public static final int HANDLER_EXIT = 100002;
     //判断程序是否是第一次运行
     public static final String SHARE_IS_FIRST = "isFirst";
     //判断是否开启语音机器人
@@ -24,6 +20,7 @@ public class StaticClass {
     public static final String SHARE_IS_HINT_LOCATION = "isHintLocation";
     //判断小米手机:短信权限
     public static final String SHARE_KNOW_MIUI_SMS = "isMiuiSms";
+
     //Bugly
     public static final String BUGLY_ID = "96d5d235e6";
     //Bmob
@@ -40,13 +37,9 @@ public class StaticClass {
     public static final String TTS_ID = "5b690f77";
     //美女相册
     public static final String GIRL_URL = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/1";
-    //退出返回MainActivity
-    public static final int REQUEST_CODE_EXIT = 10001;
-    //登录
-    public static final int REQUEST_CODE_LOGIN = 10002;
-    //注册
-    public static final int REQUEST_CODE_REGISTER = 10003;
-    //个人信息requestCode
+
+
+    //startActivityForResult:个人信息requestCode
     public static final int DESC_REQUEST_CODE = 100;
     public static final int CAMERA_REQUEST_CODE = 101;
     public static final int PICTURE_REQUEST_CODE = 102;
@@ -55,6 +48,12 @@ public class StaticClass {
     public static final int SCAN_REQUEST_CODE = 104;
     //相册扫描二维码
     public static final int IMAGE_REQUEST_CODE = 105;
+    //退出返回MainActivity
+    public static final int REQUEST_CODE_EXIT = 106;
+    //登录
+    public static final int REQUEST_CODE_LOGIN = 107;
+
+
     //短信Action
     public static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
     //wifiAction
@@ -67,8 +66,8 @@ public class StaticClass {
 
     //权限相关常量
     public static final int INIT_PERMISSION_CODE = 1001;
-    public static final int CALL_PHONE_CODE = 1002;
-    public static final int CAMERA_CODE = 1003;
-    public static final int SMS_CODE = 1004;
+    public static final int CAMERA_CODE = 1002;
+    public static final int SMS_CODE = 1003;
+
 
 }

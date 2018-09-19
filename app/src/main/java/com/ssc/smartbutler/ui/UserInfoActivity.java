@@ -9,6 +9,7 @@ package com.ssc.smartbutler.ui;
  *  描述：     TODO
  */
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -27,6 +29,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,17 +38,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jph.takephoto.app.TakePhotoActivity;
+import com.jph.takephoto.model.TImage;
+import com.jph.takephoto.model.TResult;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
+import com.ssc.smartbutler.takephoto.CustomHelper;
 import com.ssc.smartbutler.utils.ActivityManager;
 import com.ssc.smartbutler.utils.ImageUtil;
 import com.ssc.smartbutler.utils.L;
+import com.ssc.smartbutler.utils.StaticClass;
 import com.ssc.smartbutler.view.CustomDialog;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -57,7 +67,7 @@ import static com.ssc.smartbutler.utils.StaticClass.DESC_REQUEST_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.PICTURE_REQUEST_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.ZOOM_REQUEST_CODE;
 
-public class UserInfoActivity extends BaseActivity implements View.OnClickListener {
+public class UserInfoActivity extends TakePhotoActivity implements View.OnClickListener {
 
     private static final String TAG = "UserInfoActivity";
 
@@ -75,11 +85,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private Button btn_camera, btn_picture, btn_cancel;
 
+    private CustomHelper customHelper;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
+        //setContentView(R.layout.activity_user_info);
+
+        View contentView = LayoutInflater.from(this).inflate(R.layout.activity_user_info, null);
+        setContentView(contentView);
+        customHelper = CustomHelper.of(contentView);
 
         initView();
 
@@ -150,6 +166,39 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    /**
+     * takePhoto    显示图片
+     *
+     */
+    public void takePhoto(View view) {
+        customHelper.takePhoto(view, getTakePhoto());
+    }
+
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        showImg(result.getImages());
+    }
+
+    private void showImg(ArrayList<TImage> images) {
+        /*Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("images", images);
+        startActivity(intent);*/
+        iv_info_icon.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
+    }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -174,21 +223,26 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 intent.putExtra("desc", tv_info_desc.getText().toString());
                 startActivityForResult(intent, DESC_REQUEST_CODE);
                 break;
-            case R.id.btn_camera:
-                toCamera();
+            /*case R.id.btn_camera:
+                if (!hasPermission(Manifest.permission.CAMERA)){//如果没有权限
+                    requestPermission(StaticClass.CAMERA_CODE,Manifest.permission.CAMERA);
+                }else {
+                    toCamera();
+                }
                 dialog.dismiss();
                 break;
             case R.id.btn_picture:
                 toPicture();
                 dialog.dismiss();
-                break;
+                break;*/
             case R.id.btn_cancel:
                 dialog.dismiss();
                 break;
         }
     }
 
-    public static final String PHOTO_IMAGE_FILE_NAME = "fileImg.jpg";
+
+    /*public static final String PHOTO_IMAGE_FILE_NAME = "fileImg.jpg";
 
 
 
@@ -208,11 +262,11 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     //跳转相机
     private void toCamera() {
-        /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        *//*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //SD卡：这里的SD卡是指内置的SD卡，路径为：Environment.getExternalStorageDirectory()
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),PHOTO_IMAGE_FILE_NAME)));
         startActivityForResult(intent,CAMERA_REQUEST_CODE);
-        dialog.dismiss();*/
+        dialog.dismiss();*//*
 
 
         //创建File对象,用于存储拍照后的图片
@@ -227,7 +281,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             e.printStackTrace();
         }
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.ssc.smrtbutler.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.ssc.smartbutler.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
@@ -235,7 +289,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, CAMERA_REQUEST_CODE);
-    }
+    }*/
 
 
     //性别dialog
@@ -253,30 +307,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(UserInfoActivity.this, "您选择了" + genders[index], Toast.LENGTH_SHORT).show();
-                /*MyUser newUser = new MyUser();
-                if (index == 0){
-                    newUser.setGender(true);
-                }else {
-                    newUser.setGender(false);
-                }
-                MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
-                newUser.update(bmobUser.getObjectId(),new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if(e==null){
-                            //toast("更新用户信息成功");
-                            if (index == 0){
-                                tv_info_gender.setText("男");
-                            }else {
-                                tv_info_gender.setText("女");
-                            }
-                        }else{
-                            //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
                 MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
                 if (index == 0) {
                     bmobUser.setGender(true);
@@ -333,7 +363,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     }
                 });*/
                 MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
-                // 修改用户的邮箱为xxx@163.com
                 bmobUser.setAge(Integer.parseInt(editText.getText().toString()));
                 bmobUser.update(new UpdateListener() {
                     @Override
@@ -362,25 +391,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(UserInfoActivity.this, "您输入的是：" + editText.getText().toString(), Toast.LENGTH_SHORT).show();
-                /*MyUser newUser = new MyUser();
-                newUser.setAge(Integer.parseInt(editText.getText().toString()));
-                //Toast.makeText(UserInfoActivity.this, newUser.getAge()+"", Toast.LENGTH_SHORT).show();
                 MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
-                newUser.update(bmobUser.getObjectId(),new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if(e==null){
-                            //toast("更新用户信息成功");
-                            tv_info_age.setText(editText.getText().toString());
-                        }else{
-                            //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-                MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
-                // 修改用户的邮箱为xxx@163.com
                 bmobUser.setNickname(editText.getText().toString());
                 bmobUser.update(new UpdateListener() {
                     @Override
@@ -399,10 +410,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         builder.show();
     }
 
-    //activity回调
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         L.i(TAG, "" + requestCode);
         switch (requestCode) {
             //简介页回调
@@ -413,17 +423,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     L.i(TAG, data.getStringExtra("desc_return"));
                 }
                 break;
-            //相机回调
+            /*//相机回调
             case CAMERA_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    /*try {
+                    *//*try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));//原始拿到图片
                         Bitmap bitmap1 = ImageUtil.decodeSampleBitmapFromFilePath(absolutePath, 600, 600);//拿到小图
                         iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap1, ImageUtil.readPictureDegree(absolutePath)));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                    }*/
-                    startPhotoZoom(imageUri);
+                    }*//*
+                    //startPhotoZoom(imageUri);
                 }
                 break;
             //相册回调
@@ -437,55 +447,49 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     setImageToView(data);
                     putImgString();
                 }
-                break;
+                break;*/
             default:
+                break;
         }
     }
 
-    String imagePath;
+    /*String imagePath;
+
 
     //4.4及以上相册
     private void handleImageOnKitKat(Intent data) {
         imagePath = null;
         //Log.i(TAG, data.toString());
-        Uri uri = data.getData();
-        if (DocumentsContract.isDocumentUri(this, uri)) {
-            //如果是document类型的Uri,则通过document id处理
-            String docId = DocumentsContract.getDocumentId(uri);
-            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                //如果是media
-                String id = docId.split(":")[1];//解析出数字格式的id
-                String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
-            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                //如果是downloads
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
-                imagePath = getImagePath(contentUri, null);
+        Uri uri;
+        if(data!=null) {
+            uri = data.getData();
+
+            if (DocumentsContract.isDocumentUri(this, uri)) {
+                //如果是document类型的Uri,则通过document id处理
+                String docId = DocumentsContract.getDocumentId(uri);
+                if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                    //如果是media
+                    String id = docId.split(":")[1];//解析出数字格式的id
+                    String selection = MediaStore.Images.Media._ID + "=" + id;
+                    imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+                } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                    //如果是downloads
+                    Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                    imagePath = getImagePath(contentUri, null);
+                }
+            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                //如果是content类型的Uri,则使用普通方式处理
+                imagePath = getImagePath(uri, null);
+            } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+                //如果是file类型的Uri,直接获取图片路径即可
+                imagePath = uri.getPath();
             }
-        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            //如果是content类型的Uri,则使用普通方式处理
-            imagePath = getImagePath(uri, null);
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            //如果是file类型的Uri,直接获取图片路径即可
-            imagePath = uri.getPath();
-        }
-        L.i(TAG + "--------------------", imagePath);
-        startPhotoZoom(uri);
-        //displayImage(imagePath);
-    }
-
-    private void displayImage(String imagePath) {
-        if (imagePath != null) {
-            //Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            //iv_picture.setImageBitmap(bitmap);
-            Bitmap bitmap1 = ImageUtil.decodeSampleBitmapFromFilePath(imagePath, 1000, 1000);
-            iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap1, ImageUtil.readPictureDegree(imagePath)));
-
-        } else {
-            Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_SHORT).show();
+            L.i(TAG + "--------------------", imagePath);
+            startPhotoZoom(uri);
         }
     }
 
+    //获取uri
     private String getImagePath(Uri externalContentUri, String selection) {
         String path = null;
         //通过Uri和selection来获取真实的图片路径
@@ -498,9 +502,10 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         }
         return path;
     }
-
+    Uri uritempFile;
 
     private void startPhotoZoom(Uri uri) {
+        L.i(TAG,uri.toString());
         if (uri == null) {
             return;
         }
@@ -519,17 +524,37 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra("outputX", 320);
         intent.putExtra("outputY", 320);
         //intent.putExtra("circleCrop", "true");
+
+        *//*
+         * 此方法返回的图片只能是小图片（sumsang测试为高宽160px的图片）
+         * 故将图片保存在Uri中，调用时将Uri转换为Bitmap，此方法还可解决miui系统不能return data的问题
+         *//*
         //发送数据
-        intent.putExtra("return-data", true);
+        //intent.putExtra("return-data", true);
+
+        //解决小米miui系统调用系统裁剪图片功能camera.action.CROP后崩溃或重新打开app的问题
+        //uritempFile为Uri类变量，实例化uritempFile
+        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+
         startActivityForResult(intent, ZOOM_REQUEST_CODE);
 
     }
-
     //裁剪后设置图片
+
     private void setImageToView(Intent data) {
         Bundle bundle = data.getExtras();
         if (bundle != null) {
-            Bitmap bitmap = bundle.getParcelable("data");
+            //Bitmap bitmap = bundle.getParcelable("data");
+
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //TODO，将裁剪的bitmap显示在imageview控件上
 
             //iv_info_icon.setImageBitmap(bitmap);
             if (imagePath != null) {
@@ -540,6 +565,19 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             }
         }
     }
+
+    //显示图片
+    private void displayImage(String imagePath) {
+        if (imagePath != null) {
+            //Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            //iv_picture.setImageBitmap(bitmap);
+            Bitmap bitmap1 = ImageUtil.decodeSampleBitmapFromFilePath(imagePath, 1000, 1000);
+            iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap1, ImageUtil.readPictureDegree(imagePath)));
+
+        } else {
+            Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_SHORT).show();
+        }
+    }*/
 
     private void putImgString() {
         //保存

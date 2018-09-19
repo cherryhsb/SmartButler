@@ -88,20 +88,19 @@ public class SettingActivity extends PermissionActivity implements View.OnClickL
                 if (isChecked) {
                     if (SystemUtil.getSystem().equals(SystemUtil.SYS_MIUI)) {
                         if (ShareUtil.getBoolean(SettingActivity.this, SHARE_KNOW_MIUI_SMS, true)) {
-                            Log.i(TAG, "onCheckedChanged: dialog");
+                            L.i(TAG, "onCheckedChanged: dialog");
                             showDialog();
                         }
                     }
                     if (!hasPermission(Manifest.permission.RECEIVE_SMS)) {//如果没有权限
                         requestPermission(StaticClass.SMS_CODE, Manifest.permission.RECEIVE_SMS);
                         buttonView.setChecked(false);
-                        Log.i(TAG, "onCheckedChanged: 没有权限");
+                        L.i(TAG, "onCheckedChanged: 没有权限");
                     } else {
-                        Log.i(TAG, "onCheckedChanged: 启动了服务");
                         startSMSService();
                     }
                 } else {
-                    Log.i(TAG, "onCheckedChanged: 关闭了服务");
+                    L.i(TAG, "onCheckedChanged: 关闭了服务");
                     stopService(new Intent(SettingActivity.this, SmsService.class));
                 }
             }
@@ -116,6 +115,17 @@ public class SettingActivity extends PermissionActivity implements View.OnClickL
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public boolean handlePermission(int grantResult, String permission, int requestCode, String hint) {
+        if (super.handlePermission(grantResult, permission, requestCode, hint)){
+            startSMSService();
+            switch_sms.setChecked(true);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public void startSMSService() {

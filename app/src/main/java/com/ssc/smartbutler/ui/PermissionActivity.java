@@ -23,10 +23,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.ssc.smartbutler.utils.StaticClass;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ssc.smartbutler.utils.StaticClass.CAMERA_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.INIT_PERMISSION_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.SMS_CODE;
 
 public class PermissionActivity extends AppCompatActivity {
 
@@ -68,7 +70,7 @@ public class PermissionActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         List<String> deniedPermissions = new ArrayList<>();
         switch (requestCode) {
-            case StaticClass.INIT_PERMISSION_CODE:
+            case INIT_PERMISSION_CODE:
                 boolean again = false;  //是否再次弹出申请权限
                 boolean permissionAll = true;
                 for (int i = 0; i < grantResults.length; i++) {
@@ -94,19 +96,18 @@ public class PermissionActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case StaticClass.CAMERA_CODE:
-                requestPermission(grantResults[0],permissions[0],requestCode,"相机权限");
+            case CAMERA_CODE:
+                handlePermission(grantResults[0],permissions[0],requestCode,"相机权限");
                 break;
-            case StaticClass.SMS_CODE:
-                requestPermission(grantResults[0],permissions[0],requestCode,"短信权限");
-
+            case SMS_CODE:
+                handlePermission(grantResults[0],permissions[0],requestCode,"短信权限");
                 break;
             default:
                 break;
         }
     }
 
-    public boolean requestPermission(int grantResult, String permission, int requestCode,String hint){
+    public boolean handlePermission(int grantResult, String permission, int requestCode, String hint){
         if (grantResult != PackageManager.PERMISSION_GRANTED) {//不允许才会执行此方法
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
                 //上次弹出权限点击了禁止（但没有勾选“下次不在询问”）
@@ -133,7 +134,9 @@ public class PermissionActivity extends AppCompatActivity {
             stringBuilder.append(s).append("\n");
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        Toast.makeText(this, "您拒绝了" + "\n" + stringBuilder, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "您拒绝了" + "\n" + stringBuilder +"\n"
+                +"请进入权限设置开启权限"
+                , Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -159,7 +162,7 @@ public class PermissionActivity extends AppCompatActivity {
             }
         }
         for (String s : stringList) {
-            //Log.i(TAG, "getDeniedPermissions: " + s);
+            //L.i(TAG, "getDeniedPermissions: " + s);
             stringBuilder.append(s).append("\n");
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
@@ -191,7 +194,4 @@ public class PermissionActivity extends AppCompatActivity {
 
     }
 
-    public void startSMSService() {
-
-    }
 }

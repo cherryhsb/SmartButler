@@ -140,21 +140,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
     }
-
-/*    BmobUser bu2 = new BmobUser();
-        bu2.setUsername("lucky");
-        bu2.setPassword("123456");
-        bu2.login(new SaveListener<BmobUser>() {
-
-        @Override
-        public void done(BmobUser bmobUser, BmobException e) {
-            if(e==null){
-                toast("登录成功:");
-                //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
-                //如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
-            }else{
-                loge(e);
-            }
-        }
-    });*/
 }
