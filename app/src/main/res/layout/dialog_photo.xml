@@ -7,24 +7,24 @@
     android:padding="10dp">
 
     <Button
-        android:onClick="takePhoto"
         android:id="@+id/btn_camera"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/button_bg_green"
+        android:onClick="getPhoto"
         android:text="@string/take_picture"
         android:textColor="@color/white" />
 
     <Button
-        android:onClick="takePhoto"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:id="@+id/btn_picture"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_bg_green"
+        android:onClick="getPhoto"
         android:text="@string/album"
         android:textColor="@color/white" />
 

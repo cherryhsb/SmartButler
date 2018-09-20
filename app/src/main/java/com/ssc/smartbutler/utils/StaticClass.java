@@ -44,6 +44,8 @@ public class StaticClass {
     public static final int CAMERA_REQUEST_CODE = 101;
     public static final int PICTURE_REQUEST_CODE = 102;
     public static final int ZOOM_REQUEST_CODE = 103;
+    public static final int ICON_REQUEST_CODE = 103;
+
     //扫描二维码requestCode
     public static final int SCAN_REQUEST_CODE = 104;
     //相册扫描二维码
@@ -68,6 +70,7 @@ public class StaticClass {
     public static final int INIT_PERMISSION_CODE = 1001;
     public static final int CAMERA_CODE = 1002;
     public static final int SMS_CODE = 1003;
+    public static final int LOCATION_CODE = 1004;
 
 
 }

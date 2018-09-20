@@ -9,8 +9,10 @@ package com.ssc.smartbutler.ui;
  *  描述：     百度地图
  */
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -28,8 +30,9 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.utils.L;
+import com.ssc.smartbutler.utils.StaticClass;
 
-public class LbsActivity extends BaseActivity {
+public class LbsActivity extends PermissionActivity {
 
     private static final String TAG = "LbsActivity";
 
@@ -49,6 +52,28 @@ public class LbsActivity extends BaseActivity {
         setContentView(R.layout.activity_lbs);
 
         initView();
+
+        requestLocationPermission();
+    }
+
+    //ActionBar菜单栏返回键操作
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void requestLocationPermission() {
+        if (!hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)){//如果没有权限
+            requestPermission(StaticClass.LOCATION_CODE,Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        /*if (!hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)){//如果没有权限
+            requestPermission(StaticClass.LOCATION_CODE,Manifest.permission.ACCESS_COARSE_LOCATION);
+        }*/
     }
 
     private void initView() {

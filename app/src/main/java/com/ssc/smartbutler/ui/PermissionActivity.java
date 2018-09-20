@@ -28,6 +28,7 @@ import java.util.List;
 
 import static com.ssc.smartbutler.utils.StaticClass.CAMERA_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.INIT_PERMISSION_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.LOCATION_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.SMS_CODE;
 
 public class PermissionActivity extends AppCompatActivity {
@@ -101,6 +102,9 @@ public class PermissionActivity extends AppCompatActivity {
                 break;
             case SMS_CODE:
                 handlePermission(grantResults[0],permissions[0],requestCode,"短信权限");
+                break;
+            case LOCATION_CODE:
+                handlePermission(grantResults[0],permissions[0],requestCode,"位置权限");
                 break;
             default:
                 break;

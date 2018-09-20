@@ -60,10 +60,12 @@ import java.util.ArrayList;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 import static com.ssc.smartbutler.utils.StaticClass.CAMERA_REQUEST_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.DESC_REQUEST_CODE;
+import static com.ssc.smartbutler.utils.StaticClass.ICON_REQUEST_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.PICTURE_REQUEST_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.ZOOM_REQUEST_CODE;
 
@@ -77,7 +79,9 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
 
     private LinearLayout ll_icon, ll_gender, ll_age, ll_desc,ll_nickname;
 
-    private ImageView iv_info_icon;
+    private CircleImageView iv_info_icon;
+
+    private ImageView iv;
 
     private int index;
 
@@ -91,11 +95,9 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_user_info);
+        setContentView(R.layout.activity_user_info);
 
-        View contentView = LayoutInflater.from(this).inflate(R.layout.activity_user_info, null);
-        setContentView(contentView);
-        customHelper = CustomHelper.of(contentView);
+        customHelper = new CustomHelper();
 
         initView();
 
@@ -115,6 +117,7 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         ll_desc = findViewById(R.id.ll_desc);
         iv_info_icon = findViewById(R.id.iv_info_icon);
         ll_nickname = findViewById(R.id.ll_nickname);
+        iv = findViewById(R.id.iv);
 
 
         //dialog = new CustomDialog(this, 0, 0,
@@ -167,13 +170,8 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
     }
 
     /**
-     * takePhoto    显示图片
-     *
+     * 设置头像
      */
-    public void takePhoto(View view) {
-        customHelper.takePhoto(view, getTakePhoto());
-    }
-
     @Override
     public void takeCancel() {
         super.takeCancel();
@@ -194,13 +192,10 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         /*Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("images", images);
         startActivity(intent);*/
-        iv_info_icon.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
+        iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
     }
 
-
-
-
-    @Override
+        @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_change_password:
@@ -208,6 +203,8 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
                 break;
             case R.id.ll_icon:
                 dialog.show();
+                /*Intent intentIcon = new Intent(this, IconActivity.class);
+                startActivityForResult(intentIcon,ICON_REQUEST_CODE);*/
                 break;
             case R.id.ll_nickname:
                 showNicknameDialog();
@@ -223,74 +220,19 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
                 intent.putExtra("desc", tv_info_desc.getText().toString());
                 startActivityForResult(intent, DESC_REQUEST_CODE);
                 break;
-            /*case R.id.btn_camera:
-                if (!hasPermission(Manifest.permission.CAMERA)){//如果没有权限
-                    requestPermission(StaticClass.CAMERA_CODE,Manifest.permission.CAMERA);
-                }else {
-                    toCamera();
-                }
+            case R.id.btn_camera:
+                customHelper.onClick(R.id.btn_camera, getTakePhoto());
                 dialog.dismiss();
                 break;
             case R.id.btn_picture:
-                toPicture();
+                customHelper.onClick(R.id.btn_picture, getTakePhoto());
                 dialog.dismiss();
-                break;*/
+                break;
             case R.id.btn_cancel:
                 dialog.dismiss();
                 break;
         }
     }
-
-
-    /*public static final String PHOTO_IMAGE_FILE_NAME = "fileImg.jpg";
-
-
-
-    //跳转相册
-    private void toPicture() {
-        //Intent intent = new Intent("android.intent.action.GET_CONTENT");
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICTURE_REQUEST_CODE);
-    }
-
-
-    private Uri imageUri;//相机uri
-    //File cropImage = new File(getExternalCacheDir(), "crop_image.jpg");
-    //private Uri cropUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.ssc.smrtbutler.fileprovider", cropImage);
-    private String absolutePath;
-
-    //跳转相机
-    private void toCamera() {
-        *//*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //SD卡：这里的SD卡是指内置的SD卡，路径为：Environment.getExternalStorageDirectory()
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),PHOTO_IMAGE_FILE_NAME)));
-        startActivityForResult(intent,CAMERA_REQUEST_CODE);
-        dialog.dismiss();*//*
-
-
-        //创建File对象,用于存储拍照后的图片
-        File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
-        absolutePath = outputImage.getAbsolutePath();
-        try {
-            if (outputImage.exists()) {
-                outputImage.delete();
-            }
-            outputImage.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.ssc.smartbutler.fileprovider", outputImage);
-        } else {
-            imageUri = Uri.fromFile(outputImage);
-        }
-        //启动相机
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, CAMERA_REQUEST_CODE);
-    }*/
-
 
     //性别dialog
     private void showListDialog() {
@@ -345,23 +287,6 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(UserInfoActivity.this, "您输入的是：" + editText.getText().toString(), Toast.LENGTH_SHORT).show();
-                /*MyUser newUser = new MyUser();
-                newUser.setAge(Integer.parseInt(editText.getText().toString()));
-                //Toast.makeText(UserInfoActivity.this, newUser.getAge()+"", Toast.LENGTH_SHORT).show();
-                MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
-                newUser.update(bmobUser.getObjectId(),new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if(e==null){
-                            //toast("更新用户信息成功");
-                            tv_info_age.setText(editText.getText().toString());
-                        }else{
-                            //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, "更新用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
                 MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
                 bmobUser.setAge(Integer.parseInt(editText.getText().toString()));
                 bmobUser.update(new UpdateListener() {
@@ -423,161 +348,10 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
                     L.i(TAG, data.getStringExtra("desc_return"));
                 }
                 break;
-            /*//相机回调
-            case CAMERA_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    *//*try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));//原始拿到图片
-                        Bitmap bitmap1 = ImageUtil.decodeSampleBitmapFromFilePath(absolutePath, 600, 600);//拿到小图
-                        iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap1, ImageUtil.readPictureDegree(absolutePath)));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }*//*
-                    //startPhotoZoom(imageUri);
-                }
-                break;
-            //相册回调
-            case PICTURE_REQUEST_CODE:
-                handleImageOnKitKat(data);
-                break;
-            //裁剪回调
-            case ZOOM_REQUEST_CODE:
-                //有可能点击舍弃
-                if (data != null) {
-                    setImageToView(data);
-                    putImgString();
-                }
-                break;*/
             default:
                 break;
         }
     }
-
-    /*String imagePath;
-
-
-    //4.4及以上相册
-    private void handleImageOnKitKat(Intent data) {
-        imagePath = null;
-        //Log.i(TAG, data.toString());
-        Uri uri;
-        if(data!=null) {
-            uri = data.getData();
-
-            if (DocumentsContract.isDocumentUri(this, uri)) {
-                //如果是document类型的Uri,则通过document id处理
-                String docId = DocumentsContract.getDocumentId(uri);
-                if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                    //如果是media
-                    String id = docId.split(":")[1];//解析出数字格式的id
-                    String selection = MediaStore.Images.Media._ID + "=" + id;
-                    imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
-                } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                    //如果是downloads
-                    Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
-                    imagePath = getImagePath(contentUri, null);
-                }
-            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-                //如果是content类型的Uri,则使用普通方式处理
-                imagePath = getImagePath(uri, null);
-            } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-                //如果是file类型的Uri,直接获取图片路径即可
-                imagePath = uri.getPath();
-            }
-            L.i(TAG + "--------------------", imagePath);
-            startPhotoZoom(uri);
-        }
-    }
-
-    //获取uri
-    private String getImagePath(Uri externalContentUri, String selection) {
-        String path = null;
-        //通过Uri和selection来获取真实的图片路径
-        Cursor cursor = getContentResolver().query(externalContentUri, null, selection, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            }
-            cursor.close();
-        }
-        return path;
-    }
-    Uri uritempFile;
-
-    private void startPhotoZoom(Uri uri) {
-        L.i(TAG,uri.toString());
-        if (uri == null) {
-            return;
-        }
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        //7.0以上:来对目标应用临时授权该Uri所代表的文件
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        intent.setDataAndType(uri, "image/*");
-        //设置裁剪
-        intent.putExtra("crop", "true");
-        //裁剪宽高
-        intent.putExtra("aspextX", 1);
-        intent.putExtra("aspextY", 1);
-        //设置裁剪图片的质量
-        intent.putExtra("outputX", 320);
-        intent.putExtra("outputY", 320);
-        //intent.putExtra("circleCrop", "true");
-
-        *//*
-         * 此方法返回的图片只能是小图片（sumsang测试为高宽160px的图片）
-         * 故将图片保存在Uri中，调用时将Uri转换为Bitmap，此方法还可解决miui系统不能return data的问题
-         *//*
-        //发送数据
-        //intent.putExtra("return-data", true);
-
-        //解决小米miui系统调用系统裁剪图片功能camera.action.CROP后崩溃或重新打开app的问题
-        //uritempFile为Uri类变量，实例化uritempFile
-        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-
-        startActivityForResult(intent, ZOOM_REQUEST_CODE);
-
-    }
-    //裁剪后设置图片
-
-    private void setImageToView(Intent data) {
-        Bundle bundle = data.getExtras();
-        if (bundle != null) {
-            //Bitmap bitmap = bundle.getParcelable("data");
-
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            //TODO，将裁剪的bitmap显示在imageview控件上
-
-            //iv_info_icon.setImageBitmap(bitmap);
-            if (imagePath != null) {
-                iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap, ImageUtil.readPictureDegree(imagePath)));
-                imagePath = null;
-            } else {
-                iv_info_icon.setImageBitmap(bitmap);
-            }
-        }
-    }
-
-    //显示图片
-    private void displayImage(String imagePath) {
-        if (imagePath != null) {
-            //Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            //iv_picture.setImageBitmap(bitmap);
-            Bitmap bitmap1 = ImageUtil.decodeSampleBitmapFromFilePath(imagePath, 1000, 1000);
-            iv_info_icon.setImageBitmap(ImageUtil.rotateBitmap(bitmap1, ImageUtil.readPictureDegree(imagePath)));
-
-        } else {
-            Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
     private void putImgString() {
         //保存
