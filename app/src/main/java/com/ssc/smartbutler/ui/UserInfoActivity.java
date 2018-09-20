@@ -58,8 +58,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
@@ -188,11 +190,31 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         showImg(result.getImages());
     }
 
-    private void showImg(ArrayList<TImage> images) {
+    private void showImg(final ArrayList<TImage> images) {
         /*Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("images", images);
         startActivity(intent);*/
-        iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
+        final BmobFile bmobFile = new BmobFile(new File(images.get(0).getCompressPath()));
+        bmobFile.uploadblock(new UploadFileListener() {
+
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    //bmobFile.getFileUrl()--返回的上传文件的完整地址
+                    //toast("上传文件成功:" + bmobFile.getFileUrl());
+                    iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
+                }else{
+                    //toast("上传文件失败：" + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onProgress(Integer value) {
+                // 返回的上传进度（百分比）
+            }
+        });
+
     }
 
         @Override

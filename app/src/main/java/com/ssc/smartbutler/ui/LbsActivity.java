@@ -10,6 +10,7 @@ package com.ssc.smartbutler.ui;
  */
 
 import android.Manifest;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
@@ -50,6 +51,14 @@ public class LbsActivity extends PermissionActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lbs);
+
+        //以下代码用于去除阴影
+        if (Build.VERSION.SDK_INT >= 21) {
+            getSupportActionBar().setElevation(0);
+        }
+
+        //ActionBar显示返回键
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
 

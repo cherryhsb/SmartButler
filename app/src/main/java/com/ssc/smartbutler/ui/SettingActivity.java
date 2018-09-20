@@ -14,10 +14,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -53,6 +55,14 @@ public class SettingActivity extends PermissionActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        //以下代码用于去除阴影
+        if (Build.VERSION.SDK_INT >= 21) {
+            getSupportActionBar().setElevation(0);
+        }
+
+        //ActionBar显示返回键
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
     }
@@ -115,6 +125,17 @@ public class SettingActivity extends PermissionActivity implements View.OnClickL
             e.printStackTrace();
         }
 
+    }
+
+    //ActionBar菜单栏返回键操作
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

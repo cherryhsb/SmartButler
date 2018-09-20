@@ -175,12 +175,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }*/
     }
 
+    int currentItem;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_setting:
+                currentItem = vp_main.getCurrentItem();
                 startActivityForResult(new Intent(this, SettingActivity.class),REQUEST_CODE_EXIT);
                 //finish();
+                break;
         }
     }
 
@@ -209,9 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //L.i(TAG,requestCode+"");
         switch (requestCode){
             case REQUEST_CODE_EXIT:
-                L.i(TAG, "onActivityResult: "+resultCode);
-                //setCurrentItem()需放在setAdapter()后面才有效
-                vp_main.setCurrentItem(3);
+                vp_main.setCurrentItem(currentItem);
                 break;
             case REQUEST_CODE_LOGIN:
                 vp_main.setCurrentItem(3);
