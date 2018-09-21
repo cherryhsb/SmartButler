@@ -157,7 +157,7 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         btn_picture.setOnClickListener(this);
         btn_cancel.setOnClickListener(this);
 
-        userInfo = BmobUser.getCurrentUser(MyUser.class);
+        //userInfo = BmobUser.getCurrentUser(MyUser.class);
         if (userInfo != null) {
             //设置用户信息显示
             username = userInfo.getUsername();

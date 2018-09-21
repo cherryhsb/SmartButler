@@ -73,7 +73,8 @@ public class ChatAdapter extends BaseAdapter {
 
         initPopupWindow();
 
-        userInfo = BmobUser.getCurrentUser(MyUser.class);
+        //userInfo = BmobUser.getCurrentUser(MyUser.class);
+        L.i(TAG, userInfo+"");
         if (userInfo != null) {
             BmobFile icon = userInfo.getIcon();
             //L.i(TAG, icon.getUrl()+"hahaha");
@@ -84,6 +85,7 @@ public class ChatAdapter extends BaseAdapter {
             }
         } else {
             //缓存用户对象为空
+            isIcon = false;
         }
     }
 
@@ -176,8 +178,13 @@ public class ChatAdapter extends BaseAdapter {
                 //viewHolderRight.tv_chat_right.setInputType();
 
                 if (isIcon) {
-                    String iconCompressPath=getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
-                    viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                    if (userInfo.getUsername()!=null){
+                        String iconCompressPath=getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                        viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                    }else {
+                        viewHolderRight.iv_chat_right.setImageDrawable(mContext.getResources().getDrawable((R.drawable.user)));
+                    }
+
                 } else {
                     viewHolderRight.iv_chat_right.setImageDrawable(mContext.getResources().getDrawable((R.drawable.user)));
                 }

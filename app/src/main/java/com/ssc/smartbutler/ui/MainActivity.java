@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case REQUEST_CODE_LOGIN:
                 vp_main.setCurrentItem(3);
-                this.onRestart();
+                //this.onRestart();
                 break;
         }
 
@@ -238,6 +238,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }*/
     }
+
+    /*@Override
+    protected void onRestart() {
+        super.onRestart();
+    }*/
 
     //双击退出
     //记录用户首次点击返回键的时间

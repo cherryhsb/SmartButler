@@ -22,6 +22,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 
 import static com.ssc.smartbutler.utils.StaticClass.BMOB_ID;
 import static com.ssc.smartbutler.utils.StaticClass.BUGLY_ID;
@@ -56,6 +57,7 @@ public class BaseApplication extends Application {
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
 
+        userInfo = BmobUser.getCurrentUser(MyUser.class);
         L.i(TAG, "application");
         L.i(TAG, "application"+userInfo);
         if (userInfo!=null){

@@ -107,7 +107,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         iv_user_QRcode.setOnClickListener(this);
 
         //当前用户
-        userInfo = BmobUser.getCurrentUser(MyUser.class);
+        //userInfo = BmobUser.getCurrentUser(MyUser.class);
         //L.i(TAG, "haha"+userInfo);
         if(userInfo != null){
             //已经登陆显示用户名

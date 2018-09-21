@@ -46,7 +46,7 @@ public class QRCodeActivity extends BaseActivity {
 
     private void initView() {
         iv_qrcode = findViewById(R.id.iv_qrcode);
-        userInfo = BmobUser.getCurrentUser(MyUser.class);
+        //userInfo = BmobUser.getCurrentUser(MyUser.class);
         if (userInfo != null) {
             //已经登陆显示用户名
             String username = userInfo.getUsername();
@@ -63,24 +63,21 @@ public class QRCodeActivity extends BaseActivity {
                     getString(R.string.age) + ":" + age + "\n" +
                     getString(R.string.describe) + ":" + desc;
 
-
-            if (userInfo != null) {
-                BmobFile icon = userInfo.getIcon();
-                //L.i(TAG, icon.getUrl()+"hahaha");
-                if (icon != null) {//设置过头像
-                    //带logo
-                    String iconCompressPath=getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
-                    Bitmap logo = BitmapFactory.decodeFile(iconCompressPath);
-                    Bitmap image = CodeUtils.createImage(text, 500, 500, logo);
-                    iv_qrcode.setImageBitmap(image);
-                } else {//没有设置过头像,显示默认图标
-                    //不带logo
-                    Bitmap imageNoLogo = CodeUtils.createImage(text, 500, 500, null);
-                    iv_qrcode.setImageBitmap(imageNoLogo);
-                }
-            } else {
-                //缓存用户对象为空
+            BmobFile icon = userInfo.getIcon();
+            //L.i(TAG, icon.getUrl()+"hahaha");
+            if (icon != null) {//设置过头像
+                //带logo
+                String iconCompressPath = getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath() + "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                Bitmap logo = BitmapFactory.decodeFile(iconCompressPath);
+                Bitmap image = CodeUtils.createImage(text, 500, 500, logo);
+                iv_qrcode.setImageBitmap(image);
+            } else {//没有设置过头像,显示默认图标
+                //不带logo
+                Bitmap imageNoLogo = CodeUtils.createImage(text, 500, 500, null);
+                iv_qrcode.setImageBitmap(imageNoLogo);
             }
+        } else {
+            //缓存用户对象为空
         }
     }
 }

@@ -25,8 +25,11 @@ import com.ssc.smartbutler.utils.IEditTextChangeListener;
 import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
 import com.ssc.smartbutler.view.CustomDialog;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+
+import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
@@ -128,6 +131,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                 dialog.dismiss();
                                 if (e == null) {
                                     Toast.makeText(RegisterActivity.this, getString(R.string.registered_successfully), Toast.LENGTH_SHORT).show();
+                                    userInfo = BmobUser.getCurrentUser(MyUser.class);
                                     finish();
                                 } else {
                                     Toast.makeText(RegisterActivity.this, getString(R.string.registered_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
