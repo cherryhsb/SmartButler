@@ -10,18 +10,19 @@ package com.ssc.smartbutler.entity;
  */
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class MyUser extends BmobUser{
 
     private String nickname;
+
+    private BmobFile icon;
 
     private int age;
 
     private boolean gender;
 
     private String desc;
-
-    private String imgString;
 
     public String getNickname() {
         return nickname;
@@ -31,12 +32,12 @@ public class MyUser extends BmobUser{
         this.nickname = nickname;
     }
 
-    public String getImgString() {
-        return imgString;
+    public BmobFile getIcon() {
+        return icon;
     }
 
-    public void setImgString(String imgString) {
-        this.imgString = imgString;
+    public void setIcon(BmobFile icon) {
+        this.icon = icon;
     }
 
     public int getAge() {

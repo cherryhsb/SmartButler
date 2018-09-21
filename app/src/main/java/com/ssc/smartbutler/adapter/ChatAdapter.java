@@ -15,6 +15,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +33,13 @@ import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.utils.L;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
+import static com.ssc.smartbutler.application.BaseApplication.getContext;
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 
 public class ChatAdapter extends BaseAdapter {
@@ -53,9 +57,13 @@ public class ChatAdapter extends BaseAdapter {
 
     private List<ChatData> mList;
 
-    private Bitmap bitmap = null;
+    //private Bitmap bitmap = null;
+
+    private boolean isIcon;
 
     private String mCopiedText;
+
+
 
     public ChatAdapter(Context mContext, List<ChatData> mList) {
         this.mContext = mContext;
@@ -67,12 +75,12 @@ public class ChatAdapter extends BaseAdapter {
 
         userInfo = BmobUser.getCurrentUser(MyUser.class);
         if (userInfo != null) {
-            if (userInfo.getImgString() != null) {
-                //利用Base64将String转化为byte数组
-                byte[] bytes = Base64.decode(userInfo.getImgString(), Base64.DEFAULT);
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                //生成bitmap
-                bitmap = BitmapFactory.decodeStream(inputStream);
+            BmobFile icon = userInfo.getIcon();
+            //L.i(TAG, icon.getUrl()+"hahaha");
+            if (icon != null) {//设置过头像
+                isIcon = true;
+            } else {//没有设置过头像,显示默认图标
+                isIcon = false;
             }
         } else {
             //缓存用户对象为空
@@ -116,7 +124,7 @@ public class ChatAdapter extends BaseAdapter {
                             // 方法1：LongClick事件 + PopupWindow
                             mPopupWindow.showAsDropDown(v);
                             mCopiedText = ((TextView) v).getText().toString();
-                            L.i(TAG,"弹出");
+                            L.i(TAG, "弹出");
                             return true;
                         }
                     });
@@ -137,7 +145,7 @@ public class ChatAdapter extends BaseAdapter {
                             // 方法1：LongClick事件 + PopupWindow
                             mPopupWindow.showAsDropDown(v);
                             mCopiedText = ((TextView) v).getText().toString();
-                            L.i(TAG,"弹出");
+                            L.i(TAG, "弹出");
                             return true;
                         }
                     });
@@ -167,9 +175,10 @@ public class ChatAdapter extends BaseAdapter {
 
                 //viewHolderRight.tv_chat_right.setInputType();
 
-                if (bitmap!=null){
-                    viewHolderRight.iv_chat_right.setImageBitmap(bitmap);
-                }else {
+                if (isIcon) {
+                    String iconCompressPath=getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                    viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                } else {
                     viewHolderRight.iv_chat_right.setImageDrawable(mContext.getResources().getDrawable((R.drawable.user)));
                 }
 
@@ -204,6 +213,7 @@ public class ChatAdapter extends BaseAdapter {
 
 
     private PopupWindow mPopupWindow;
+
     private void initPopupWindow() {
         //先初始化PopupWindow，弹出窗口上会有复制按钮（也可以自定义其它需要的按钮）：
         View popupView = inflater.inflate(R.layout.layout_popup_window, null);
@@ -229,12 +239,11 @@ public class ChatAdapter extends BaseAdapter {
 
     //最后为弹出窗口中的复制按钮设置响应事件，利用ClipboardManager复制TextView内容：
     private void copyText(String copiedText) {
-        ClipboardManager clipboardManager = (ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setPrimaryClip(ClipData.newPlainText(null, copiedText));
 
-        Toast.makeText(mContext,"已复制",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "已复制", Toast.LENGTH_SHORT).show();
     }
-
 
 
 }

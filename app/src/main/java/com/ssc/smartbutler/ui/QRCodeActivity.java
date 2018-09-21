@@ -11,6 +11,7 @@ package com.ssc.smartbutler.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Base64;
@@ -21,9 +22,12 @@ import com.ssc.smartbutler.entity.MyUser;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
+import static com.ssc.smartbutler.application.BaseApplication.getContext;
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 
 public class QRCodeActivity extends BaseActivity {
@@ -58,21 +62,25 @@ public class QRCodeActivity extends BaseActivity {
                     getString(R.string.gender) + ":" + gender + "\n" +
                     getString(R.string.age) + ":" + age + "\n" +
                     getString(R.string.describe) + ":" + desc;
-            if (userInfo.getImgString() != null) {
-                //利用Base64将String转化为byte数组
-                byte[] bytes = Base64.decode(userInfo.getImgString(), Base64.DEFAULT);
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                //生成bitmap,显示出来
-                Bitmap logo = BitmapFactory.decodeStream(inputStream);
-                //带logo
-                Bitmap image = CodeUtils.createImage(text, 500, 500, logo);
-                iv_qrcode.setImageBitmap(image);
+
+
+            if (userInfo != null) {
+                BmobFile icon = userInfo.getIcon();
+                //L.i(TAG, icon.getUrl()+"hahaha");
+                if (icon != null) {//设置过头像
+                    //带logo
+                    String iconCompressPath=getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                    Bitmap logo = BitmapFactory.decodeFile(iconCompressPath);
+                    Bitmap image = CodeUtils.createImage(text, 500, 500, logo);
+                    iv_qrcode.setImageBitmap(image);
+                } else {//没有设置过头像,显示默认图标
+                    //不带logo
+                    Bitmap imageNoLogo = CodeUtils.createImage(text, 500, 500, null);
+                    iv_qrcode.setImageBitmap(imageNoLogo);
+                }
             } else {
-                //不带logo
-                Bitmap imageNoLogo = CodeUtils.createImage(text, 500, 500, null);
-                iv_qrcode.setImageBitmap(imageNoLogo);
+                //缓存用户对象为空
             }
         }
-
     }
 }

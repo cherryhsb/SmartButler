@@ -152,23 +152,29 @@
             android:label="@string/query_attribution"
             android:screenOrientation="portrait" />
         <!-- 新闻详情 -->
-        <activity android:name=".ui.WebViewActivity" />
+        <activity android:name=".ui.WebViewActivity"
+            android:screenOrientation="portrait"/>
         <!--生成二维码-->
         <activity
             android:name=".ui.QRCodeActivity"
-            android:label="@string/QR_card" />
+            android:label="@string/QR_card"
+            android:screenOrientation="portrait"/>
         <!--二维码扫描-->
         <activity
             android:name=".ui.ScanActivity"
-            android:label="@string/scan_QRcode" />
+            android:label="@string/scan_QRcode"
+            android:screenOrientation="portrait"/>
         <!--我的位置-->
         <activity
             android:name=".ui.LbsActivity"
-            android:label="@string/my_location" />
+            android:label="@string/my_location"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.AboutActivity"
-            android:label="@string/about_software"/>
+            android:label="@string/about_software"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.UpdateActivity"
-            android:label="@string/version_update"/>
+            android:label="@string/version_update"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

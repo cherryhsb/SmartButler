@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,8 +40,12 @@ import com.ssc.smartbutler.utils.L;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_LOGIN;
@@ -50,14 +55,17 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "UserFragment";
 
+    //public static String iconCompressPath;//压缩后图片地址
+
     private LinearLayout ll_user_login,ll_user_info;
 
     private TextView tv_user_name,tv_info_express, tv_attribution,tv_user_scan,tv_lbs;
 
-    private String username;
-
     private ImageView iv_user_icon,iv_user_QRcode;
 
+    private String username;
+
+    private String iconCompressPath;
 
     @Nullable
     @Override
@@ -100,20 +108,31 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
         //当前用户
         userInfo = BmobUser.getCurrentUser(MyUser.class);
+        //L.i(TAG, "haha"+userInfo);
         if(userInfo != null){
             //已经登陆显示用户名
             username = userInfo.getUsername();
             tv_user_name.setText(username);
-            if (userInfo.getImgString()!=null){
-                //利用Base64将String转化为byte数组
-                byte[] bytes = Base64.decode(userInfo.getImgString(),Base64.DEFAULT);
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                //生成bitmap,显示出来
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                iv_user_icon.setImageBitmap(bitmap);
-            }else {
+            //设置头像
+            BmobFile icon = userInfo.getIcon();
+            //L.i(TAG, icon.getUrl()+"hahaha");
+            if (icon != null) {//设置过头像
+                iconCompressPath =getActivity().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                if (iconCompressPath != null) {//从本机设置过头像
+                    if (new File(iconCompressPath).exists()) {//本地图片存在
+                        //从本地直接设置
+                        iv_user_icon.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                    } else {//本地图片已经被删除,需要下载
+                        downloadIcon(icon);
+                    }
+                } else {//从其他手机设置过图片,需要下载
+                    L.i(TAG, "下载裁剪后图片"+"iconCompressPath == null");
+                    downloadIcon(icon);
+                }
+            } else {//没有设置过头像,显示默认图标
                 iv_user_icon.setImageResource(R.drawable.user);
             }
+
             ll_user_login.setVisibility(View.INVISIBLE);
             ll_user_info.setVisibility(View.VISIBLE);
         }else{
@@ -163,6 +182,38 @@ public class UserFragment extends Fragment implements View.OnClickListener {
          * 替换我们的扫描控件
          *//*
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fl_my_container, captureFragment).commit();*/
+    }
+
+    private void downloadIcon(BmobFile bmobFile){
+        //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
+        //File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+        final File file = new File(getActivity().getExternalFilesDir(username),//获取私有目录
+                "/icon/" +username + "(compress).jpg");
+        bmobFile.download(file, new DownloadFileListener() {
+
+            @Override
+            public void onStart() {
+                //toast("开始下载...");
+            }
+
+            @Override
+            public void done(String savePath,BmobException e) {
+                if(e==null){
+                    //toast("下载成功,保存路径:"+savePath);
+                    iconCompressPath = file.getPath();
+                    L.i(TAG, iconCompressPath+"下载裁剪后图片");
+                    iv_user_icon.setImageURI(Uri.fromFile(file));
+                }else{
+                    //toast("下载失败："+e.getErrorCode()+","+e.getMessage());
+                }
+            }
+
+            @Override
+            public void onProgress(Integer value, long newworkSpeed) {
+                //Log.i("bmob","下载进度："+value+","+newworkSpeed);
+            }
+
+        });
     }
 
 

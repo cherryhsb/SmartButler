@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
+import com.ssc.smartbutler.fragment.ButlerFragment;
 import com.ssc.smartbutler.utils.IEditTextChangeListener;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
@@ -127,6 +128,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
                             //如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
                             userInfo = BmobUser.getCurrentUser(MyUser.class);
+
                             finish();
                         } else {
                             L.i(TAG, e.toString());

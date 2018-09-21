@@ -17,9 +17,14 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.ssc.smartbutler.R;
+import com.ssc.smartbutler.entity.MyUser;
+import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
 import com.ssc.smartbutler.utils.UtilTools;
 
+import cn.bmob.v3.BmobUser;
+
+import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 import static com.ssc.smartbutler.utils.StaticClass.INIT_PERMISSION_CODE;
 import static com.ssc.smartbutler.utils.StaticClass.SHARE_IS_FIRST;
 
@@ -34,8 +39,6 @@ public class SplashActivity extends PermissionActivity {
     private static final String TAG = "SplashActivity";
 
     private TextView tv_splash;
-
-
 
 
     @Override

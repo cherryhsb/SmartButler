@@ -10,6 +10,7 @@ package com.ssc.smartbutler.ui;
  */
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,16 +51,25 @@ import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.StaticClass;
 import com.ssc.smartbutler.view.CustomDialog;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -77,13 +87,13 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
 
     private Button btn_change_password;
 
-    private TextView tv_info_username, tv_info_gender, tv_info_age, tv_info_desc,tv_info_nickname;
+    private TextView tv_info_username, tv_info_gender, tv_info_age, tv_info_desc, tv_info_nickname;
 
-    private LinearLayout ll_icon, ll_gender, ll_age, ll_desc,ll_nickname;
+    private LinearLayout ll_icon, ll_gender, ll_age, ll_desc, ll_nickname;
 
-    private CircleImageView iv_info_icon;
+    //private CircleImageView iv_info_icon;
 
-    private ImageView iv;
+    private ImageView iv_info_icon;
 
     private int index;
 
@@ -93,17 +103,22 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
 
     private CustomHelper customHelper;
 
+    private String username;
+
+    private String iconCompressPath;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        customHelper = new CustomHelper();
-
         initView();
 
+        customHelper = new CustomHelper(this,username);
+
         ActivityManager.getInstance().addActivity(this);
+
     }
 
     private void initView() {
@@ -112,14 +127,13 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         tv_info_gender = findViewById(R.id.tv_info_gender);
         tv_info_age = findViewById(R.id.tv_info_age);
         tv_info_desc = findViewById(R.id.tv_info_desc);
-        tv_info_nickname =findViewById(R.id.tv_info_nickname);
+        tv_info_nickname = findViewById(R.id.tv_info_nickname);
         ll_icon = findViewById(R.id.ll_icon);
         ll_gender = findViewById(R.id.ll_gender);
         ll_age = findViewById(R.id.ll_age);
         ll_desc = findViewById(R.id.ll_desc);
         iv_info_icon = findViewById(R.id.iv_info_icon);
         ll_nickname = findViewById(R.id.ll_nickname);
-        iv = findViewById(R.id.iv);
 
 
         //dialog = new CustomDialog(this, 0, 0,
@@ -146,6 +160,7 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         userInfo = BmobUser.getCurrentUser(MyUser.class);
         if (userInfo != null) {
             //设置用户信息显示
+            username = userInfo.getUsername();
             tv_info_username.setText(userInfo.getUsername());
             tv_info_nickname.setText(userInfo.getNickname());
             if (userInfo.isGender()) {
@@ -157,17 +172,32 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
             }
             tv_info_age.setText(Integer.toString(userInfo.getAge()));
             tv_info_desc.setText(userInfo.getDesc());
-            if (userInfo.getImgString() != null) {
-                //利用Base64将String转化为byte数组
-                byte[] bytes = Base64.decode(userInfo.getImgString(), Base64.DEFAULT);
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                //生成bitmap
-                iv_info_icon.setImageBitmap(BitmapFactory.decodeStream(inputStream));
+
+            iconCompressPath =getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+            BmobFile icon = userInfo.getIcon();
+            //L.i(TAG, icon.getUrl()+"hahaha");
+            if (icon != null) {//设置过头像
+                if (iconCompressPath != null) {//从本机设置过头像
+                    if (new File(iconCompressPath).exists()) {//本地图片存在
+                        //从本地直接设置
+                        iv_info_icon.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                    } else {//本地图片已经被删除,需要下载
+                        downloadIcon(icon);
+                    }
+                } else {//从其他手机设置过图片,需要下载
+                    downloadIcon(icon);
+                }
+            } else {//没有设置过头像,显示默认图标
+                iv_info_icon.setImageResource(R.drawable.user);
             }
+
         } else {
             //缓存用户对象为空时， 可打开用户注册界面…
 
         }
+
+        String s = getExternalFilesDir(username).getAbsolutePath()+ "/icon/" + username + "(compress).jpg";
+        L.i(TAG,s);
 
     }
 
@@ -194,30 +224,131 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         /*Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("images", images);
         startActivity(intent);*/
-        final BmobFile bmobFile = new BmobFile(new File(images.get(0).getCompressPath()));
-        bmobFile.uploadblock(new UploadFileListener() {
+        //iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
 
-            @Override
-            public void done(BmobException e) {
-                if(e==null){
-                    //bmobFile.getFileUrl()--返回的上传文件的完整地址
-                    //toast("上传文件成功:" + bmobFile.getFileUrl());
-                    iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
-                }else{
-                    //toast("上传文件失败：" + e.getMessage());
-                }
-
-            }
-
-            @Override
-            public void onProgress(Integer value) {
-                // 返回的上传进度（百分比）
-            }
-        });
+        uploadIcon(images);
 
     }
 
-        @Override
+    private void copyIconCompress(ArrayList<TImage> images) {
+        File file = new File(getExternalFilesDir(username),//获取私有目录
+                "/icon/" + username + "(compress).jpg");
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        try {
+            bis = new BufferedInputStream(new FileInputStream(new File(images.get(0).getCompressPath())));
+            bos = new BufferedOutputStream(new FileOutputStream(file));
+            int read;
+            while ((read = bis.read()) !=-1){
+                bos.write(read);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if (bis != null) {
+                    bis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                try {
+                    if (bos != null) {
+                        bos.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void uploadIcon(final ArrayList<TImage> images) {
+        final BmobFile icon = new BmobFile(new File(images.get(0).getCompressPath()));
+
+        icon.uploadblock(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    L.w(TAG, "上传成功。。。。。。。。。。。。。。。");
+                    String iconStringUrl = icon.getFileUrl();
+
+                    MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
+                    myUser.setIcon(icon);
+                    myUser.update(new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                //toast("更新用户信息成功");
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        copyIconCompress(images);//把压缩后的图片存储到专属目录下
+                                    }
+                                }).start();
+                                iv_info_icon.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
+                                Toast.makeText(UserInfoActivity.this, "设置头像成功", Toast.LENGTH_SHORT).show();
+                                iconCompressPath = images.get(0).getCompressPath();
+                                L.i(TAG, iconCompressPath+"上传裁剪后图片");
+                            } else {
+                                //toast("更新用户信息失败:" + e.getMessage());
+                                L.w(TAG, "设置头像失败" + e.getMessage());
+                                Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                } else {
+                    L.w(TAG, "上传头像失败" + e.getMessage());
+                    Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void downloadIcon(BmobFile bmobFile){
+        //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
+        //File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+        final File file = new File(getExternalFilesDir(username),//获取私有目录
+                "/icon/" +username + "(compress).jpg");
+        bmobFile.download(file, new DownloadFileListener() {
+
+            @Override
+            public void onStart() {
+                //toast("开始下载...");
+            }
+
+            @Override
+            public void done(String savePath,BmobException e) {
+                if(e==null){
+                    //toast("下载成功,保存路径:"+savePath);
+                    iconCompressPath = file.getPath();
+                    L.i(TAG, iconCompressPath+"下载裁剪后图片");
+                    iv_info_icon.setImageURI(Uri.fromFile(file));
+                }else{
+                    //toast("下载失败："+e.getErrorCode()+","+e.getMessage());
+                }
+            }
+
+            @Override
+            public void onProgress(Integer value, long newworkSpeed) {
+                //Log.i("bmob","下载进度："+value+","+newworkSpeed);
+            }
+
+        });
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_change_password:
@@ -375,30 +506,5 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         }
     }
 
-    private void putImgString() {
-        //保存
-        BitmapDrawable drawable = (BitmapDrawable) iv_info_icon.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        //第一步:将bitmap压缩成字节数组输出流
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
-        //第二步:利用Base64将我们的字节数组输出流转换成String
-        byte[] bytes = outputStream.toByteArray();
-        String imgString = new String(Base64.encodeToString(bytes, Base64.DEFAULT));
-        //第三步:将String保存
-        MyUser bmobUser = BmobUser.getCurrentUser(MyUser.class);
-        // 修改用户的头像为imgString
-        bmobUser.setImgString(imgString);
-        bmobUser.update(new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    //toast("更新用户信息成功");
-                } else {
-                    //toast("更新用户信息失败:" + e.getMessage());
-                    Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
 }

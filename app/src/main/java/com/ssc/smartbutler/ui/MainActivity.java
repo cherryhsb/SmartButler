@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case REQUEST_CODE_LOGIN:
                 vp_main.setCurrentItem(3);
+                this.onRestart();
                 break;
         }
 

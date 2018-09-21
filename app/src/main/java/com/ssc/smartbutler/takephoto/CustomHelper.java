@@ -1,5 +1,6 @@
 package com.ssc.smartbutler.takephoto;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.LubanOptions;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.ssc.smartbutler.R;
+import com.ssc.smartbutler.ui.UserInfoActivity;
 
 import java.io.File;
 
@@ -37,12 +39,21 @@ import java.io.File;
  */
 public class CustomHelper {
 
-    public CustomHelper() {
+    Context context;
+    String username;
 
+    public CustomHelper(Context context, String username) {
+        this.context = context;
+        this.username = username;
     }
 
     public void onClick(int view, TakePhoto takePhoto) {
-        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+        /*File file = new File(Environment.getExternalStorageDirectory(),//获取SD卡根目录
+                "/icon/" + System.currentTimeMillis() + ".jpg");*/
+        //原图(未压缩)
+        File file = new File(context.getExternalFilesDir(username),//获取私有目录
+                "/icon/" +username + ".jpg");
+
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }

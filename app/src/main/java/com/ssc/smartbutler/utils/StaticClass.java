@@ -8,6 +8,8 @@ package com.ssc.smartbutler.utils;
  *  描述：     数据/常量
  */
 
+import com.ssc.smartbutler.application.BaseApplication;
+
 public class StaticClass {
 
     //判断程序是否是第一次运行
@@ -71,6 +73,10 @@ public class StaticClass {
     public static final int CAMERA_CODE = 1002;
     public static final int SMS_CODE = 1003;
     public static final int LOCATION_CODE = 1004;
+
+    //头像保存地址
+    //public static String iconCompressPath =getExternalFilesDir(username).getAbsolutePath()+ "/icon/" + username + "(compress).jpg";
+
 
 
 }

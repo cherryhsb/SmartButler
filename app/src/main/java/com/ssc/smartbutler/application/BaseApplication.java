@@ -16,6 +16,7 @@ import android.content.Intent;
 import com.baidu.mapapi.SDKInitializer;
 import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.service.SmsService;
+import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -28,10 +29,14 @@ import static com.ssc.smartbutler.utils.StaticClass.IS_SMS;
 
 public class BaseApplication extends Application {
 
+    private static final String TAG = "BaseApplication";
+
     private static Context context;
 
     //当前用户
     public static MyUser userInfo = null;
+
+    public static String iconCompressPath;
 
     @Override
     public void onCreate() {
@@ -50,6 +55,13 @@ public class BaseApplication extends Application {
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
+
+        L.i(TAG, "application");
+        L.i(TAG, "application"+userInfo);
+        if (userInfo!=null){
+            L.i(TAG, "application"+iconCompressPath);
+            iconCompressPath =context.getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+        }
     }
 
 
