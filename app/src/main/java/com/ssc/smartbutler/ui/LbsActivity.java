@@ -27,6 +27,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.ssc.smartbutler.R;
@@ -63,6 +64,7 @@ public class LbsActivity extends PermissionActivity {
         initView();
 
         requestLocationPermission();
+
     }
 
     //ActionBar菜单栏返回键操作

@@ -11,6 +11,7 @@ package com.ssc.smartbutler.ui;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -57,8 +58,12 @@ public class SplashActivity extends PermissionActivity {
         tv_splash = findViewById(R.id.tv_splash);
 
 
+
         //设置字体
         UtilTools.setFont(this, tv_splash);
+
+
+        tv_splash.getPaint().setFakeBoldText(true);//加粗
 
 
     }
