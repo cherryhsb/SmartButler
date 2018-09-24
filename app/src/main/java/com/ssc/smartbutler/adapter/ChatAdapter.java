@@ -64,7 +64,6 @@ public class ChatAdapter extends BaseAdapter {
     private String mCopiedText;
 
 
-
     public ChatAdapter(Context mContext, List<ChatData> mList) {
         this.mContext = mContext;
         this.mList = mList;
@@ -73,20 +72,6 @@ public class ChatAdapter extends BaseAdapter {
 
         initPopupWindow();
 
-        //userInfo = BmobUser.getCurrentUser(MyUser.class);
-        L.i(TAG, userInfo+"");
-        if (userInfo != null) {
-            BmobFile icon = userInfo.getIcon();
-            //L.i(TAG, icon.getUrl()+"hahaha");
-            if (icon != null) {//设置过头像
-                isIcon = true;
-            } else {//没有设置过头像,显示默认图标
-                isIcon = false;
-            }
-        } else {
-            //缓存用户对象为空
-            isIcon = false;
-        }
     }
 
     @Override
@@ -177,13 +162,22 @@ public class ChatAdapter extends BaseAdapter {
 
                 //viewHolderRight.tv_chat_right.setInputType();
 
-                if (isIcon) {
-                    if (userInfo.getUsername()!=null){
-                        String iconCompressPath=getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
-                        viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
-                    }else {
-                        viewHolderRight.iv_chat_right.setImageDrawable(mContext.getResources().getDrawable((R.drawable.user)));
+                if (userInfo != null) {
+                    BmobFile icon = userInfo.getIcon();
+                    //L.i(TAG, icon.getUrl()+"hahaha");
+                    if (icon != null) {//设置过头像
+                        isIcon = true;
+                    } else {//没有设置过头像,显示默认图标
+                        isIcon = false;
                     }
+                } else {
+                    //缓存用户对象为空
+                    isIcon = false;
+                }
+
+                if (isIcon) {
+                    String iconCompressPath = getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath() + "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                    viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
 
                 } else {
                     viewHolderRight.iv_chat_right.setImageDrawable(mContext.getResources().getDrawable((R.drawable.user)));

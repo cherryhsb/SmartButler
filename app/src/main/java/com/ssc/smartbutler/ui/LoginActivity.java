@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
-import com.ssc.smartbutler.fragment.ButlerFragment;
 import com.ssc.smartbutler.utils.IEditTextChangeListener;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.WorksSizeCheckUtil;
@@ -43,7 +42,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private TextView tv_login_forget, tv_login_register, tv_login_enter;
 
-    private CustomDialog dialog;
+    private CustomDialog dialogProgress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,9 +60,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_login_register = (TextView) findViewById(R.id.tv_login_register);
         tv_login_enter = (TextView) findViewById(R.id.tv_login_enter);
 
-        dialog = new CustomDialog(this, 100, 100, R.layout.dialog_loding, R.style.Theme_dialog, Gravity.CENTER, R.style.pop_anim_style);
+        dialogProgress = new CustomDialog(this, 100, 100, R.layout.dialog_loding, R.style.Theme_dialog, Gravity.CENTER, R.style.pop_anim_style);
         //屏幕外点击无效
-        dialog.setCancelable(false);
+        dialogProgress.setCancelable(false);
 
         tv_login_enter.setOnClickListener(this);
         tv_login_register.setOnClickListener(this);
@@ -112,7 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.btn_login:
                 String username = et_login_username.getText().toString().trim();
                 String password = et_login_password.getText().toString().trim();
-                dialog.show();
+                dialogProgress.show();
                 //登录
                 MyUser user = new MyUser();
                 user.setUsername(username);
@@ -120,7 +119,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 user.login(new SaveListener<MyUser>() {
                     @Override
                     public void done(MyUser myUser, BmobException e) {
-                        dialog.dismiss();
+                        dialogProgress.dismiss();
                         if (e == null) {
                             Toast.makeText(LoginActivity.this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
                             //finish();

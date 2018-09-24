@@ -99,6 +99,8 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
 
     private CustomDialog dialog;
 
+    private CustomDialog dialogProgress;
+
     private Button btn_camera, btn_picture, btn_cancel;
 
     private CustomHelper customHelper;
@@ -141,6 +143,10 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         dialog = new CustomDialog(this, 0, 0, R.layout.dialog_photo, R.style.Theme_dialog, Gravity.BOTTOM, R.style.pop_anim_style);
         //屏幕外点击无效
         dialog.setCancelable(false);
+
+        dialogProgress = new CustomDialog(this, 100, 100, R.layout.dialog_loding, R.style.Theme_dialog, Gravity.CENTER, R.style.pop_anim_style);
+        //屏幕外点击无效
+        dialogProgress.setCancelable(false);
 
         btn_change_password.setOnClickListener(this);
         ll_icon.setOnClickListener(this);
@@ -226,6 +232,8 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         startActivity(intent);*/
         //iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
 
+        //dialogProgress.show();
+
         uploadIcon(images);
 
     }
@@ -279,6 +287,7 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
         icon.uploadblock(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
+                //dialogProgress.dismiss();
                 if (e == null) {
                     L.w(TAG, "上传成功。。。。。。。。。。。。。。。");
                     String iconStringUrl = icon.getFileUrl();
@@ -326,10 +335,12 @@ public class UserInfoActivity extends TakePhotoActivity implements View.OnClickL
             @Override
             public void onStart() {
                 //toast("开始下载...");
+                dialogProgress.show();
             }
 
             @Override
             public void done(String savePath,BmobException e) {
+                dialogProgress.dismiss();
                 if(e==null){
                     //toast("下载成功,保存路径:"+savePath);
                     iconCompressPath = file.getPath();

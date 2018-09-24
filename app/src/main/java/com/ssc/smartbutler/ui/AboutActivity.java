@@ -16,6 +16,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.utils.StaticClass;
 import com.ssc.smartbutler.utils.UtilTools;
+import com.ssc.smartbutler.view.CustomDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +39,8 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     private TextView tv_show,tv_version,tv_app_name;
 
     private Button btn_update;
+
+    private CustomDialog dialogProgress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +54,10 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         tv_version = findViewById(R.id.tv_version);
         tv_app_name = findViewById(R.id.tv_app_name);
         btn_update = findViewById(R.id.btn_update);
+
+        dialogProgress = new CustomDialog(this, 100, 100, R.layout.dialog_loding, R.style.Theme_dialog, Gravity.CENTER, R.style.pop_anim_style);
+        //屏幕外点击无效
+        dialogProgress.setCancelable(false);
 
         tv_app_name.setText(getString(R.string.app_name));
         getVersionNameCode();
@@ -90,10 +98,12 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
                 * 3.dialog提示
                 * 4.跳转到更新界面,并把url传递过去
                 * */
+                dialogProgress.show();
                 RxVolley.get(StaticClass.CHECK_UPDATE_URL, new HttpCallback() {
                     @Override
                     public void onSuccess(String t) {
                         super.onSuccess(t);
+                        dialogProgress.dismiss();
                         //L.i(TAG,t);
                         parsingJson(t);
                     }
@@ -101,6 +111,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
                         super.onFailure(errorNo, strMsg);
+                        dialogProgress.dismiss();
                         Toast.makeText(AboutActivity.this, getString(R.string.unable_connect_server),Toast.LENGTH_SHORT).show();
                     }
                 });

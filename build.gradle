@@ -23,6 +23,8 @@ allprojects {
         //uCrop
         maven { url "https://jitpack.io" }
 
+        mavenCentral()
+
     }
 }
 

@@ -14,6 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -44,7 +47,8 @@ public class LbsActivity extends PermissionActivity {
 
     private BaiduMap mBaiduMap;
 
-    //声明LocationClient类对象
+    private ImageButton btn_location;
+
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
 
@@ -90,6 +94,7 @@ public class LbsActivity extends PermissionActivity {
     private void initView() {
         mMapView = findViewById(R.id.bmapView);
         tv_location_info = findViewById(R.id.tv_location_info);
+        btn_location = findViewById(R.id.btn_location);
         mBaiduMap = mMapView.getMap();
 
         //声明LocationClient类
@@ -102,6 +107,9 @@ public class LbsActivity extends PermissionActivity {
         mLocationClient.start();
         //mLocationClient为第二步初始化过的LocationClient对象
         //调用LocationClient的start()方法，便可发起定位请求
+
+
+
     }
 
     private void initLocation() {
@@ -185,13 +193,13 @@ public class LbsActivity extends PermissionActivity {
     //实现BDAbstractLocationListener接口
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
-        public void onReceiveLocation(BDLocation location) {
+        public void onReceiveLocation(final BDLocation location) {
             //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
             //以下只列举部分获取经纬度相关（常用）的结果信息
             //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
 
-            double latitude = location.getLatitude();    //获取纬度信息
-            double longitude = location.getLongitude();    //获取经度信息
+            final double latitude = location.getLatitude();    //获取纬度信息
+            final double longitude = location.getLongitude();    //获取经度信息
             float radius = location.getRadius();    //获取定位精度，默认值为0.0f
             L.i(TAG, latitude + "~~~~~" + longitude);
 
@@ -222,13 +230,36 @@ public class LbsActivity extends PermissionActivity {
             //绘制图层
             LatLng point = new LatLng(latitude, longitude);   //定义Maker坐标点
             BitmapDescriptor bitmap = BitmapDescriptorFactory
-                    .fromResource(R.drawable.icon_marka);   //构建Marker图标
+                    .fromResource(R.drawable.ic_location);   //构建Marker图标
             OverlayOptions option = new MarkerOptions()
                     .position(point)
                     .icon(bitmap);  //构建MarkerOption，用于在地图上添加Marker
             mBaiduMap.addOverlay(option);   //在地图上添加Marker，并显示
 
             tv_location_info.setText(addr+"\n"+locationDescribe);
+
+            /*** 点击button位置移动到屏幕中间,尺寸为首次打开尺寸*****/
+            //删除需要把经纬度的final去掉
+            btn_location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View v) {
+                    /*mLocationClient.requestLocation();
+                    LatLng ll =new LatLng(latitude,longitude);
+                    MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+                    mBaiduMap.animateMapStatus(u);
+                    mBaiduMap.setMapStatus(u);
+                    MapStatusUpdate u1 = MapStatusUpdateFactory.zoomTo(16f);        //缩放
+                    mBaiduMap.animateMapStatus(u1);*/
+
+                    /*移动到我的位置*/
+                    //设置缩放
+                    MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.zoomTo(18);
+                    mBaiduMap.setMapStatus(mapStatusUpdate);
+                    //开始移动
+                    MapStatusUpdate newLatLng = MapStatusUpdateFactory.newLatLng(new LatLng(latitude, longitude));
+                    mBaiduMap.setMapStatus(newLatLng);
+                }
+            });
         }
     }
 }

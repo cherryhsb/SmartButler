@@ -160,6 +160,7 @@ public class SettingActivity extends PermissionActivity implements View.OnClickL
                 //退出登录
                 BmobUser.logOut();   //清除缓存用户对象
                 userInfo = BmobUser.getCurrentUser(MyUser.class); // 现在的currentUser是null了
+                L.i(TAG, userInfo+"");
                 finish();
                 break;
             case R.id.ll_about:

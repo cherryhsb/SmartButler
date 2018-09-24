@@ -24,8 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/text_now_login"
+            android:text="请稍等..."
             android:textColor="@color/black" />
+        <!--android:text="@string/text_now_login"-->
     </LinearLayout>
 
 </LinearLayout>

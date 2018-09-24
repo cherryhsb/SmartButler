@@ -71,6 +71,27 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, null);
+
+        /*//设置头像
+        BmobFile icon = userInfo.getIcon();
+        //L.i(TAG, icon.getUrl()+"hahaha");
+        if (icon != null) {//设置过头像
+            iconCompressPath =getActivity().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+            if (iconCompressPath != null) {//从本机设置过头像
+                if (new File(iconCompressPath).exists()) {//本地图片存在
+                    //从本地直接设置
+                    iv_user_icon.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                } else {//本地图片已经被删除,需要下载
+                    downloadIcon(icon);
+                }
+            } else {//从其他手机设置过图片,需要下载
+                L.i(TAG, "下载裁剪后图片"+"iconCompressPath == null");
+                downloadIcon(icon);
+            }
+        } else {//没有设置过头像,显示默认图标
+            iv_user_icon.setImageResource(R.drawable.user);
+        }*/
+
         return view;
     }
 
@@ -85,6 +106,12 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         initView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     private void initView() {
