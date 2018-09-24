@@ -38,7 +38,7 @@ public class StaticClass {
     //讯飞
     public static final String TTS_ID = "5b690f77";
     //美女相册
-    public static final String GIRL_URL = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/";
+    public static final String GIRL_URL = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/";
 
 
     //startActivityForResult:个人信息requestCode

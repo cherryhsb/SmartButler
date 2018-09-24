@@ -21,10 +21,14 @@ import android.widget.ListView;
 
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.HttpParams;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.WechatAdapter;
 import com.ssc.smartbutler.entity.WechatData;
 import com.ssc.smartbutler.ui.WebViewActivity;
+import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.StaticClass;
 
 import org.json.JSONArray;
@@ -42,9 +46,14 @@ public class WechatFragment extends Fragment {
 
     private WechatAdapter adapter;
 
-    private List<WechatData> wechatDataList;
+    private List<WechatData> wechatDataList= new ArrayList<>();
 
     private WechatData wechatData;
+
+    //上拉刷更新
+    private RefreshLayout refreshLayout;
+
+    final Integer[] page = {1};
 
     @Nullable
     @Override
@@ -58,7 +67,7 @@ public class WechatFragment extends Fragment {
     private void initView(View view) {
         lv_wechat = view.findViewById(R.id.lv_wechat);
 
-        wechatDataList = new ArrayList<>();
+        adapter = new WechatAdapter(getActivity(), wechatDataList);
         //http://v.juhe.cn/weixin/query?key=您申请的KEY
         String url = "http://v.juhe.cn/weixin/query?key=" + StaticClass.WECHAT_ID + "&ps=50";
         RxVolley.get(url, new HttpCallback() {
@@ -68,7 +77,8 @@ public class WechatFragment extends Fragment {
                 //Toast.makeText(ExpressActivity.this, t,Toast.LENGTH_SHORT).show();
                 //L.i(TAG, "Json" + t);
                 //4.解析json
-                parsingJson(t);
+                parsingJson(t,true);
+                L.i(TAG,t);
             }
 
             @Override
@@ -87,13 +97,44 @@ public class WechatFragment extends Fragment {
             }
         });
 
+
+
+        refreshLayout = view.findViewById(R.id.refreshLayout_wechat);
+        refreshLayout.setEnableRefresh(false);
+        /*refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000,false);//传入false表示刷新失败
+            }
+        });*/
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+                //post请求简洁版实现
+                HttpParams params = new HttpParams();
+                params.put("pno", ++page[0]);
+                params.put("ps", 50);
+                params.put("key", "948e7d95f9edb7494b1bb253031d7461");
+                //params.put("image", new File("path"))//文件上传
+
+                RxVolley.post("http://v.juhe.cn/weixin/query", params, new HttpCallback() {
+                    @Override
+                    public void onSuccess(String t) {
+                        //Loger.debug("请求到的数据:" + t);
+                        parsingJson(t,false);
+                    }
+                });
+            }
+        });
+
         //L.i(TAG,wechatDataList.size()+"initView");
         /*adapter = new WechatAdapter(getActivity(),wechatDataList);
         lv_wechat.setAdapter(adapter);*/
         //L.i(TAG,wechatDataList.size()+"initView2");
     }
 
-    private void parsingJson(String t) {
+    private void parsingJson(String t,boolean isFirst) {
         try {
             JSONObject jsonObject = new JSONObject(t);
             JSONObject jsonResult = jsonObject.getJSONObject("result");
@@ -108,8 +149,12 @@ public class WechatFragment extends Fragment {
                 wechatDataList.add(wechatData);
             }
             //L.i(TAG,wechatDataList.size()+"parse");
-            adapter = new WechatAdapter(getActivity(), wechatDataList);
-            lv_wechat.setAdapter(adapter);
+            if (isFirst){
+                //adapter = new WechatAdapter(getActivity(), wechatDataList);
+                lv_wechat.setAdapter(adapter);
+            }else {
+                adapter.notifyDataSetChanged();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

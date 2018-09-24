@@ -54,9 +54,9 @@ public class GirlFragment extends Fragment {
     //提示框
     private CustomDialog dialog;
     //预览图片
-    private ImageView iv_girl_img;
+    //private ImageView iv_girl_img;
     //photoView
-    private PhotoViewAttacher mAttacher;
+    //private PhotoViewAttacher mAttacher;
     private PhotoView photo_view;
 
     //上拉刷更新
@@ -65,6 +65,8 @@ public class GirlFragment extends Fragment {
     //private GirlAdapterOld girlAdapter;
 
     private GirlAdapter girlAdapter;
+
+    final Integer[] page = {1};
 
 
     @Nullable
@@ -101,7 +103,7 @@ public class GirlFragment extends Fragment {
 
         girlAdapter = new GirlAdapter(getActivity(), girlDataList,dialog,photo_view);
 
-        final Integer[] page = {1};
+
 
         requestJson(page[0] +"",true);
 
