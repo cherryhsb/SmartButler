@@ -1,25 +1,26 @@
-package com.ssc.smartbutler.ui;
+package com.ssc.smartbutler.fragment;
 
 /*
  *  项目名：    SmartButler
- *  包名:       SmartButler
- *  文件名：    com.ssc.smartbutler.ui
+ *  包名:       com.ssc.smartbutler.fragment
+ *  文件名：    UserInfoFragment
  *  创建者：    SSC
- *  创建时间：   2018/7/12 13:32
+ *  创建时间：   2018/10/8 16:38
  *  描述：     TODO
  */
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,13 +28,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jph.takephoto.app.TakePhotoActivity;
+import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.takephoto.CustomHelper;
-import com.ssc.smartbutler.utils.ActivityManager;
+import com.ssc.smartbutler.ui.ChangePasswordActivity;
+import com.ssc.smartbutler.ui.DescActivity;
+import com.ssc.smartbutler.ui.UserInfoActivity;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.view.CustomDialog;
 
@@ -53,12 +56,13 @@ import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
+import static android.app.Activity.RESULT_OK;
 import static com.ssc.smartbutler.application.BaseApplication.userInfo;
 import static com.ssc.smartbutler.utils.StaticClass.DESC_REQUEST_CODE;
 
-public class UserInfoActivity extends BaseActivity {
+public class UserInfoFragment extends TakePhotoFragment implements View.OnClickListener {
 
-    private static final String TAG = "UserInfoActivity";
+    private static final String TAG = "UserInfoFragment";
 
     private Button btn_change_password;
 
@@ -82,45 +86,39 @@ public class UserInfoActivity extends BaseActivity {
 
     private String iconCompressPath;
 
-
-
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_user_info,container,false);
+        initView(view);
 
-        /*initView();
-
-        customHelper = new CustomHelper(this,username);*/
-
-
-
-        ActivityManager.getInstance().addActivity(this);
+        customHelper = new CustomHelper(getActivity(),username);
+        return view;
 
     }
 
-    /*private void initView() {
-        btn_change_password = findViewById(R.id.btn_change_password);
-        tv_info_username = findViewById(R.id.tv_info_username);
-        tv_info_gender = findViewById(R.id.tv_info_gender);
-        tv_info_age = findViewById(R.id.tv_info_age);
-        tv_info_desc = findViewById(R.id.tv_info_desc);
-        tv_info_nickname = findViewById(R.id.tv_info_nickname);
-        ll_icon = findViewById(R.id.ll_icon);
-        ll_gender = findViewById(R.id.ll_gender);
-        ll_age = findViewById(R.id.ll_age);
-        ll_desc = findViewById(R.id.ll_desc);
-        iv_info_icon = findViewById(R.id.iv_info_icon);
-        ll_nickname = findViewById(R.id.ll_nickname);
+    private void initView(View view) {
+        btn_change_password = view.findViewById(R.id.btn_change_password);
+        tv_info_username = view.findViewById(R.id.tv_info_username);
+        tv_info_gender = view.findViewById(R.id.tv_info_gender);
+        tv_info_age = view.findViewById(R.id.tv_info_age);
+        tv_info_desc = view.findViewById(R.id.tv_info_desc);
+        tv_info_nickname = view.findViewById(R.id.tv_info_nickname);
+        ll_icon = view.findViewById(R.id.ll_icon);
+        ll_gender = view.findViewById(R.id.ll_gender);
+        ll_age = view.findViewById(R.id.ll_age);
+        ll_desc = view.findViewById(R.id.ll_desc);
+        iv_info_icon = view.findViewById(R.id.iv_info_icon);
+        ll_nickname = view.findViewById(R.id.ll_nickname);
 
 
         //dialog = new CustomDialog(this, 0, 0,
         //                R.layout.dialog_photo, R.style.pop_anim_style, Gravity.BOTTOM, 0);R.style.Theme_dialog
-        dialog = new CustomDialog(this, 0, 0, R.layout.dialog_photo, R.style.Theme_dialog, Gravity.BOTTOM, R.style.pop_anim_style);
+        dialog = new CustomDialog(getActivity(), 0, 0, R.layout.dialog_photo, R.style.Theme_dialog, Gravity.BOTTOM, R.style.pop_anim_style);
         //屏幕外点击无效
         dialog.setCancelable(false);
 
-        dialogProgress = new CustomDialog(this, 100, 100, R.layout.dialog_loding, R.style.Theme_dialog, Gravity.CENTER, R.style.pop_anim_style);
+        dialogProgress = new CustomDialog(getActivity(), 100, 100, R.layout.dialog_loding, R.style.Theme_dialog, Gravity.CENTER, R.style.pop_anim_style);
         //屏幕外点击无效
         dialogProgress.setCancelable(false);
 
@@ -155,7 +153,7 @@ public class UserInfoActivity extends BaseActivity {
             tv_info_age.setText(Integer.toString(userInfo.getAge()));
             tv_info_desc.setText(userInfo.getDesc());
 
-            iconCompressPath =getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+            iconCompressPath =getActivity().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
             BmobFile icon = userInfo.getIcon();
             //L.i(TAG, icon.getUrl()+"hahaha");
             if (icon != null) {//设置过头像
@@ -178,14 +176,14 @@ public class UserInfoActivity extends BaseActivity {
 
         }
 
-        String s = getExternalFilesDir(username).getAbsolutePath()+ "/icon/" + username + "(compress).jpg";
+        String s = getActivity().getExternalFilesDir(username).getAbsolutePath()+ "/icon/" + username + "(compress).jpg";
         L.i(TAG,s);
 
     }
 
-    *//**
+    /**
      * 设置头像
-     *//*
+     */
     @Override
     public void takeCancel() {
         super.takeCancel();
@@ -194,18 +192,20 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
+        Toast.makeText(getActivity(), "设置头像失败",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
+        //dialogProgress.show();
         showImg(result.getImages());
     }
 
     private void showImg(final ArrayList<TImage> images) {
-        *//*Intent intent = new Intent(this, ResultActivity.class);
+        /*Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("images", images);
-        startActivity(intent);*//*
+        startActivity(intent);*/
         //iv.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
 
         //dialogProgress.show();
@@ -215,7 +215,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void copyIconCompress(ArrayList<TImage> images) {
-        File file = new File(getExternalFilesDir(username),//获取私有目录
+        File file = new File(getActivity().getExternalFilesDir(username),//获取私有目录
                 "/icon/" + username + "(compress).jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
@@ -257,8 +257,10 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
+    //上传头像
     private void uploadIcon(final ArrayList<TImage> images) {
         final BmobFile icon = new BmobFile(new File(images.get(0).getCompressPath()));
+
 
         icon.uploadblock(new UploadFileListener() {
             @Override
@@ -282,41 +284,44 @@ public class UserInfoActivity extends BaseActivity {
                                     }
                                 }).start();
                                 iv_info_icon.setImageURI(Uri.fromFile(new File(images.get(0).getCompressPath())));
-                                Toast.makeText(UserInfoActivity.this, "设置头像成功", Toast.LENGTH_SHORT).show();
+                                //dialogProgress.dismiss();
+                                Toast.makeText(getActivity(), "设置头像成功", Toast.LENGTH_SHORT).show();
                                 iconCompressPath = images.get(0).getCompressPath();
                                 L.i(TAG, iconCompressPath+"上传裁剪后图片");
                             } else {
                                 //toast("更新用户信息失败:" + e.getMessage());
                                 L.w(TAG, "设置头像失败" + e.getMessage());
-                                Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                //dialogProgress.dismiss();
+                                Toast.makeText(getActivity(), getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
                 } else {
                     L.w(TAG, "上传头像失败" + e.getMessage());
-                    Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    //下载头像
     private void downloadIcon(BmobFile bmobFile){
         //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
         //File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
-        final File file = new File(getExternalFilesDir(username),//获取私有目录
+        final File file = new File(getActivity().getExternalFilesDir(username),//获取私有目录
                 "/icon/" +username + "(compress).jpg");
         bmobFile.download(file, new DownloadFileListener() {
 
             @Override
             public void onStart() {
                 //toast("开始下载...");
-                dialogProgress.show();
+                //dialogProgress.show();
             }
 
             @Override
             public void done(String savePath,BmobException e) {
-                dialogProgress.dismiss();
+                //dialogProgress.dismiss();
                 if(e==null){
                     //toast("下载成功,保存路径:"+savePath);
                     iconCompressPath = file.getPath();
@@ -339,12 +344,12 @@ public class UserInfoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_change_password:
-                startActivity(new Intent(this, ChangePasswordActivity.class));
+                startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
                 break;
             case R.id.ll_icon:
                 dialog.show();
-                *//*Intent intentIcon = new Intent(this, IconActivity.class);
-                startActivityForResult(intentIcon,ICON_REQUEST_CODE);*//*
+                /*Intent intentIcon = new Intent(this, IconActivity.class);
+                startActivityForResult(intentIcon,ICON_REQUEST_CODE);*/
                 break;
             case R.id.ll_nickname:
                 showNicknameDialog();
@@ -356,7 +361,7 @@ public class UserInfoActivity extends BaseActivity {
                 showAgeDialog();
                 break;
             case R.id.ll_desc:
-                Intent intent = new Intent(this, DescActivity.class);
+                Intent intent = new Intent(getActivity(), DescActivity.class);
                 intent.putExtra("desc", tv_info_desc.getText().toString());
                 startActivityForResult(intent, DESC_REQUEST_CODE);
                 break;
@@ -377,7 +382,7 @@ public class UserInfoActivity extends BaseActivity {
     //性别dialog
     private void showListDialog() {
         final String[] genders = {getString(R.string.male), getString(R.string.female)};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.gender));
         builder.setSingleChoiceItems(genders, index, new DialogInterface.OnClickListener() {
             @Override
@@ -405,9 +410,10 @@ public class UserInfoActivity extends BaseActivity {
                             } else {
                                 tv_info_gender.setText(getString(R.string.female));
                             }
+                            //Toast.makeText(getActivity(), "更新性别成功",Toast.LENGTH_SHORT).show();
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -418,10 +424,10 @@ public class UserInfoActivity extends BaseActivity {
 
     //年龄dialog
     private void showAgeDialog() {
-        final EditText editText = new EditText(this);
+        final EditText editText = new EditText(getActivity());
         editText.setGravity(Gravity.CENTER_HORIZONTAL);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.age));
         builder.setView(editText);
         builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
@@ -437,7 +443,7 @@ public class UserInfoActivity extends BaseActivity {
                             tv_info_age.setText(editText.getText().toString());
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -448,9 +454,9 @@ public class UserInfoActivity extends BaseActivity {
 
     //昵称dialog
     private void showNicknameDialog() {
-        final EditText editText = new EditText(this);
+        final EditText editText = new EditText(getActivity());
         editText.setGravity(Gravity.CENTER_HORIZONTAL);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.nickname));
         builder.setView(editText);
         builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
@@ -466,17 +472,17 @@ public class UserInfoActivity extends BaseActivity {
                             tv_info_nickname.setText(editText.getText().toString());
                         } else {
                             //toast("更新用户信息失败:" + e.getMessage());
-                            Toast.makeText(UserInfoActivity.this, getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.update_user_information_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
         builder.show();
-    }*/
+    }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         L.i(TAG, "" + requestCode);
         switch (requestCode) {
@@ -491,7 +497,5 @@ public class UserInfoActivity extends BaseActivity {
             default:
                 break;
         }
-    }*/
-
-
+    }
 }

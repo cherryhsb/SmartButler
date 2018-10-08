@@ -11,14 +11,11 @@ package com.ssc.smartbutler.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
-import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.ui.AttributionActivity;
 import com.ssc.smartbutler.ui.ExpressActivity;
 import com.ssc.smartbutler.ui.LbsActivity;
@@ -39,10 +35,8 @@ import com.ssc.smartbutler.ui.UserInfoActivity;
 import com.ssc.smartbutler.utils.L;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
@@ -59,11 +53,11 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private LinearLayout ll_user_login,ll_user_info;
 
-    private TextView tv_user_name,tv_info_express, tv_attribution,tv_user_scan,tv_lbs;
+    private TextView tv_nickname,tv_info_express, tv_attribution,tv_user_scan,tv_lbs;
 
     private ImageView iv_user_icon,iv_user_QRcode;
 
-    private String username;
+    private String nickname;
 
     private String iconCompressPath;
 
@@ -92,6 +86,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             iv_user_icon.setImageResource(R.drawable.user);
         }*/
 
+        initView(view);
+
         return view;
     }
 
@@ -105,27 +101,31 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        initView();
+        //initView();
+        showInfo();
+        L.i(TAG, "onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        //initView();
+        L.i(TAG, "onResume");
     }
 
-    private void initView() {
-        ll_user_login = (LinearLayout) getActivity().findViewById(R.id.ll_user_login);
+    private void initView(View view) {
+        ll_user_login = view.findViewById(R.id.ll_user_login);
+        ll_user_info = view.findViewById(R.id.ll_user_info);
+        tv_nickname = view.findViewById(R.id.tv_nickname);
+        iv_user_icon = view.findViewById(R.id.iv_user_icon);
+        tv_info_express = view.findViewById(R.id.tv_user_express);
+        tv_attribution = view.findViewById(R.id.tv_user_attribution);
+        tv_user_scan = view.findViewById(R.id.tv_user_scan);
+        tv_lbs = view.findViewById(R.id.tv_lbs);
+        iv_user_QRcode = view.findViewById(R.id.iv_user_qrcode);
+
         ll_user_login.setOnClickListener(this);
-        ll_user_info = (LinearLayout) getActivity().findViewById(R.id.ll_user_info);
         ll_user_info.setOnClickListener(this);
-        tv_user_name = (TextView) getActivity().findViewById(R.id.tv_user_name);
-        iv_user_icon = getActivity().findViewById(R.id.iv_user_icon);
-        tv_info_express = getActivity().findViewById(R.id.tv_user_express);
-        tv_attribution = getActivity().findViewById(R.id.tv_user_attribution);
-        tv_user_scan = getActivity().findViewById(R.id.tv_user_scan);
-        tv_lbs = getActivity().findViewById(R.id.tv_lbs);
-        iv_user_QRcode = getActivity().findViewById(R.id.iv_user_qrcode);
 
         tv_info_express.setOnClickListener(this);
         tv_attribution.setOnClickListener(this);
@@ -133,41 +133,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         tv_lbs.setOnClickListener(this);
         iv_user_QRcode.setOnClickListener(this);
 
-        //当前用户
-        //userInfo = BmobUser.getCurrentUser(MyUser.class);
-        //L.i(TAG, "haha"+userInfo);
-        if(userInfo != null){
-            //已经登陆显示用户名
-            username = userInfo.getUsername();
-            tv_user_name.setText(username);
-            //设置头像
-            BmobFile icon = userInfo.getIcon();
-            //L.i(TAG, icon.getUrl()+"hahaha");
-            if (icon != null) {//设置过头像
-                iconCompressPath =getActivity().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
-                if (iconCompressPath != null) {//从本机设置过头像
-                    if (new File(iconCompressPath).exists()) {//本地图片存在
-                        //从本地直接设置
-                        iv_user_icon.setImageURI(Uri.fromFile(new File(iconCompressPath)));
-                    } else {//本地图片已经被删除,需要下载
-                        downloadIcon(icon);
-                    }
-                } else {//从其他手机设置过图片,需要下载
-                    L.i(TAG, "下载裁剪后图片"+"iconCompressPath == null");
-                    downloadIcon(icon);
-                }
-            } else {//没有设置过头像,显示默认图标
-                iv_user_icon.setImageResource(R.drawable.user);
-            }
 
-            ll_user_login.setVisibility(View.INVISIBLE);
-            ll_user_info.setVisibility(View.VISIBLE);
-        }else{
-            //缓存用户对象为空时，显示需要登陆
-            tv_user_name.setText("");
-            ll_user_login.setVisibility(View.VISIBLE);
-            ll_user_info.setVisibility(View.GONE);
-        }
+
 
         /*//自定义二维码扫描
         *//**
@@ -211,11 +178,52 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fl_my_container, captureFragment).commit();*/
     }
 
+    private void showInfo(){
+        //当前用户
+        //userInfo = BmobUser.getCurrentUser(MyUser.class);
+        //L.i(TAG, "haha"+userInfo);
+        if(userInfo != null){
+            //已经登陆显示用户名
+            nickname = userInfo.getNickname();
+            tv_nickname.setText(nickname);
+            //设置头像
+            BmobFile icon = userInfo.getIcon();
+            //L.i(TAG, icon.getUrl()+"hahaha");
+            if (icon != null) {//设置过头像
+                iconCompressPath =getActivity().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath()+ "/icon/" + userInfo.getUsername() + "(compress).jpg";
+                if (iconCompressPath != null) {//从本机设置过头像
+                    if (new File(iconCompressPath).exists()) {//本地图片存在
+                        //从本地直接设置
+                        //第二次调用ImageView.setImageURI时无法更新图片.所以用一下方式解决
+                        iv_user_icon.setImageURI(null);
+                        iv_user_icon.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                        L.i(TAG, "从本地设置头像");
+                    } else {//本地图片已经被删除,需要下载
+                        downloadIcon(icon);
+                    }
+                } else {//从其他手机设置过图片,需要下载
+                    L.i(TAG, "下载裁剪后图片"+"iconCompressPath == null");
+                    downloadIcon(icon);
+                }
+            } else {//没有设置过头像,显示默认图标
+                iv_user_icon.setImageResource(R.drawable.user);
+            }
+
+            ll_user_login.setVisibility(View.INVISIBLE);
+            ll_user_info.setVisibility(View.VISIBLE);
+        }else{
+            //缓存用户对象为空时，显示需要登陆
+            tv_nickname.setText("");
+            ll_user_login.setVisibility(View.VISIBLE);
+            ll_user_info.setVisibility(View.GONE);
+        }
+    }
+
     private void downloadIcon(BmobFile bmobFile){
         //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
         //File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
-        final File file = new File(getActivity().getExternalFilesDir(username),//获取私有目录
-                "/icon/" +username + "(compress).jpg");
+        final File file = new File(getActivity().getExternalFilesDir(nickname),//获取私有目录
+                "/icon/" + nickname + "(compress).jpg");
         bmobFile.download(file, new DownloadFileListener() {
 
             @Override

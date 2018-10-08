@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,7 +178,16 @@ public class ChatAdapter extends BaseAdapter {
 
                 if (isIcon) {
                     String iconCompressPath = getContext().getExternalFilesDir(userInfo.getUsername()).getAbsolutePath() + "/icon/" + userInfo.getUsername() + "(compress).jpg";
-                    viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                    //viewHolderRight.iv_chat_right.setImageURI(Uri.fromFile(new File(iconCompressPath)));
+                    //第二次调用ImageView.setImageURI时无法更新图片.所以这样解决
+                    Bitmap bmp = null;
+                    try {
+                        bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.fromFile(new File(iconCompressPath)));
+                    } catch (Exception e) {
+
+                    }
+                    viewHolderRight.iv_chat_right.setImageBitmap(bmp);
+
 
                 } else {
                     viewHolderRight.iv_chat_right.setImageDrawable(mContext.getResources().getDrawable((R.drawable.user)));

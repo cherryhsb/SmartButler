@@ -25,7 +25,8 @@ import com.ssc.smartbutler.utils.L;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_EXIT;
+import static com.ssc.smartbutler.fragment.GirlFragment.rv_girl;
+import static com.ssc.smartbutler.fragment.WechatFragment.lv_wechat;
 import static com.ssc.smartbutler.utils.StaticClass.REQUEST_CODE_LOGIN;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Fragment
     private List<Fragment> mFragments;
     //悬浮按钮
-    private FloatingActionButton fab_setting;
+    public static FloatingActionButton fab_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fab_setting.setVisibility(View.GONE);
                 } else {
                     fab_setting.setVisibility(View.VISIBLE);
+                    if (position == 3){
+                        fab_setting.setImageResource(R.drawable.icon_setting);
+                    }else {
+                        fab_setting.setImageResource(R.drawable.to_top);
+                    }
                 }
 
             }
@@ -181,7 +187,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.fab_setting:
                 currentItem = vp_main.getCurrentItem();
-                startActivityForResult(new Intent(this, SettingActivity.class),REQUEST_CODE_EXIT);
+                if (currentItem == 1){
+                    lv_wechat.setSelection(0);
+                }else if (currentItem == 2){
+                    rv_girl.scrollToPosition(0);
+                }else if (currentItem == 3){
+                    startActivity(new Intent(this,SettingActivity.class));
+                }
+                //startActivityForResult(new Intent(this, SettingActivity.class),REQUEST_CODE_EXIT);
                 //finish();
                 break;
         }
@@ -211,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         //L.i(TAG,requestCode+"");
         switch (requestCode){
-            case REQUEST_CODE_EXIT:
+            /*case REQUEST_CODE_EXIT:
                 vp_main.setCurrentItem(currentItem);
-                break;
+                break;*/
             case REQUEST_CODE_LOGIN:
                 vp_main.setCurrentItem(3);
                 //this.onRestart();

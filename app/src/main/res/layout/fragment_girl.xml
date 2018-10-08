@@ -18,13 +18,13 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         app:srlPrimaryColor="#444444"
-        app:srlAccentColor="#444444"
+        app:srlAccentColor="@color/mygray"
         app:srlEnablePreviewInEditMode="true">
         <!--srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色-->
         <!--srlEnablePreviewInEditMode 可以开启和关闭预览功能-->
-        <!--<com.scwang.smartrefresh.layout.header.ClassicsHeader
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
+            android:layout_height="wrap_content"/>
         <!--<GridView
             android:numColumns="2"
             android:id="@+id/gv_girl"

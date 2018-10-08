@@ -53,7 +53,7 @@ public class StaticClass {
     //相册扫描二维码
     public static final int IMAGE_REQUEST_CODE = 105;
     //退出返回MainActivity
-    public static final int REQUEST_CODE_EXIT = 106;
+    //public static final int REQUEST_CODE_EXIT = 106;
     //登录
     public static final int REQUEST_CODE_LOGIN = 107;
 

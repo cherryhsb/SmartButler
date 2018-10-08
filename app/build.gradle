@@ -88,6 +88,7 @@ dependencies {
     //地图
     implementation files('libs/BaiduLBS_Android.jar')
 
+    //图片选择4.1.0有问题
     implementation ('com.jph.takephoto:takephoto_library:4.0.3'){
 
             exclude group: 'io.reactivex'

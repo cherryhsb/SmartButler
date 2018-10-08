@@ -11,6 +11,7 @@ package com.ssc.smartbutler.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -19,17 +20,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.GirlAdapter;
 import com.ssc.smartbutler.entity.GirlData;
+import com.ssc.smartbutler.ui.MainActivity;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.StaticClass;
 import com.ssc.smartbutler.view.CustomDialog;
@@ -47,7 +48,7 @@ public class GirlFragment extends Fragment {
 
     //private GridView gv_girl;
 
-    private RecyclerView rv_girl;
+    public static RecyclerView rv_girl;
 
     private List<GirlData> girlDataList = new ArrayList<>();
 
@@ -76,6 +77,25 @@ public class GirlFragment extends Fragment {
         initView(view);
         return view;
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        L.i(TAG, "onStart"+"hahaha");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        L.i(TAG, "onResume"+"hahaha");
+        /*MainActivity.fab_setting.setImageResource(R.drawable.to_top);
+        MainActivity.fab_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rv_girl.scrollToPosition(0);
+            }
+        });*/
     }
 
     /*
@@ -121,13 +141,14 @@ public class GirlFragment extends Fragment {
         });*/
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
-        refreshLayout.setEnableRefresh(false);
-        /*refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        //refreshLayout.setEnableRefresh(false);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000*//*,false*//*);//传入false表示刷新失败
+                girlAdapter.notifyDataSetChanged();
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
-        });*/
+        });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
@@ -135,6 +156,8 @@ public class GirlFragment extends Fragment {
                 refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
             }
         });
+
+
     }
 
     private void requestJson(String page, final boolean isFirst){

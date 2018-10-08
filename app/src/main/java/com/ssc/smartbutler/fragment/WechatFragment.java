@@ -12,6 +12,7 @@ package com.ssc.smartbutler.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,11 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.WechatAdapter;
 import com.ssc.smartbutler.entity.WechatData;
+import com.ssc.smartbutler.ui.MainActivity;
 import com.ssc.smartbutler.ui.WebViewActivity;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.StaticClass;
@@ -42,7 +45,7 @@ public class WechatFragment extends Fragment {
 
     private static final String TAG = "WechatFragment";
 
-    private ListView lv_wechat;
+    public static ListView lv_wechat;
 
     private WechatAdapter adapter;
 
@@ -50,7 +53,7 @@ public class WechatFragment extends Fragment {
 
     private WechatData wechatData;
 
-    //上拉刷更新
+    //上拉加载更多
     private RefreshLayout refreshLayout;
 
     final Integer[] page = {1};
@@ -62,6 +65,26 @@ public class WechatFragment extends Fragment {
 
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        L.i(TAG, "onStart"+"hahaha");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        L.i(TAG, "onResume"+"hahaha");
+        /*MainActivity.fab_setting.setImageResource(R.drawable.to_top);
+        MainActivity.fab_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lv_wechat.smoothScrollToPosition(0);
+                //lv_wechat.setSelection(0);
+            }
+        });*/
     }
 
     private void initView(View view) {
@@ -100,13 +123,14 @@ public class WechatFragment extends Fragment {
 
 
         refreshLayout = view.findViewById(R.id.refreshLayout_wechat);
-        refreshLayout.setEnableRefresh(false);
-        /*refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        //refreshLayout.setEnableRefresh(false);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000,false);//传入false表示刷新失败
+                adapter.notifyDataSetChanged();
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
-        });*/
+        });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
