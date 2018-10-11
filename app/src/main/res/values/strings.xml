@@ -64,7 +64,7 @@
     <string name="robot_speech">机器人语音</string>
     <string name="robot_speech_hint">开启后智能管家语音播报</string>
     <string name="SMS_alerts">短信提醒</string>
-    <string name="SMS_alerts_hint">开启后收到短信弹窗提醒(飞行模式测试)</string>
+    <string name="SMS_alerts_hint">开启后收到短信弹窗提醒</string>
     <string name="about_software">关于软件</string>
     <string name="log_out">退出登录</string>
     <string name="user_info">用户信息</string>

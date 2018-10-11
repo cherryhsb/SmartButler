@@ -22,8 +22,8 @@
         android:id="@+id/et_express_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/express_number"
-        android:text="283600908548" />
+        android:hint="@string/express_number" />
+    <!--android:text="283600908548"-->
 
     <Button
         android:id="@+id/btn_express"

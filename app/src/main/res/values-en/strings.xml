@@ -61,7 +61,7 @@
     <string name="robot_speech">Robot speech</string>
     <string name="robot_speech_hint">Open and voice broadcast</string>
     <string name="SMS_alerts">SMS alerts</string>
-    <string name="SMS_alerts_hint">After opening, receive a pop-up notification (flight mode test)</string>
+    <string name="SMS_alerts_hint">After opening, receive a pop-up notification</string>
     <string name="about_software">About the software</string>
     <string name="log_out">Log out</string>
     <string name="user_info">User information</string>
