@@ -106,4 +106,7 @@
     <string name="postcode">邮编:</string>
     <string name="Xiaomi_SMS_hint">小米手机需手动授权:\n读取短信,通知类短信</string>
 
+    <item type="id" name="tag_iv_girl">
+    </item>
+
 </resources>

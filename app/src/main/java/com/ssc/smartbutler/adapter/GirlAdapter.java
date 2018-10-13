@@ -90,6 +90,27 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         return viewHolder;
     }
 
+    //当Item被回收的时候调用
+    /*@Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        if (holder !=null) {
+
+            if (holder.iv_girl !=null) {
+
+                Glide.clear(holder.img);
+            }
+
+            if (holder.linearLayout !=null) {
+
+                holder.linearLayout.setVisibility(View.GONE);
+
+            }
+
+        }
+        super.onViewRecycled(holder);
+    }*/
+
+    //填充onCreateViewHolder方法返回的holder中的控件
     //设置子项具体的东西
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
@@ -137,7 +158,19 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
                 //.centerCrop()
                 //.placeholder(R.drawable.loading_spinner)
                 .into(viewHolder.iv_girl);*/
-        showGlide(imgUrl,viewHolder.iv_girl);
+        //先设置图片占位符
+        viewHolder.iv_girl.setImageResource(R.drawable.image_glide);
+        //为imageView设置Tag,内容是该imageView等待加载的图片url
+        viewHolder.iv_girl.setTag(R.id.tag_iv_girl,imgUrl);
+
+        //加载完毕后判断该imageView等待的图片url是不是加载完毕的这张
+        //如果是则为imageView设置图片,否则说明imageView已经被重用到其他item
+        if(imgUrl.equals(viewHolder.iv_girl.getTag(R.id.tag_iv_girl))) {
+            showGlide(imgUrl,viewHolder.iv_girl);
+        }
+
+
+        //showGlide(imgUrl,viewHolder.iv_girl);
         viewHolder.tv_desc.setText(desc);
     }
 
