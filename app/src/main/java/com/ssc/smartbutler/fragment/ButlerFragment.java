@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
@@ -33,6 +34,9 @@ import com.kymjs.rxvolley.client.HttpParams;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.ChatAdapter;
 import com.ssc.smartbutler.entity.ChatData;
+import com.ssc.smartbutler.retrofit.tuling.Tuling;
+import com.ssc.smartbutler.retrofit.tuling.TulingService;
+import com.ssc.smartbutler.utils.DeviceUtil;
 import com.ssc.smartbutler.utils.IEditTextChangeListener;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.utils.ShareUtil;
@@ -43,6 +47,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.ssc.smartbutler.utils.StaticClass.IS_TTS;
 import static com.ssc.smartbutler.utils.StaticClass.TTS_ID;
@@ -81,46 +91,6 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
         et_chat = view.findViewById(R.id.et_chat);
         lv_chat = view.findViewById(R.id.lv_chat);
         btn_chat = view.findViewById(R.id.btn_chat);
-        //iv_chat_bg = view.findViewById(R.id.iv_chat_bg);
-
-        /*Picasso.with(getActivity())
-                .load(R.drawable.butler_bg)
-                .into(iv_chat_bg);*/
-
-        /*iv_chat_right = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).
-                inflate(R.layout.item_chat_left, null).findViewById(R.id.tv_chat_right);
-        //当前用户
-        userInfo = BmobUser.getCurrentUser(MyUser.class);
-        if(userInfo != null){
-            //已经登陆显示用户头像
-            if (userInfo.getImgString()!=null){
-                //利用Base64将String转化为byte数组
-                byte[] bytes = Base64.decode(userInfo.getImgString(),Base64.DEFAULT);
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                //生成bitmap,显示出来
-                iv_chat_right.setImageBitmap(BitmapFactory.decodeStream(inputStream));
-            }
-        }else{
-            //缓存用户对象为空时，什么都不做
-        }*/
-
-        /*userInfo = BmobUser.getCurrentUser(MyUser.class);
-        if (userInfo != null) {
-            if (userInfo.getImgString() != null) {
-                //利用Base64将String转化为byte数组
-                byte[] bytes = Base64.decode(userInfo.getImgString(), Base64.DEFAULT);
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                //生成bitmap
-                //iv_info_icon.setImageBitmap(BitmapFactory.decodeStream(inputStream));
-                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                ImageView imageView = inflater.inflate(R.layout.item_chat_right, null).findViewById(R.id.iv_chat_right);
-                //imageView.setImageBitmap(BitmapFactory.decodeStream(inputStream));
-                iv_111.setImageBitmap(BitmapFactory.decodeStream(inputStream));
-                L.i(TAG,userInfo.getUsername());
-            }
-        }else {
-            //缓存用户对象为空
-        }*/
 
         initTTS();
 
@@ -138,7 +108,71 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void post(String s) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_chat:
+                String s = et_chat.getText().toString();
+                addRightItem(s);
+                et_chat.setText(null);
+                //postWithRxVolley(s);
+                postWithRetrofit(s);
+                break;
+        }
+    }
+
+    private void postWithRetrofit(String s) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.tuling123.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        TulingService tulingService = retrofit.create(TulingService.class);
+        Call<Tuling> call = tulingService.getTuling(TULING_ID, s, DeviceUtil.getUniqueId(getActivity()));
+        call.enqueue(new Callback<Tuling>() {
+            @Override
+            public void onResponse(Call<Tuling> call, Response<Tuling> response) {
+                response.body().getUrl();
+                Tuling tuling = response.body();
+                setText(tuling);
+            }
+
+            @Override
+            public void onFailure(Call<Tuling> call, Throwable t) {
+                Toast.makeText(getActivity(),  "请求失败:"+call.request().url(),Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void setText(Tuling tuling) {
+        switch (tuling.getCode()){
+            case 100000:
+                //文本类
+                addLeftItem(tuling.getText(),true);
+                break;
+            case 200000:
+                //链接类
+                addLeftItem(tuling.getText(),true);
+                addLeftItem(tuling.getUrl(),false);
+                break;
+            case 302000:
+                //新闻类
+                break;
+            case 308000:
+                //菜谱类
+                break;
+            case 313000:
+                //儿歌类
+                break;
+            case 314000:
+                //诗词类
+                break;
+            default:
+                break;
+        }
+    }
+
+    /*private void postWithRxVolley(String s) {
         String url = "http://www.tuling123.com/openapi/api";
         HttpParams params = new HttpParams();
         params.put("key", TULING_ID);
@@ -151,9 +185,11 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
                 parsingJson(t);
             }
         });
-    }
+    }*/
 
-    private void parsingJson(String t) {
+
+
+    /*private void parsingJson(String t) {
         try {
             JSONObject jsonObject = new JSONObject(t);
             String code = jsonObject.getString("code");
@@ -189,19 +225,7 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_chat:
-                String s = et_chat.getText().toString();
-                addRightItem(s);
-                et_chat.setText(null);
-                post(s);
-                break;
-        }
-    }
+    }*/
 
     //添加左边文本
     private void addLeftItem(String text,boolean isSpeak) {
@@ -253,6 +277,20 @@ public class ButlerFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /*

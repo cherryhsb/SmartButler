@@ -36,37 +36,43 @@
         tools:ignore="ProtectedPermissions" />
     <!-- 手机定位信息，用来为语义等功能提供定位，提供更精准的服务 -->
     <!-- 定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
-     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--短信权限-->
+    <!-- 短信权限 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <!--窗口权限-->
+    <!-- 窗口权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!--拍照-->
+    <!-- 拍照 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--震动-->
+    <!-- 震动 -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!--百度地图-->
-    <!--读取系统信息，包含系统版本等信息，用作统计-->
+    <!-- 百度地图 -->
+    <!-- 读取系统信息，包含系统版本等信息，用作统计 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <!--获取统计数据-->
+    <!-- 获取统计数据 -->
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
-    <!--定位-->
-    <!-- 这个权限用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- 这个权限用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <!-- SD卡读取权限，用户写入离线定位数据-->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <!--8.0 未知应用安装权限-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
+    <!-- 定位 -->
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
 
+    <!--安装应用-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".application.BaseApplication"
@@ -79,7 +85,7 @@
 
         <!-- 闪屏 -->
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarFullscreen">
             <intent-filter>
@@ -90,51 +96,52 @@
         </activity>
         <!-- 设置 -->
         <activity
-            android:name=".ui.SettingActivity"
+            android:name=".activity.SettingActivity"
             android:label="@string/setting"
             android:screenOrientation="portrait" />
         <!-- 主页 -->
         <activity
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask"
-            android:name=".ui.MainActivity"
             android:screenOrientation="portrait" />
         <!-- 引导页 -->
         <activity
-            android:name=".ui.GuideActivity"
+            android:name=".activity.GuideActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarFullscreen" />
         <!-- 登录页 -->
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/login"
             android:screenOrientation="portrait" />
         <!-- 注册页 -->
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:label="@string/register"
             android:screenOrientation="portrait" />
         <!-- 找回密码 -->
         <activity
-            android:name=".ui.ForgetPasswordActivity"
+            android:name=".activity.ForgetPasswordActivity"
             android:label="@string/retrieve_password"
             android:screenOrientation="portrait" />
         <!-- 用户信息 -->
         <activity
-            android:name=".ui.UserInfoActivity"
+            android:name=".activity.UserInfoActivity"
             android:label="@string/user_info"
             android:screenOrientation="portrait" />
         <!-- 重置密码 -->
         <activity
-            android:name=".ui.ChangePasswordActivity"
+            android:name=".activity.ChangePasswordActivity"
             android:label="@string/reset_password"
             android:screenOrientation="portrait" />
         <!-- 修改密码 -->
         <activity
-            android:name=".ui.ChangeByPasswordActivity"
+            android:name=".activity.ChangeByPasswordActivity"
             android:label="@string/change_password"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.DescActivity"
-            android:label="@string/describe"/>
+        <activity
+            android:name=".activity.DescActivity"
+            android:label="@string/describe" />
         <!-- 图片裁剪 -->
         <!--
             <activity
@@ -144,38 +151,37 @@
         -->
         <!-- 物流查询 -->
         <activity
-            android:name=".ui.ExpressActivity"
+            android:name=".activity.ExpressActivity"
             android:label="@string/query_express"
             android:screenOrientation="portrait" />
         <!-- 物流查询 -->
         <activity
-            android:name=".ui.AttributionActivity"
+            android:name=".activity.AttributionActivity"
             android:label="@string/query_attribution"
             android:screenOrientation="portrait" />
         <!-- 新闻详情 -->
-        <activity android:name=".ui.WebViewActivity"
-            android:screenOrientation="portrait"/>
-        <!--生成二维码-->
         <activity
-            android:name=".ui.QRCodeActivity"
+            android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <!-- 生成二维码 -->
+        <activity
+            android:name=".activity.QRCodeActivity"
             android:label="@string/QR_card"
-            android:screenOrientation="portrait"/>
-        <!--二维码扫描-->
+            android:screenOrientation="portrait" />
+        <!-- 二维码扫描 -->
         <activity
-            android:name=".ui.ScanActivity"
+            android:name=".activity.ScanActivity"
             android:label="@string/scan_QRcode"
-            android:screenOrientation="portrait"/>
-        <!--我的位置-->
+            android:screenOrientation="portrait" />
+        <!-- 我的位置 -->
         <activity
-            android:name=".ui.LbsActivity"
+            android:name=".activity.LbsActivity"
             android:label="@string/my_location"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutActivity"
             android:label="@string/about_software"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.UpdateActivity"
-            android:label="@string/version_update"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -190,16 +196,25 @@
         <service
             android:name=".service.SmsService"
             android:enabled="true" />
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
+        <service android:name=".download.DownloadService" />
 
-        <!--百度地图-->
+        <!-- 百度地图 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="tL9AcQLhN78LKEOFSEupI4kHAmmCeBtA" />
+
+        <receiver
+            android:name=".broadcast.APKReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.ssc.smartbutler.APKReceiver"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

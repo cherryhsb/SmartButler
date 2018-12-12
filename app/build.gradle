@@ -11,13 +11,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi'
 //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -38,18 +38,17 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:design:27.1.1'
-
     implementation 'com.tencent.bugly:crashreport:2.6.6'
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     implementation 'com.tencent.bugly:nativecrashreport:3.3.1'
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
-
     //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
     implementation('cn.bmob.android:bmob-sdk:3.6.4') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
@@ -59,50 +58,61 @@ dependencies {
     }
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     implementation 'cn.bmob.android:http-legacy:1.0'
-
     //circleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    //uCrop轻型通用解决方案
-    //implementation 'com.github.yalantis:ucrop:2.2.2'
 
     //RxVolley
-
     implementation('com.kymjs.rxvolley:rxvolley:1.1.4') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
         exclude group: 'com.squareup.okio'
         exclude group: 'io.reactivex'
     }
-    //RxVolley下载模块
-    /*implementation('com.kymjs.rxvolley:okhttp:1.1.4') {
-        exclude group: 'com.squareup.okhttp3'
-        exclude group: 'com.squareup.okio'
-    }*/
-
 
     //picasson
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
     //implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
-
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
 
     //二维码
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
     //地图
     implementation files('libs/BaiduLBS_Android.jar')
 
-    //图片选择4.1.0有问题
-    implementation ('com.jph.takephoto:takephoto_library:4.0.3'){
+    //takephoto_library图片选择4.1.0有问题
+    implementation('com.jph.takephoto:takephoto_library:4.0.3') {
 
-            exclude group: 'io.reactivex'
+        exclude group: 'io.reactivex'
 
     }
-
-    //上拉加载更多
+    //上拉加载更多SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation ('com.squareup.retrofit2:converter-gson:2.4.0'){
+        exclude group: 'com.squareup.okio'
+        exclude group: 'io.reactivex'
+        exclude group: 'okio.AsyncTimeout'
+        exclude group: 'okio.Buffer$2'
+        exclude group: 'okio.AsyncTimeout$Watchdog'
+    }
+
+    configurations {
+        all*.exclude group: 'com.google.code.gson'
+        all*.exclude group: 'okio.Buffer$2'
+        all*.exclude group: 'okio.AsyncTimeout'
+        all*.exclude group: 'com.squareup.okio'
+        all*.exclude group: 'io.reactivex'
+        all*.exclude group: 'okio.AsyncTimeout'
+        all*.exclude group: 'okio.AsyncTimeout$Watchdog'
+    }
 }

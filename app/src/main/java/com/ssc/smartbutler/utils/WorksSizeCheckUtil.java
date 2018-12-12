@@ -40,7 +40,7 @@ public class WorksSizeCheckUtil {
 
 
         private void initEditListener() {
-            L.i(TAG, "调用了遍历editext的方法");
+            //L.i(TAG, "调用了遍历editext的方法");
             for (EditText editText:editTexts){
                 editText.addTextChangedListener(new textChange());
             }

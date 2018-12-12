@@ -60,7 +60,7 @@
             android:background="@color/mygray" />
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/ll_sms"
         android:layout_below="@+id/ll_divide1"
         android:background="@color/white"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="10dp" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 
@@ -111,7 +111,7 @@
 
     <LinearLayout
         android:id="@+id/ll_divide2"
-        android:layout_below="@+id/ll_sms"
+        android:layout_below="@+id/ll_tts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">

@@ -23,16 +23,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.ssc.smartbutler.R;
-import com.ssc.smartbutler.entity.GirlData;
+import com.ssc.smartbutler.retrofit.girl.GirlItem;
+import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.view.CustomDialog;
 
 import java.util.List;
 
 public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
 
+    private static final String TAG = "GirlAdapter";
+
     private Context mContext;
 
-    private List<GirlData> mGirlDataList;
+    private List<GirlItem> mGirlItemList;
 
     private WindowManager windowManager;
 
@@ -59,9 +62,10 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         }
     }
 
-    public GirlAdapter(Context mContext, List<GirlData> mGirlDataList, CustomDialog dialog, PhotoView photo_view) {
+
+    public GirlAdapter(Context mContext, List<GirlItem> mGirlItemList, CustomDialog dialog, PhotoView photo_view) {
         this.mContext = mContext;
-        this.mGirlDataList = mGirlDataList;
+        this.mGirlItemList = mGirlItemList;
         windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         width = windowManager.getDefaultDisplay().getWidth();//- 20
         /*dialog = new CustomDialog(mContext, WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT,R.layout.dialog_girl,R.style.Theme_dialog, Gravity.CENTER);
@@ -83,7 +87,8 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
             public void onClick(View v) {
                 //PicassoUtil.loadImageView(getActivity(),girlDataList.get(position).getImgUrl(),photo_view);
                 int position = viewHolder.getAdapterPosition();
-                showGlideMatch(mGirlDataList.get(position).getImgUrl(),mPhoto_view);
+                //showGlideMatch(mGirlDataList.get(position).getImgUrl(),mPhoto_view);
+                showGlideMatch(mGirlItemList.get(position).getImgUrl(),mPhoto_view);
                 mDialog.show();
             }
         });
@@ -114,9 +119,13 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     //设置子项具体的东西
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        GirlData girlData = mGirlDataList.get(i);
+        /*GirlData girlData = mGirlDataList.get(i);
         String imgUrl = girlData.getImgUrl();
-        String desc = girlData.getDesc();
+        String desc = girlData.getDesc();*/
+        GirlItem girlItem = mGirlItemList.get(i);
+        String imgUrl = girlItem.getImgUrl();
+        String desc = girlItem.getDesc();
+        L.i(TAG,desc);
         //PicassoUtil.loadImageViewSize(mContext, imgUrl,viewHolder.iv_girl,width/2,800);
         /*Transformation transformation = new Transformation() {
 
@@ -176,14 +185,15 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mGirlDataList.size();
+        //return mGirlDataList.size();
+        return mGirlItemList.size();
     }
 
     private void showGlide(String imgUrl, ImageView iv_girl) {
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.image_glide)    //加载成功之前占位图
                 .error(R.drawable.image_glide)    //加载错误之后的错误图
-                .override(width, 600)    //指定图片的尺寸
+                //.override(width, 600)    //指定图片的尺寸
                 //指定图片的缩放类型为fitCenter （等比例缩放图片，宽或者是高等于ImageView的宽或者是高。）
                 //.fitCenter()
                 //指定图片的缩放类型为centerCrop （等比例缩放图片，直到图片的狂高都大于等于ImageView的宽度，然后截取中间的显示。）
@@ -203,7 +213,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
 
     private void showGlideMatch(String imgUrl, ImageView iv_girl) {
         RequestOptions options = new RequestOptions()
-                //.placeholder(R.drawable.image_glide)    //加载成功之前占位图
+                .placeholder(R.drawable.image_glide)    //加载成功之前占位图
                 .error(R.drawable.image_glide)    //加载错误之后的错误图
                 //.override(width, 600)    //指定图片的尺寸
                 //指定图片的缩放类型为fitCenter （等比例缩放图片，宽或者是高等于ImageView的宽或者是高。）

@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ssc.smartbutler.R;
-import com.ssc.smartbutler.entity.WechatData;
+import com.ssc.smartbutler.retrofit.wechat.WechatItem;
 
 import java.util.List;
 
@@ -29,25 +28,41 @@ public class WechatAdapter extends BaseAdapter {
 
     private Context mContext;
 
-    private WechatData wechatData;
 
-    private List<WechatData> mList;
+    private List<WechatItem> wechatItemList;
 
-    public WechatAdapter(Context mContext, List<WechatData> mList) {
+    /*public WechatAdapter(Context mContext, List<WechatData> wechatDataList) {
         this.mContext = mContext;
-        this.mList = mList;
+        this.wechatDataList = wechatDataList;
+
+        inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }*/
+
+    public WechatAdapter(Context mContext, List<WechatItem> wechatItemList) {
+        this.mContext = mContext;
+        this.wechatItemList = wechatItemList;
 
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    /*@Override
+    public int getCount() {
+        return wechatDataList.size();
+    }*/
+
     @Override
     public int getCount() {
-        return mList.size();
+        return wechatItemList.size();
     }
+
+    /*@Override
+    public Object getItem(int position) {
+        return wechatDataList.get(position);
+    }*/
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        return wechatItemList.get(position);
     }
 
     @Override
@@ -70,9 +85,13 @@ public class WechatAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //设置数据
-        wechatData = mList.get(position);
+        /*wechatData = wechatDataList.get(position);
         viewHolder.tv_wechat_title.setText(wechatData.getTitle());
-        viewHolder.tv_wechat_source.setText(wechatData.getSource());
+        viewHolder.tv_wechat_source.setText(wechatData.getSource());*/
+
+        //Toast.makeText(mContext,"xixixi"+wechatItemList.toString(),Toast.LENGTH_SHORT).show();
+        viewHolder.tv_wechat_title.setText(wechatItemList.get(position).getTitle());
+        viewHolder.tv_wechat_source.setText(wechatItemList.get(position).getSource());
 
         /*convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +104,6 @@ public class WechatAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        private ImageView iv_wechat;
         private TextView tv_wechat_title,tv_wechat_source;
     }
 }

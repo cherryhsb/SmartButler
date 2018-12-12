@@ -8,9 +8,6 @@ import android.media.ExifInterface;
 
 import java.io.IOException;
 
-/**
- * Created by HouChongmu on 2018/5/19.
- */
 
 public class ImageUtil {
     public static int calculateSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeigth) {

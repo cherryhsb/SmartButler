@@ -35,6 +35,7 @@ public class CustomDialog extends Dialog{
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        //layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
         /*layoutParams.width = width;
         layoutParams.height = height;*/
         layoutParams.gravity = gravity;

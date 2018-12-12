@@ -21,6 +21,7 @@
 
     <ImageButton
         android:src="@drawable/timeline_green"
+        android:background="#20000000"
         android:id="@+id/btn_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

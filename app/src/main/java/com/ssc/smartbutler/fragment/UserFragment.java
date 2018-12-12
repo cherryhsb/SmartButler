@@ -25,13 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ssc.smartbutler.R;
-import com.ssc.smartbutler.ui.AttributionActivity;
-import com.ssc.smartbutler.ui.ExpressActivity;
-import com.ssc.smartbutler.ui.LbsActivity;
-import com.ssc.smartbutler.ui.LoginActivity;
-import com.ssc.smartbutler.ui.QRCodeActivity;
-import com.ssc.smartbutler.ui.ScanActivity;
-import com.ssc.smartbutler.ui.UserInfoActivity;
+import com.ssc.smartbutler.activity.AttributionActivity;
+import com.ssc.smartbutler.activity.ExpressActivity;
+import com.ssc.smartbutler.activity.LbsActivity;
+import com.ssc.smartbutler.activity.LoginActivity;
+import com.ssc.smartbutler.activity.QRCodeActivity;
+import com.ssc.smartbutler.activity.ScanActivity;
+import com.ssc.smartbutler.activity.UserInfoActivity;
 import com.ssc.smartbutler.utils.L;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 

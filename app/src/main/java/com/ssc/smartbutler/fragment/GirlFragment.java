@@ -11,7 +11,6 @@ package com.ssc.smartbutler.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,50 +19,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.kymjs.rxvolley.RxVolley;
-import com.kymjs.rxvolley.client.HttpCallback;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.adapter.GirlAdapter;
-import com.ssc.smartbutler.entity.GirlData;
-import com.ssc.smartbutler.ui.MainActivity;
-import com.ssc.smartbutler.utils.L;
-import com.ssc.smartbutler.utils.StaticClass;
+import com.ssc.smartbutler.retrofit.girl.GirlItem;
+import com.ssc.smartbutler.retrofit.girl.GirlPicture;
+import com.ssc.smartbutler.retrofit.girl.GirlService;
+import com.ssc.smartbutler.utils.ScreenUtils;
 import com.ssc.smartbutler.view.CustomDialog;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GirlFragment extends Fragment {
 
     private static final String TAG = "GirlFragment";
 
-    //private GridView gv_girl;
+    public RecyclerView rv_girl;
 
-    public static RecyclerView rv_girl;
-
-    private List<GirlData> girlDataList = new ArrayList<>();
+    private List<GirlItem> girlItemList = new ArrayList<>();
 
     //提示框
     private CustomDialog dialog;
-    //预览图片
-    //private ImageView iv_girl_img;
-    //photoView
-    //private PhotoViewAttacher mAttacher;
+
     private PhotoView photo_view;
 
     //上拉刷更新
     private RefreshLayout refreshLayout;
-
-    //private GirlAdapterOld girlAdapter;
 
     private GirlAdapter girlAdapter;
 
@@ -79,25 +73,6 @@ public class GirlFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        L.i(TAG, "onStart"+"hahaha");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        L.i(TAG, "onResume"+"hahaha");
-        /*MainActivity.fab_setting.setImageResource(R.drawable.to_top);
-        MainActivity.fab_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rv_girl.scrollToPosition(0);
-            }
-        });*/
-    }
-
     /*
     * photoView流程
     * 1.监听点击事件
@@ -108,37 +83,39 @@ public class GirlFragment extends Fragment {
     private void initView(View view) {
         //gv_girl = view.findViewById(R.id.gv_girl);
         rv_girl = view.findViewById(R.id.rv_girl);
-        StaggeredGridLayoutManager layoutManager = new
+        final StaggeredGridLayoutManager layoutManager = new
                 StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        //防止item 交换位置
-        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//解决滑动到顶端时Item左右切换的问题
         rv_girl.setLayoutManager(layoutManager);
+        //rv_girl.setItemAnimator(null);
+        rv_girl.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //防止第一行到顶部有空白区域
+                layoutManager.invalidateSpanAssignments();
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
 
         dialog = new CustomDialog(getActivity(), WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT,R.layout.dialog_girl,R.style.Theme_dialog, Gravity.CENTER,R.style.pop_anim_style);
         //iv_girl_img = dialog.findViewById(R.id.iv_girl_img);
         photo_view = dialog.findViewById(R.id.photo_view);
 
-        //girlAdapter = new GirlAdapterOld(getActivity(), girlDataList);
+        //动态设置photo_view高度
+        LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) photo_view.getLayoutParams(); //取控件textView当前的布局参数
+        linearParams.height = ScreenUtils.getScreenHeight(requireActivity()) * 4 / 5;;// 控件的宽强制设成
+        photo_view.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
 
-        girlAdapter = new GirlAdapter(getActivity(), girlDataList,dialog,photo_view);
+        girlAdapter = new GirlAdapter(getActivity(), girlItemList,dialog,photo_view);
 
+        getGirlWithRetrofit(page[0] +"",true);
 
-
-        requestJson(page[0] +"",true);
-
-        /*gv_girl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //解析图片
-                *//*PicassoUtil.loadImageView(getActivity(),girlDataList.get(position).getImgUrl(),iv_girl_img);
-                //缩放
-                mAttacher = new PhotoViewAttacher(iv_girl_img);
-                mAttacher.update();*//*
-                PicassoUtil.loadImageView(getActivity(),girlDataList.get(position).getImgUrl(),photo_view);
-                dialog.show();
-            }
-        });*/
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
         //refreshLayout.setEnableRefresh(false);
@@ -152,7 +129,9 @@ public class GirlFragment extends Fragment {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                requestJson(String.valueOf(++page[0]),false);
+
+                getGirlWithRetrofit(++page[0] +"",false);
+
                 refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
             }
         });
@@ -160,43 +139,37 @@ public class GirlFragment extends Fragment {
 
     }
 
-    private void requestJson(String page, final boolean isFirst){
-        RxVolley.get(StaticClass.GIRL_URL+page, new HttpCallback() {
+    private void getGirlWithRetrofit(final String page, final boolean isFirst) {
+        //"https://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://gank.io")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GirlService girlService = retrofit.create(GirlService.class);
+        Call<GirlPicture> call = girlService.getGirl(page);
+        call.enqueue(new Callback<GirlPicture>() {
             @Override
-            public void onSuccess(String t) {
-                super.onSuccess(t);
-                //L.i(TAG,t);
-                parsingJson(t,isFirst);
+            public void onResponse(Call<GirlPicture> call, Response<GirlPicture> response) {
+                girlItemList.addAll(response.body().getGirlItemList());
+                if (isFirst){
+                    rv_girl.setAdapter(girlAdapter);
+                }else {
+                    //girlAdapter.notifyDataSetChanged();
+                    int i = Integer.parseInt(page)*20+1;
+                    girlAdapter.notifyItemInserted(i);
+                }
             }
 
             @Override
-            public void onFailure(int errorNo, String strMsg) {
-                super.onFailure(errorNo, strMsg);
-                L.i(TAG,strMsg);
+            public void onFailure(Call<GirlPicture> call, Throwable t) {
+                Toast.makeText(getActivity(), "请求失败:"+call.request().url(),Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
+
     }
 
-    private void parsingJson(String t,boolean isFirst) {
-        try {
-            JSONObject jsonObject = new JSONObject(t);
-            JSONArray results = jsonObject.getJSONArray("results");
-            for (int i = 0; i < results.length(); i++) {
-                JSONObject json = (JSONObject) results.get(i);
-                String url = json.getString("url");
-                String desc = json.getString("desc");
-                GirlData girlData = new GirlData();
-                girlData.setImgUrl(url);//图片url
-                girlData.setDesc(desc);//图片描述
-                girlDataList.add(girlData);
-            }
-            if (isFirst){
-                rv_girl.setAdapter(girlAdapter);
-            }else {
-                girlAdapter.notifyDataSetChanged();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void toTop() {
+        rv_girl.scrollToPosition(0);
     }
 }

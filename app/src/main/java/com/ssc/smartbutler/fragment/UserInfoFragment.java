@@ -34,9 +34,8 @@ import com.jph.takephoto.model.TResult;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.entity.MyUser;
 import com.ssc.smartbutler.takephoto.CustomHelper;
-import com.ssc.smartbutler.ui.ChangePasswordActivity;
-import com.ssc.smartbutler.ui.DescActivity;
-import com.ssc.smartbutler.ui.UserInfoActivity;
+import com.ssc.smartbutler.activity.ChangePasswordActivity;
+import com.ssc.smartbutler.activity.DescActivity;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.view.CustomDialog;
 

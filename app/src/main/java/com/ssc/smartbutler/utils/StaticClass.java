@@ -66,13 +66,14 @@ public class StaticClass {
     //蓝牙Action
     public static final String BT_ACTION = "BluetoothAdapter.ACTION_STATE_CHANGED";
     //版本更新
-    public static final String CHECK_UPDATE_URL = "http://192.168.0.108:8080/ssc/config.json";
+    public static final String CHECK_UPDATE_URL = "http://47.101.168.8:8080/SmartButler/config.json";
 
     //权限相关常量
     public static final int INIT_PERMISSION_CODE = 1001;
     public static final int CAMERA_CODE = 1002;
     public static final int SMS_CODE = 1003;
     public static final int LOCATION_CODE = 1004;
+    public static final int INSTALL_PACKAGES_REQUESTCODE = 1005;
 
     //头像保存地址
     //public static String iconCompressPath =getExternalFilesDir(username).getAbsolutePath()+ "/icon/" + username + "(compress).jpg";
