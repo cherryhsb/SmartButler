@@ -1,5 +1,11 @@
 # SmartButler
 
+[点击下载 Demo](https://github.com/cherryhsb/SmartButler/blob/useRecyclerView/apk/app-debug.apk?raw=true)
+或扫描二维码安装
+
+![](https://s2.ax1x.com/2019/03/01/kHnVVH.png)
+
+
 ## 功能介绍
 1. 服务管家：使用Retrofit加载解析图灵机器人json数据，使用讯飞SDK实现语音合成
 2. 微信精选：使用Retrofit加载解析聚合数据返回的json数据，根据返回的url显示WebeView
@@ -12,7 +18,3 @@
 ![美女如云](https://s2.ax1x.com/2019/02/28/kHeXtI.md.png)
 ![个人中心](https://s2.ax1x.com/2019/02/28/kHex9P.md.png)
 
-[点击下载 Demo](https://github.com/cherryhsb/SmartButler/blob/useRecyclerView/apk/app-debug.apk?raw=true)
-或扫描二维码安装
-
-![](https://s2.ax1x.com/2019/03/01/kHnVVH.png)
