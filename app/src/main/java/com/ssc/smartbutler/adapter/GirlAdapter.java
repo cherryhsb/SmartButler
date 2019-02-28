@@ -10,8 +10,11 @@ package com.ssc.smartbutler.adapter;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +24,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.ssc.smartbutler.R;
 import com.ssc.smartbutler.retrofit.girl.GirlItem;
+import com.ssc.smartbutler.utils.GetWindowManager;
 import com.ssc.smartbutler.utils.L;
 import com.ssc.smartbutler.view.CustomDialog;
 
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
 
@@ -46,6 +55,10 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
 
     //屏幕宽
     private int width;
+
+    private int screenWidth = GetWindowManager.getScreenWidth();
+
+    private float density=GetWindowManager.getScreenDensity();
 
     //子项的类
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -189,7 +202,8 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         return mGirlItemList.size();
     }
 
-    private void showGlide(String imgUrl, ImageView iv_girl) {
+    //为recyclerView子项设置图片
+    private void showGlide(final String imgUrl, final ImageView iv_girl) {
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.image_glide)    //加载成功之前占位图
                 .error(R.drawable.image_glide)    //加载错误之后的错误图
@@ -209,8 +223,64 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
                 .apply(options)
                 .into(iv_girl);
 
+
+        /*Glide.with(mContext)//activty
+                .asBitmap()
+                .load(imgUrl)
+                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        //resource.getHeight(); //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
+                        //resource.getWidth();
+                        //Log.i(TAG, "onResourceReady: " + resource.getHeight() + "---" + resource.getWidth());
+                        *//*w[0] = resource.getWidth();
+                        h[0] = resource.getHeight();
+                        Log.i(TAG, "onResourceReady: " + w[0] + "---" + h[0]);*//*
+                        int y = (resource.getHeight() * (screenWidth - 20) / 2) / resource.getWidth();
+                        //Log.i(TAG, "showWithGlide: x --- " + (screenWidth - 20) / 2);
+                        Log.i(TAG, "执行1: y --- " + y +" ,screenWidth "+screenWidth);
+
+                        *//*ViewGroup.LayoutParams para = iv_girl.getLayoutParams();
+                        para.height= (int) (y*density);
+                        iv_girl.setLayoutParams(para);*//*
+                        RequestOptions options = new RequestOptions()
+                                .placeholder(R.drawable.image_glide)    //加载成功之前占位图
+                                .error(R.drawable.image_glide)    //加载错误之后的错误图
+                                .override(width, (int) (y*density))    //指定图片的尺寸
+                                ;
+                        Glide.with(mContext)
+                                //.asBitmap()
+                                .load(imgUrl)
+                                .apply(options)
+                                .into(iv_girl);
+
+
+                        *//*RequestOptions options = new RequestOptions()
+                                .placeholder(R.drawable.image_glide)    //加载成功之前占位图
+                                .error(R.drawable.image_glide)    //加载错误之后的错误图
+                                .override((screenWidth - 20) / 2, (int) (y*density))    //指定图片的尺寸
+                                //指定图片的缩放类型为fitCenter （等比例缩放图片，宽或者是高等于ImageView的宽或者是高。）
+                                //.fitCenter()
+                                //指定图片的缩放类型为centerCrop （等比例缩放图片，直到图片的狂高都大于等于ImageView的宽度，然后截取中间的显示。）
+                                //.centerCrop()
+                                //.circleCrop()//指定图片的缩放类型为centerCrop （圆形）
+                                //.skipMemoryCache(true)    //跳过内存缓存
+                                //.diskCacheStrategy(DiskCacheStrategy.NONE)    //跳过磁盘缓存
+                                //.diskCacheStrategy(DiskCacheStrategy.DATA)    //只缓存原来分辨率的图片
+                                //.diskCacheStrategy(DiskCacheStrategy.RESOURCE)    //只缓存最终的图片
+                                ;
+                        Glide.with(mContext)
+                                .load(imgUrl)
+                                .apply(options)
+                                .into(iv_girl);*//*
+                    }
+
+                });*/
+
     }
 
+    //为dialog设置图片
     private void showGlideMatch(String imgUrl, ImageView iv_girl) {
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.image_glide)    //加载成功之前占位图
